@@ -137,6 +137,8 @@ dependencyResolutionManagement {
 }
 
 include(":launchers:connector")
+include(":launchers:connector_LF")
+include(":launchers:connector_VNB")
 include(":launchers:registrationservice")
 include(":system-tests")
 include(":extensions:refresh-catalog")

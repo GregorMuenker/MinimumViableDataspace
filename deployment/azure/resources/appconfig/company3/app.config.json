@@ -1,6 +1,0 @@
-{
-  "dataManagementApiUrl": "http://localhost:9193/api/v1/data",
-  "storageAccount": "company3assets",
-  "storageExplorerLinkTemplate": "storageexplorer://v=1",
-  "theme": "theme-3"
-}

@@ -1,20 +1,20 @@
 services:
 
   # EDC Connector to simulate a dataspace participant acting as a data provider which is located in EU.
-  company1:
-    container_name: company1
+  lieferant1:
+    container_name: lieferant1
     build:
-      context: ../launchers/connector
+      context: ../launchers/connector_LF
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     environment:
-      IDS_WEBHOOK_ADDRESS: http://company1:8282
+      IDS_WEBHOOK_ADDRESS: http://lieferant1:8282
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_CONNECTOR_NAME: company1
-      EDC_IDENTITY_DID_URL: did:web:did-server:company1
-      EDC_VAULT: /resources/vault/company1/company1-vault.properties
-      EDC_KEYSTORE: /resources/vault/company1/company1-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/company1/sdd.json
+      EDC_CONNECTOR_NAME: lieferant1
+      EDC_IDENTITY_DID_URL: did:web:did-server:lieferant1
+      EDC_VAULT: /resources/vault/lieferant1/lieferant1-vault.properties
+      EDC_KEYSTORE: /resources/vault/lieferant1/lieferant1-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/lieferant1/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
@@ -37,20 +37,20 @@ services:
       - ./resources:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
-  company2:
-    container_name: company2
+  lieferant2:
+    container_name: lieferant2
     build:
-      context: ../launchers/connector
+      context: ../launchers/connector_LF
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     environment:
-      IDS_WEBHOOK_ADDRESS: http://company2:8282
+      IDS_WEBHOOK_ADDRESS: http://lieferant2:8282
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_CONNECTOR_NAME: company2
-      EDC_IDENTITY_DID_URL: did:web:did-server:company2
-      EDC_VAULT: /resources/vault/company2/company2-vault.properties
-      EDC_KEYSTORE: /resources/vault/company2/company2-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/company2/sdd.json
+      EDC_CONNECTOR_NAME: lieferant2
+      EDC_IDENTITY_DID_URL: did:web:did-server:lieferant2
+      EDC_VAULT: /resources/vault/lieferant2/lieferant2-vault.properties
+      EDC_KEYSTORE: /resources/vault/lieferant2/lieferant2-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/lieferant2/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
@@ -73,20 +73,20 @@ services:
       - ./resources:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a consumer which is located in US.
-  company3:
-    container_name: company3
+  vnb:
+    container_name: vnb
     build:
-      context: ../launchers/connector
+      context: ../launchers/connector_VNB
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007"
     environment:
-      IDS_WEBHOOK_ADDRESS: http://company3:8282
+      IDS_WEBHOOK_ADDRESS: http://vnb:8282
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_CONNECTOR_NAME: company3
-      EDC_IDENTITY_DID_URL: did:web:did-server:company3
-      EDC_VAULT: /resources/vault/company3/company3-vault.properties
-      EDC_KEYSTORE: /resources/vault/company3/company3-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/company3/sdd.json
+      EDC_CONNECTOR_NAME: vnb
+      EDC_IDENTITY_DID_URL: did:web:did-server:vnb
+      EDC_VAULT: /resources/vault/vnb/vnb-vault.properties
+      EDC_KEYSTORE: /resources/vault/vnb/vnb-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/vnb/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
@@ -119,15 +119,15 @@ services:
     working_dir: /
     environment:
       API_KEY: ApiKeyDefaultValue
-      EDC_HOST: company1:company2:company3
-      ASSETS_STORAGE_ACCOUNT: company1assets:company2assets:company3assets
-      PARTICIPANT_ID: company1:company2:company3
+      EDC_HOST: lieferant1:lieferant2:vnb
+      ASSETS_STORAGE_ACCOUNT: lieferant1assets:lieferant2assets:vnbassets
+      PARTICIPANT_ID: lieferant1:lieferant2:vnb
     depends_on:
-      company1:
+      lieferant1:
         condition: service_healthy
-      company2:
+      lieferant2:
         condition: service_healthy
-      company3:
+      vnb:
         condition: service_healthy
 
   # A nginx based HTTP server to serve dataspace participants DIDs.
@@ -146,7 +146,7 @@ services:
     ports:
       - 10000:10000
     environment:
-      AZURITE_ACCOUNTS: company1assets:key1;company2assets:key2;company3assets:key3
+      AZURITE_ACCOUNTS: lieferant1assets:key1;lieferant2assets:key2;vnbassets:key3
 
   # Dataspace registration service authority.
   registration-service:
@@ -185,52 +185,52 @@ services:
       - ./resources:/resources
       - ../resources:/common-resources
     depends_on:
-      company1:
+      lieferant1:
         condition: service_healthy
-      company2:
+      lieferant2:
         condition: service_healthy
-      company3:
+      vnb:
         condition: service_healthy
       registration-service:
         condition: service_healthy
 
-  # Data Dashboard (MVD UI) for participant company1
-  company1-datadashboard:
-    container_name: company1-datadashboard
+  # Data Dashboard (MVD UI) for participant lieferant1
+  lieferant1-datadashboard:
+    container_name: lieferant1-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/company1:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/lieferant1:/usr/share/nginx/html/assets/config
     depends_on:
-      company1:
+      lieferant1:
         condition: service_healthy
     ports:
       - "7080:80"
     profiles: ["ui"]
 
-      # Data Dashboard (MVD UI) for participant company2
-  company2-datadashboard:
-    container_name: company2-datadashboard
+      # Data Dashboard (MVD UI) for participant lieferant2
+  lieferant2-datadashboard:
+    container_name: lieferant2-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/company2:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/lieferant2:/usr/share/nginx/html/assets/config
     depends_on:
-      company2:
+      lieferant2:
         condition: service_healthy
     ports:
       - "7081:80"
     profiles: ["ui"]
 
-  # Data Dashboard (MVD UI) for participant company3
-  company3-datadashboard:
-    container_name: company3-datadashboard
+  # Data Dashboard (MVD UI) for participant VNB
+  vnb-datadashboard:
+    container_name: vnb-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/company3:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/vnb:/usr/share/nginx/html/assets/config
     depends_on:
-      company3:
+      vnb:
         condition: service_healthy
     ports:
       - "7082:80"

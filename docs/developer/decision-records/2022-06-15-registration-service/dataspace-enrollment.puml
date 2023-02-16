@@ -1,9 +1,9 @@
 @startuml
 autonumber "<b>0'.'"
-box "Company1" #LightBlue
-Participant Company1
-Participant "Company1\nDID Document &\nSelf-description\nDocument" as DID1
-Participant "Company1\nIdentity Hub" as IDHUB1
+box "lieferant1" #LightBlue
+Participant lieferant1
+Participant "lieferant1\nDID Document &\nSelf-description\nDocument" as DID1
+Participant "lieferant1\nIdentity Hub" as IDHUB1
 end box
 box "Dataspace Authority" #LightYellow
 Participant "Dataspace\nDID Document" as DID0
@@ -12,8 +12,8 @@ Participant "Registration Service" as DA
 Database "Participants\nStore" as Registry
 end box
 
-Company1 -> DID0: Get enrollment endpoint
-Company1 -> DA ++: Call enrollment endpoint:\n - DID JWS\n - Hub Token
+lieferant1 -> DID0: Get enrollment endpoint
+lieferant1 -> DA ++: Call enrollment endpoint:\n - DID JWS\n - Hub Token
 group authorize request [Distributed authorization sub-flow]
   DA -> DID1
   DA -> IDHUB1
