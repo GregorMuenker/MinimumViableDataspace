@@ -1,23 +1,23 @@
 @startuml
 autonumber "<b>0'.'"
-box "Company1" #LightBlue
-Participant "Company1\nEDC" as Company1
-Participant "Company1\nDID Document" as DID1
-Participant "Company1\nIdentity Hub" as IDHUB1
+box "lieferant1" #LightBlue
+Participant "lieferant1\nEDC" as lieferant1
+Participant "lieferant1\nDID Document" as DID1
+Participant "lieferant1\nIdentity Hub" as IDHUB1
 end box
 box "Dataspace Authority" #LightYellow
 Participant "Dataspace\nDID Document" as DID0
 Participant "Registration Service" as RAPI
 Database "Participants\nStore" as Registry
 end box
-box "Company2 (, 3, etc.)" #LightCyan
-Participant "Company2\nDID Document" as DID2
-Participant "Company2\nEDC" as Company2
+box "lieferant2 (, 3, etc.)" #LightCyan
+Participant "lieferant2\nDID Document" as DID2
+Participant "lieferant2\nEDC" as lieferant2
 end box
 
-Company1 -> DID0: Get registry endpoint
-Company1 -> RAPI ++: List participants:\n - DID JWS\n - Hub Token
-activate Company1
+lieferant1 -> DID0: Get registry endpoint
+lieferant1 -> RAPI ++: List participants:\n - DID JWS\n - Hub Token
+activate lieferant1
 group authorize request [Distributed authorization sub-flow]
   RAPI -> DID1
   RAPI -> IDHUB1
@@ -25,7 +25,7 @@ end
 RAPI -> RAPI: apply access policy
 RAPI -> Registry: query participants
 return participants (list of DID URIs)
-Company1 -> DID2: Get DID Document (contains URL of Company2 EDC Catalog Endpoint)
-deactivate Company1
+lieferant1 -> DID2: Get DID Document (contains URL of lieferant2 EDC Catalog Endpoint)
+deactivate lieferant1
 
 @enduml
