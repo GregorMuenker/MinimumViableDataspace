@@ -104,16 +104,40 @@ resource "azurerm_storage_container" "assets_container" {
   storage_account_name = azurerm_storage_account.assets.name
 }
 
-resource "azurerm_storage_blob" "testfile" {
-  name                   = "text-document.txt"
+resource "azurerm_storage_blob" "meter1" {
+  name                   = "electricity_meter_1"
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/text-document.txt"
+  source                 = "${path.module}/sample-data/electricity_meter_1.json"
 }
 
-resource "azurerm_storage_blob" "testfile2" {
-  name                   = "text-document-2.txt"
+resource "azurerm_storage_blob" "meter2" {
+  name                   = "electricity_meter_2"
+  storage_account_name   = azurerm_storage_account.assets.name
+  storage_container_name = azurerm_storage_container.assets_container.name
+  type                   = "Block"
+  source                 = "${path.module}/sample-data/electricity_meter_2.json"
+}
+  
+resource "azurerm_storage_blob" "meter3" {
+  name                   = "electricity_meter_3"
+  storage_account_name   = azurerm_storage_account.assets.name
+  storage_container_name = azurerm_storage_container.assets_container.name
+  type                   = "Block"
+  source                 = "${path.module}/sample-data/electricity_meter_3.json"
+}
+  
+resource "azurerm_storage_blob" "meter4" {
+  name                   = "electricity_meter_4"
+  storage_account_name   = azurerm_storage_account.assets.name
+  storage_container_name = azurerm_storage_container.assets_container.name
+  type                   = "Block"
+  source                 = "${path.module}/sample-data/electricity_meter_4.json"
+  }
+
+resource "azurerm_storage_blob" "testfile" {
+  name                   = "text-document.txt"
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
