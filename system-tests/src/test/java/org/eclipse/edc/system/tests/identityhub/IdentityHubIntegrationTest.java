@@ -93,7 +93,7 @@ class IdentityHubIntegrationTest {
             return Stream.of(
                     arguments(LIEFERANT1_IDENTITY_HUB_URL, "eu", "FR"),
                     arguments(LIEFERANT2_IDENTITY_HUB_URL, "eu", "DE"),
-                    arguments(VNB_IDENTITY_HUB_URL, "us", "US")
+                    arguments(VNB_IDENTITY_HUB_URL, "eu", "DE")
             );
         }
     }
