@@ -108,27 +108,27 @@ services:
     volumes:
       - ./resources:/resources
 
-  # # Usages postman collections for initial data seeding to connectors.
-  # newman:
-  #   container_name: newman
-  #   image: postman/newman:ubuntu
-  #   entrypoint: /bin/bash
-  #   command: deployment/seed-data.sh
-  #   volumes:
-  #     - ../deployment/:/deployment
-  #   working_dir: /
-  #   environment:
-  #     API_KEY: ApiKeyDefaultValue
-  #     EDC_HOST: lieferant1:lieferant2:vnb
-  #     ASSETS_STORAGE_ACCOUNT: lieferant1assets:lieferant2assets:vnbassets
-  #     PARTICIPANT_ID: lieferant1:lieferant2:vnb
-  #   depends_on:
-  #     lieferant1:
-  #       condition: service_healthy
-  #     lieferant2:
-  #       condition: service_healthy
-  #     vnb:
-  #       condition: service_healthy
+  # Usages postman collections for initial data seeding to connectors.
+  newman:
+    container_name: newman
+    image: postman/newman:ubuntu
+    entrypoint: /bin/bash
+    command: deployment/seed-data.sh
+    volumes:
+      - ../deployment/:/deployment
+    working_dir: /
+    environment:
+      API_KEY: ApiKeyDefaultValue
+      EDC_HOST: lieferant1:lieferant2:vnb
+      ASSETS_STORAGE_ACCOUNT: lieferant1assets:lieferant2assets:vnbassets
+      PARTICIPANT_ID: lieferant1:lieferant2:vnb
+    depends_on:
+      lieferant1:
+        condition: service_healthy
+      lieferant2:
+        condition: service_healthy
+      vnb:
+        condition: service_healthy
 
   # A nginx based HTTP server to serve dataspace participants DIDs.
   did-server:
