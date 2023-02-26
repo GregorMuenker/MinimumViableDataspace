@@ -22,5 +22,5 @@ for i in "${!EdcHostArray[@]}"; do
     --env-var storage_account="${AssetsStorageAccountArray[$i]}" \
     --env-var participant_id="${ParticipantIdArray[$i]}" \
     --env-var api_key="$API_KEY" \
-    deployment/data/MVD.postman_collection.json
+    deployment/data/MVD.postman_collection_${ParticipantIdArray[$i]}.json
 done
