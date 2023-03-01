@@ -4,7 +4,7 @@ services:
   lieferant1:
     container_name: lieferant1
     build:
-      context: ../launchers/connector_LF
+      context: ../launchers/connector_LF_1
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     environment:
@@ -40,7 +40,7 @@ services:
   lieferant2:
     container_name: lieferant2
     build:
-      context: ../launchers/connector_LF
+      context: ../launchers/connector_LF_2
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     environment:
