@@ -6,6 +6,7 @@ set -euxo pipefail
 
 ParticipantIdArray=(${PARTICIPANT_ID//:/ })
 AssetsStorageAccountArray=(${ASSETS_STORAGE_ACCOUNT//:/ })
+AssetsStorageKeyArray=(${ASSETS_STORAGE_KEYS//:/ })
 EdcHostArray=(${EDC_HOST//:/ })
 
 if [ ${#ParticipantIdArray[@]} -ne ${#AssetsStorageAccountArray[@]} ] || [ ${#AssetsStorageAccountArray[@]} -ne ${#EdcHostArray[@]} ]; then
@@ -13,8 +14,14 @@ if [ ${#ParticipantIdArray[@]} -ne ${#AssetsStorageAccountArray[@]} ] || [ ${#As
   exit 1
 fi
 
+curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 for i in "${!EdcHostArray[@]}"; do
   echo "Seeding data for Participant ID: ${ParticipantIdArray[$i]}, Assets Storage Account: ${AssetsStorageAccountArray[$i]}, EDC Host: ${EdcHostArray[$i]}"
+
+  conn_str="DefaultEndpointsProtocol=http;AccountName=${AssetsStorageAccountArray[$i]};AccountKey=${AssetsStorageKeyArray[$i]};BlobEndpoint=http://azurite:10000/${AssetsStorageAccountArray[$i]};"
+  az storage container create --name src-container --connection-string $conn_str
+  az storage blob upload -f /deployment/azure/terraform/modules/participant/sample-data/text-document.txt --container-name src-container --name text-document.txt --connection-string $conn_str
 
   newman run \
     --folder "Publish Master Data" \

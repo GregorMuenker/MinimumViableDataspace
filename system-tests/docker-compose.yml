@@ -122,6 +122,7 @@ services:
       EDC_HOST: lieferant1:lieferant2:vnb
       ASSETS_STORAGE_ACCOUNT: lieferant1assets:lieferant2assets:vnbassets
       PARTICIPANT_ID: lieferant1:lieferant2:vnb
+      ASSETS_STORAGE_KEYS: key1:key2:key3
     depends_on:
       lieferant1:
         condition: service_healthy

@@ -42,10 +42,11 @@ public class TransferDataSinkFactory implements DataSinkFactory {
     public DataSink createSink(DataFlowRequest request) {
         var destination = request.getDestinationDataAddress();
 
-        // verify destination path
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
         
+        monitor.info("RequestNewProvider Extension Sink " + blobname);
+
         BlobClient destBlob = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
 
         return TransferDataSink.Builder.newInstance()

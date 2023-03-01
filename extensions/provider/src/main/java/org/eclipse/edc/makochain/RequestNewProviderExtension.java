@@ -41,13 +41,15 @@ public class RequestNewProviderExtension implements ServiceExtension {
     public void initialize(ServiceExtensionContext context) {
         var monitor = context.getMonitor();
 
+        String storeAccount = context.getSetting(BLOB_STORE_ACCOUNT, "lieferant1assets");
+        String storeAccountkey = context.getSetting(BLOB_STORE_ACCOUNT_KEY, "key1");
         var blobServiceClient = getBlobServiceClient(
-                format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, context.getSetting(BLOB_STORE_ACCOUNT, "lieferant1assets")),
-                    context.getSetting(BLOB_STORE_ACCOUNT, "lieferant1assets"),
-                    context.getSetting(BLOB_STORE_ACCOUNT_KEY, "key1")
+                format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, storeAccount),
+                    storeAccount,
+                    storeAccountkey
                 );
 
-        var sourceFactory = new TransferDataSourceFactory(blobServiceClient);
+        var sourceFactory = new TransferDataSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
 
         var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5, blobServiceClient);
