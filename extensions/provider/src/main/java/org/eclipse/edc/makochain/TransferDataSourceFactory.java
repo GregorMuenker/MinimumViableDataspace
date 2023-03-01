@@ -8,6 +8,7 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSourceFactory;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +17,10 @@ import org.json.JSONObject;
 public class TransferDataSourceFactory implements DataSourceFactory {
 
     private BlobServiceClient srcBlobServiceClient;
+    private final Monitor monitor;
 
-    TransferDataSourceFactory(BlobServiceClient srcBlobServiceClient) {
+    TransferDataSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
+        this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
     }
 
@@ -32,6 +35,8 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         // verify source path
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
+        
+        monitor.info("RequestNewProvider Extension Source " + blobname);
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
 
