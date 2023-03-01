@@ -301,7 +301,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e68\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e68\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer2_{{participant_id}}\"\n            }\n        ]\n}",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb55\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e68\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e68\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer2_{{participant_id}}\"\n            }\n        ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -340,7 +340,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e67\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e67\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer3_{{participant_id}}\"\n            }\n        ]\n}",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb54\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e67\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e67\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer3_{{participant_id}}\"\n            }\n        ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
