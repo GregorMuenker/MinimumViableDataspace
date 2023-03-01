@@ -1,0 +1,19 @@
+{
+    "MaLo_ID":"12345678902",
+    "name": {
+        "surname":"Markus",
+        "lastname":"Müller"
+    },
+    "address":{
+        "street":"Allee",
+        "city":"Frankfurt am Main",
+        "PLZ":60316,
+        "houseNumber":2
+    },
+    "vertrag":{
+        "terminationDate":"23-04-2023",
+        "contractEnd":"03-12-2024",
+        "terminationInitiated":"true",
+        "contractNo":"2345987652"
+    }
+}

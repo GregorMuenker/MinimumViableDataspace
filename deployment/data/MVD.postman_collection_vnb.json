@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1dd77977-b7f3-475e-8b30-1dc6352afdda",
+		"_postman_id": "5bac42f5-d2cf-4dc1-ba5e-38ca4da885cd",
 		"name": "MVD VNB",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,7 +28,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"customer1_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"customer1_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"electricity_meter_1\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678901\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678901\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"json_AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"MaLo_12345678901\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -67,7 +67,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"customer2_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"customer2_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"electricity_meter_2\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678902\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678902\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"json_AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"MaLo_12345678902\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,7 +106,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"customer3_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"customer3_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"electricity_meter_3\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678903\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678903\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"json_AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"MaLo_12345678903\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -145,7 +145,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"customer4_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"customer4_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"electricity_meter_4\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678904\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678904\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"json_AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"MaLo_12345678904\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +204,7 @@
 					"response": []
 				},
 				{
-					"name": "Publish ContractDefinition Policy 1 Asset 2",
+					"name": "Publish ContractDefinition Policy 1 MaLo 1",
 					"event": [
 						{
 							"listen": "test",
@@ -223,7 +223,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer1_{{participant_id}}\"\n            }\n        ]\n}",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"MaLo_12345678901\"\n            }\n        ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -243,7 +243,7 @@
 					"response": []
 				},
 				{
-					"name": "Publish ContractDefinition Policy 1 Asset 2",
+					"name": "Publish ContractDefinition Policy 1 MaLo 2",
 					"event": [
 						{
 							"listen": "test",
@@ -262,7 +262,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer2_{{participant_id}}\"\n            }\n        ]\n}",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"MaLo_12345678902\"\n            }\n        ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -301,7 +301,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer3_{{participant_id}}\"\n            }\n        ]\n}",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"MaLo_12345678903\"\n            }\n        ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -340,7 +340,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"customer4_{{participant_id}}\"\n            }\n        ]\n}",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"MaLo_12345678904\"\n            }\n        ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"

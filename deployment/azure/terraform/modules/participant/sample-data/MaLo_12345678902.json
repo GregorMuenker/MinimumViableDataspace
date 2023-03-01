@@ -1,0 +1,15 @@
+{
+    "MessLokation": ["7657657652"],
+    "lieferant":"lieferant2",
+    "grundversorger":"lieferant3",
+    "name": {
+        "surname":"Markus",
+        "lastname":"Müller"
+    },
+    "address":{
+        "street":"Allee",
+        "city":"Frankfurt am Main",
+        "PLZ":60316,
+        "houseNumber":2
+    }
+}

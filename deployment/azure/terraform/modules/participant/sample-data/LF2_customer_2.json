@@ -1,0 +1,19 @@
+{
+    "MaLo_ID":"12345678903",
+    "name": {
+        "surname":"Merlin",
+        "lastname":"Maas"
+    },
+    "address":{
+        "street":"Allee",
+        "city":"Frankfurt am Main",
+        "PLZ":60316,
+        "houseNumber":3
+    },
+    "vertrag":{
+        "terminationDate":"",
+        "contractEnd":"03-12-2025",
+        "terminationInitiated":"false",
+        "contractNo":"2345987653"
+    }
+}

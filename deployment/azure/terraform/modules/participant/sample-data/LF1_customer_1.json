@@ -1,0 +1,19 @@
+{
+    "MaLo_ID":"12345678901",
+    "name": {
+        "surname":"Max",
+        "lastname":"Maier"
+    },
+    "address":{
+        "street":"Allee",
+        "city":"Frankfurt am Main",
+        "PLZ":60316,
+        "houseNumber":1
+    },
+    "vertrag":{
+        "terminationDate":"",
+        "contractEnd":"03-12-2024",
+        "terminationInitiated":"false",
+        "contractNo":"2345987651"
+    }
+}
