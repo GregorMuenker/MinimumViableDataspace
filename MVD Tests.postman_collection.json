@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "f1da5b83-25fd-42ac-8644-6d4c33bc62ea",
+		"name": "MVD Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Contract Agreements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9192/api/v1/data/contractnegotiations/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9192",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"contractnegotiations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9193/api/v1/data/assets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9193",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"assets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FederatedCatalog",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/federatedcatalog",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"federatedcatalog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Contract Offer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"connectorId\": \"provider\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:e4dd83f8-2277-4058-a3fc-0f3d73ca1eec\",\r\n        \"assetId\": \"customer1_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"customer1_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": null,\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"customer2_lieferant2\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"customer2_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"AzureStorage\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/contractnegotiations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"contractnegotiations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Contract Agreement ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/contractnegotiations/169a9111-682e-493b-9e80-2a957748636c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"contractnegotiations",
+						"169a9111-682e-493b-9e80-2a957748636c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"customer1_lieferant2\",\r\n    \"contractId\": \"4a75736e-001d-4364-8bd4-9888490edb56:25c679fd-4f66-44af-877e-8237d3396b44\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"text/plain\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n            \"container\":\"lieferant1assets\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"consumer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/transferprocess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"transferprocess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/transferprocess/2585b74f-5899-43bd-b63f-4dac4d60c6df",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"transferprocess",
+						"2585b74f-5899-43bd-b63f-4dac4d60c6df"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer status Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/transferprocess/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"transferprocess",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer cancel Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/transferprocess/3c127cff-8de9-400f-ba35-91ea2b90f4a6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"transferprocess",
+						"3c127cff-8de9-400f-ba35-91ea2b90f4a6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "ApiKeyDefaultValue",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
