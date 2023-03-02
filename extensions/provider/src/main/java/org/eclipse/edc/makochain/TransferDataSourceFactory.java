@@ -22,11 +22,13 @@ public class TransferDataSourceFactory implements DataSourceFactory {
     TransferDataSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
         this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
+        monitor.info("RequestNewProvider Extension Source Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        return "json".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType().split("_")[0]);
+        monitor.info("RequestNewProvider Extension Source Factory canhandle");
+        return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
@@ -50,7 +52,8 @@ public class TransferDataSourceFactory implements DataSourceFactory {
     @Override
     public DataSource createSource(DataFlowRequest request) {
         var source = getJson(request);
-        return new TransferDataSource(source, request.getSourceDataAddress().getProperty("blobname"));
+        monitor.info("RequestNewProvider Extension Source " + source.toString());
+        return new TransferDataSource(monitor, source, request.getSourceDataAddress().getProperty("blobname"));
     }
 
     @NotNull

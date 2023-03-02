@@ -109,7 +109,7 @@ resource "azurerm_storage_blob" "lf1_customer1" {
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/LF1_customer_1.json"
+  source                 = "${path.module}/sample-data/lieferant1_customer_1.json"
 }
 
 resource "azurerm_storage_blob" "lf2_customer1" {
@@ -117,7 +117,7 @@ resource "azurerm_storage_blob" "lf2_customer1" {
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/LF2_customer_1.json"
+  source                 = "${path.module}/sample-data/lieferant2_customer_1.json"
 }
   
 resource "azurerm_storage_blob" "lf2_customer2" {
@@ -125,7 +125,7 @@ resource "azurerm_storage_blob" "lf2_customer2" {
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/LF2_customer_2.json"
+  source                 = "${path.module}/sample-data/lieferant2_customer_2.json"
 }
   
 resource "azurerm_storage_blob" "lf2_customer3" {
@@ -133,7 +133,7 @@ resource "azurerm_storage_blob" "lf2_customer3" {
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/LF2_customer_3.json"
+  source                 = "${path.module}/sample-data/lieferant2_customer_3.json"
   }
   
 resource "azurerm_storage_blob" "MaLo_12345678901" {
@@ -141,28 +141,28 @@ resource "azurerm_storage_blob" "MaLo_12345678901" {
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/MaLo_12345678901.json"
+  source                 = "${path.module}/sample-data/vnb_MaLo_12345678901.json"
   } 
 resource "azurerm_storage_blob" "MaLo_12345678902" {
   name                   = "MaLo_12345678902"
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/MaLo_12345678902.json"
+  source                 = "${path.module}/sample-data/vnb_MaLo_12345678902.json"
   } 
 resource "azurerm_storage_blob" "MaLo_12345678903" {
   name                   = "MaLo_12345678903"
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/MaLo_12345678903.json"
+  source                 = "${path.module}/sample-data/vnb_MaLo_12345678903.json"
   } 
 resource "azurerm_storage_blob" "MaLo_12345678904" {
   name                   = "MaLo_12345678904"
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/MaLo_12345678904.json"
+  source                 = "${path.module}/sample-data/vnb_MaLo_12345678904.json"
   }
 resource "azurerm_storage_blob" "testfile" {
   name                   = "text-document.txt"
