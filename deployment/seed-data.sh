@@ -21,7 +21,12 @@ for i in "${!EdcHostArray[@]}"; do
 
   conn_str="DefaultEndpointsProtocol=http;AccountName=${AssetsStorageAccountArray[$i]};AccountKey=${AssetsStorageKeyArray[$i]};BlobEndpoint=http://azurite:10000/${AssetsStorageAccountArray[$i]};"
   az storage container create --name src-container --connection-string $conn_str
-  az storage blob upload -f /deployment/azure/terraform/modules/participant/sample-data/text-document.txt --container-name src-container --name text-document.txt --connection-string $conn_str
+
+  for entry in /deployment/azure/terraform/modules/participant/sample-data/* ; do 
+    if [[ "$entry" == *"${EdcHostArray[$i]}"* ]]; then
+      az storage blob upload -f $entry --container-name src-container --name ${entry#*"sample-data/"} --connection-string $conn_str
+    fi
+  done
 
   newman run \
     --folder "Publish Master Data" \

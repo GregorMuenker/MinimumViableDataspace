@@ -26,11 +26,13 @@ public class TransferDataSinkFactory implements DataSinkFactory {
         this.executorService = executorService;
         this.partitionSize = partitionSize;
         this.destBlobServiceClient = destBlobServiceClient;
+        monitor.info("RequestNewProvider Extension Sink Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        return "json".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType().split("_")[0]);
+        monitor.info("RequestNewProvider Extension Source Factory canhandle");
+        return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
@@ -52,6 +54,7 @@ public class TransferDataSinkFactory implements DataSinkFactory {
         return TransferDataSink.Builder.newInstance()
                 .blob(destBlob)
                 .name(blobname)
+                .monitor(monitor)
                 .requestId(request.getId())
                 .partitionSize(partitionSize)
                 .executorService(executorService)
