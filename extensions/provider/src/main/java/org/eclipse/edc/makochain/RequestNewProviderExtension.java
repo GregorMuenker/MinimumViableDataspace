@@ -1,5 +1,6 @@
 /*
- * Gregor Münker
+ *  Copyright (c) 2022 Gregor Münker
+ *
  */
 
 package org.eclipse.edc.makochain;
@@ -20,9 +21,9 @@ import static java.lang.String.format;
 public class RequestNewProviderExtension implements ServiceExtension {
 
     private static final String PROVIDER_CONTAINER_NAME = "src-container";
-    public static final String LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE = "http://127.0.0.1:10000/%s";
-    public static final String BLOB_STORE_ACCOUNT = "blob.store.account";
-    public static final String BLOB_STORE_ACCOUNT_KEY = "blob.store.accountkey";
+    public static final String LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE = "http://azurite:10000/%s";
+    public static final String BLOB_STORE_ACCOUNT = System.getenv("BLOB_STORE_ACCOUNT");
+    public static final String BLOB_STORE_ACCOUNT_KEY = System.getenv("BLOB_STORE_ACCOUNT_KEY");
 
     @Override
     public String name() {
@@ -41,18 +42,17 @@ public class RequestNewProviderExtension implements ServiceExtension {
     public void initialize(ServiceExtensionContext context) {
         var monitor = context.getMonitor();
 
-        String storeAccount = context.getSetting(BLOB_STORE_ACCOUNT, "lieferant1assets");
-        String storeAccountkey = context.getSetting(BLOB_STORE_ACCOUNT_KEY, "key1");
         var blobServiceClient = getBlobServiceClient(
-                format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, storeAccount),
-                    storeAccount,
-                    storeAccountkey
+                format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, BLOB_STORE_ACCOUNT),
+                BLOB_STORE_ACCOUNT,
+                BLOB_STORE_ACCOUNT_KEY
                 );
+        context.getMonitor().info("RequestNewProvider Extension " + format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, BLOB_STORE_ACCOUNT));
 
         var sourceFactory = new TransferDataSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
 
-        var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5, blobServiceClient);
+        var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5, LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE);
         pipelineService.registerFactory(sinkFactory);
 
         webService.registerResource(new RequestNewProvider(context.getMonitor()));

@@ -4,7 +4,7 @@ services:
   lieferant1:
     container_name: lieferant1
     build:
-      context: ../launchers/connector_LF_1
+      context: ../launchers/connector_LF
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     environment:
@@ -24,6 +24,8 @@ services:
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
+      BLOB_STORE_ACCOUNT: "lieferant1assets"
+      BLOB_STORE_ACCOUNT_KEY: "key1"
     depends_on:
       - did-server
       - azurite
@@ -40,7 +42,7 @@ services:
   lieferant2:
     container_name: lieferant2
     build:
-      context: ../launchers/connector_LF_2
+      context: ../launchers/connector_LF
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     environment:
@@ -60,6 +62,8 @@ services:
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
+      BLOB_STORE_ACCOUNT: "lieferant2assets"
+      BLOB_STORE_ACCOUNT_KEY: "key2"
     depends_on:
       - did-server
       - azurite

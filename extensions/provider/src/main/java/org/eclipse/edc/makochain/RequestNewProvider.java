@@ -1,5 +1,6 @@
 /*
- * Gregor Münker
+ *  Copyright (c) 2022 Gregor Münker
+ *
  */
 
 package org.eclipse.edc.makochain;
