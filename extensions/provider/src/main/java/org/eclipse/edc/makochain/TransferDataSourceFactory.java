@@ -1,5 +1,6 @@
 /*
- * Gregor Münker
+ *  Copyright (c) 2022 Gregor Münker
+ *
  */
 
 package org.eclipse.edc.makochain;
@@ -27,7 +28,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle");
+        monitor.info("RequestNewProvider Extension Source Factory canhandle" + dataRequest.getSourceDataAddress().getType());
         return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
@@ -38,14 +39,17 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
         
-        monitor.info("RequestNewProvider Extension Source " + blobname);
+        monitor.info("RequestNewProvider Extension Source " + blobname + " : "  + containerName);
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
 
+        monitor.info("RequestNewProvider Extension Source " +  srcBlob.getBlobName() + " ! " + srcBlob.getAccountName());
+        monitor.info("RequestNewProvider Extension Source " +  srcBlob.exists() + " ? " + srcBlob.getBlobUrl());
+        /* 
         if (!srcBlob.exists()) {
             return Result.failure("Source " + srcBlob.getBlobName() + " does not exist!");
         }
-
+        */
         return Result.success(true);
     }
 
@@ -63,9 +67,15 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
 
+        monitor.info("RequestNewProvider Extension Source Json " + blobname + " : "  + containerName);
+
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
+        
+        monitor.info("RequestNewProvider Extension Source Json" +  srcBlob.getBlobName() + " !");
 
         String s = srcBlob.downloadContent().toString();
+
+        monitor.info("RequestNewProvider Extension Source blob " + s);
 
         return new JSONObject(s);
     }

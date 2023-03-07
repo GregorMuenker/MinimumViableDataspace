@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1da5b83-25fd-42ac-8644-6d4c33bc62ea",
+		"_postman_id": "7dfc36ba-b805-4e0b-a41a-d86380e4a4b0",
 		"name": "MVD Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -88,7 +88,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"connectorId\": \"provider\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:e4dd83f8-2277-4058-a3fc-0f3d73ca1eec\",\r\n        \"assetId\": \"customer1_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"customer1_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": null,\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"customer2_lieferant2\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"customer2_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"AzureStorage\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"raw": "{\r\n    \"connectorId\": \"lieferant\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:30db8c88-2d56-4ea8-b493-551415e5896a\",\r\n        \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902_lieferant2\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"AzureStorage\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -118,7 +118,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9191/api/v1/data/contractnegotiations/169a9111-682e-493b-9e80-2a957748636c",
+					"raw": "http://localhost:9191/api/v1/data/contractnegotiations/788c37be-2e73-477d-a215-ad01448d2a5f",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -129,7 +129,7 @@
 						"v1",
 						"data",
 						"contractnegotiations",
-						"169a9111-682e-493b-9e80-2a957748636c"
+						"788c37be-2e73-477d-a215-ad01448d2a5f"
 					]
 				}
 			},
@@ -142,7 +142,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"customer1_lieferant2\",\r\n    \"contractId\": \"4a75736e-001d-4364-8bd4-9888490edb56:25c679fd-4f66-44af-877e-8237d3396b44\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"text/plain\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n            \"container\":\"lieferant1assets\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"consumer\"\r\n}",
+					"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n    \"contractId\": \"4a75736e-001d-4364-8bd4-9888490edb56:5c8f61f4-7244-486e-a94e-528a00aa8162\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"text/plain\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"lieferant1assets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-07T13%3A56%3A59Z&se=2023-03-08T13%3A56%3A59Z&sr=c&sp=racwdl&sig=1n6Nqmp%2BrC1mILohVqF1MtzPa3KOiNsfDFa52DmLjCo%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"lieferant2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -172,7 +172,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9191/api/v1/data/transferprocess/2585b74f-5899-43bd-b63f-4dac4d60c6df",
+					"raw": "http://localhost:9191/api/v1/data/transferprocess/d15961bb-d5c2-46e3-bc00-cf6b08df1865",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -183,7 +183,7 @@
 						"v1",
 						"data",
 						"transferprocess",
-						"2585b74f-5899-43bd-b63f-4dac4d60c6df"
+						"d15961bb-d5c2-46e3-bc00-cf6b08df1865"
 					]
 				}
 			},
@@ -213,12 +213,69 @@
 			"response": []
 		},
 		{
+			"name": "Transfer status Copy 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/transfer/57a3a386-d1ea-49a4-b0bd-e580ed0c1066",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"transfer",
+						"57a3a386-d1ea-49a4-b0bd-e580ed0c1066"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer status Copy 3",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"allowedDestTypes\": [\r\n      \"string\"\r\n    ],\r\n    \"allowedSourceTypes\": [\r\n      \"string\"\r\n    ],\r\n    \"id\": \"string\",\r\n    \"lastActive\": 0,\r\n    \"properties\": {\r\n      \"additionalProp1\": {},\r\n      \"additionalProp2\": {},\r\n      \"additionalProp3\": {}\r\n    },\r\n    \"turnCount\": 0,\r\n    \"url\": \"string\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Transfer cancel Copy",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9191/api/v1/data/transferprocess/3c127cff-8de9-400f-ba35-91ea2b90f4a6",
+					"raw": "http://localhost:9191/api/v1/data/transferprocess/3c127cff-8de9-400f-ba35-91ea2b90f4a6/cancel",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -229,7 +286,57 @@
 						"v1",
 						"data",
 						"transferprocess",
-						"3c127cff-8de9-400f-ba35-91ea2b90f4a6"
+						"3c127cff-8de9-400f-ba35-91ea2b90f4a6",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "azure",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "addTokenTo",
+							"value": "queryParams",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "bearer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10000/lieferant1assets?restype=service&comp=properties",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10000",
+					"path": [
+						"lieferant1assets"
+					],
+					"query": [
+						{
+							"key": "restype",
+							"value": "service"
+						},
+						{
+							"key": "comp",
+							"value": "properties"
+						}
 					]
 				}
 			},

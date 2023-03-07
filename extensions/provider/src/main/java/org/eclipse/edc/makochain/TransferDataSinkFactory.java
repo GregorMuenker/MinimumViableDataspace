@@ -1,9 +1,11 @@
 /*
- * Gregor Münker
+ *  Copyright (c) 2022 Gregor Münker
+ *
  */
 
 package org.eclipse.edc.makochain;
 
+import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSink;
@@ -15,23 +17,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ExecutorService;
 
+import static java.lang.String.format;
+
 public class TransferDataSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
     private final ExecutorService executorService;
     private final int partitionSize;
-    private BlobServiceClient destBlobServiceClient;
+    private String connectionUrl;
 
-    TransferDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize, BlobServiceClient destBlobServiceClient) {
+    TransferDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize, String connectionUrl) {
         this.monitor = monitor;
         this.executorService = executorService;
         this.partitionSize = partitionSize;
-        this.destBlobServiceClient = destBlobServiceClient;
+        this.connectionUrl = connectionUrl;
         monitor.info("RequestNewProvider Extension Sink Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle");
+        monitor.info("RequestNewProvider Extension Sink Factory canhandle" + dataRequest.getSourceDataAddress().getType());
         return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
@@ -46,8 +50,11 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
+        var sasToken = destination.getProperty("sastoken");
+
+        BlobContainerClientBuilder builder = new BlobContainerClientBuilder().
         
-        monitor.info("RequestNewProvider Extension Sink " + blobname);
+        monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
 
         BlobClient destBlob = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
 

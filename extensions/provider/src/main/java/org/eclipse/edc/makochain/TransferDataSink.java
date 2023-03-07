@@ -1,5 +1,6 @@
 /*
- * Gregor Münker
+ *  Copyright (c) 2022 Gregor Münker
+ *
  */
 
 package org.eclipse.edc.makochain;
@@ -36,8 +37,11 @@ public class TransferDataSink extends ParallelSink {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
                     String json = output.toString();
-                    monitorr.info("upload Blob");
+                    monitorr.info("RequestNewProvider Extension upload Blob");
+                    monitorr.info("RequestNewProvider Extension Blob " + json);
+                    monitorr.info("RequestNewProvider Extension Account " + blob.getAccountName());
                     blob.upload(new ByteArrayInputStream(json.getBytes()), json.length(), true);
+                    monitorr.info("RequestNewProvider Extension Url " + blob.getBlobUrl());
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
                 }
