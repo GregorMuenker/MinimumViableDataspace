@@ -45,11 +45,11 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
         monitor.info("RequestNewProvider Extension Source " +  srcBlob.getBlobName() + " ! " + srcBlob.getAccountName());
         monitor.info("RequestNewProvider Extension Source " +  srcBlob.exists() + " ? " + srcBlob.getBlobUrl());
-        /* 
+
         if (!srcBlob.exists()) {
             return Result.failure("Source " + srcBlob.getBlobName() + " does not exist!");
         }
-        */
+        
         return Result.success(true);
     }
 
