@@ -5,9 +5,9 @@
 
 package org.eclipse.edc.makochain;
 
-import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobContainerClientBuilder;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSink;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSinkFactory;
 import org.eclipse.edc.spi.monitor.Monitor;
@@ -16,8 +16,6 @@ import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ExecutorService;
-
-import static java.lang.String.format;
 
 public class TransferDataSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
@@ -50,13 +48,14 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
-        var sasToken = destination.getProperty("sastoken");
+        //var sasToken = destination.getProperty("sastoken");
 
-        BlobContainerClientBuilder builder = new BlobContainerClientBuilder().
-        
         monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
 
-        BlobClient destBlob = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
+        BlobContainerClient destContainer = new BlobContainerClientBuilder()
+                //.endpoint(connectionUrl + sasToken)
+                .buildClient();
+        BlobClient destBlob = destContainer.getBlobClient(blobname);
 
         return TransferDataSink.Builder.newInstance()
                 .blob(destBlob)
