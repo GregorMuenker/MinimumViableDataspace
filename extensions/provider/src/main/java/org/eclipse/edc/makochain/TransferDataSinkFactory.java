@@ -48,12 +48,12 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
-        //var sasToken = destination.getProperty("sastoken");
+        var sasToken = destination.getProperty("sastoken");
 
         monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
 
         BlobContainerClient destContainer = new BlobContainerClientBuilder()
-                //.endpoint(connectionUrl + sasToken)
+                .endpoint(connectionUrl + sasToken)
                 .buildClient();
         BlobClient destBlob = destContainer.getBlobClient(blobname);
 
