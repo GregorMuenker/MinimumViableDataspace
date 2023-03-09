@@ -6,7 +6,8 @@
 package org.eclipse.edc.makochain;
 
 import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobContainerClientBuilder;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSink;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSinkFactory;
 import org.eclipse.edc.spi.monitor.Monitor;
@@ -20,13 +21,11 @@ public class TransferDataSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
     private final ExecutorService executorService;
     private final int partitionSize;
-    private BlobServiceClient destBlobServiceClient;
 
-    TransferDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize, BlobServiceClient destBlobServiceClient) {
+    TransferDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize) {
         this.monitor = monitor;
         this.executorService = executorService;
         this.partitionSize = partitionSize;
-        this.destBlobServiceClient = destBlobServiceClient;
         monitor.info("RequestNewProvider Extension Sink Factory");
     }
 
@@ -47,13 +46,17 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
+        var sasToken = destination.getProperty("sastoken");
 
         if (blobname == null) {
             blobname = "Copy";
         }
         monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
 
-        BlobClient destBlob = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
+        BlobContainerClient destContainer = new BlobContainerClientBuilder()
+                .endpoint("" + sasToken)
+                .buildClient();
+        BlobClient destBlob = destContainer.getBlobClient(blobname);
 
         return TransferDataSink.Builder.newInstance()
                 .blob(destBlob)
