@@ -1,5 +1,6 @@
 /*
- * Gregor Münker SAP SE
+ *  Copyright (c) 2022 Gregor Münker
+ *
  */
 
 plugins {

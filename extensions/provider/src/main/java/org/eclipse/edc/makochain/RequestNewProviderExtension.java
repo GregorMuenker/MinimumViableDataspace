@@ -20,7 +20,6 @@ import static java.lang.String.format;
 
 public class RequestNewProviderExtension implements ServiceExtension {
 
-    private static final String PROVIDER_CONTAINER_NAME = "src-container";
     public static final String LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE = "http://azurite:10000/%s";
     public static final String BLOB_STORE_ACCOUNT = System.getenv("BLOB_STORE_ACCOUNT");
     public static final String BLOB_STORE_ACCOUNT_KEY = System.getenv("BLOB_STORE_ACCOUNT_KEY");
