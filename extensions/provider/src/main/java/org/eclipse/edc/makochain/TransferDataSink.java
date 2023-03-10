@@ -40,7 +40,7 @@ public class TransferDataSink extends ParallelSink {
                     monitorr.info("RequestNewProvider Extension upload Blob");
                     monitorr.info("RequestNewProvider Extension Blob " + json);
                     monitorr.info("RequestNewProvider Extension Account " + blob.getAccountName());
-                    blob.upload(new ByteArrayInputStream(json.getBytes()), json.length(), true);
+                    blob.upload(new ByteArrayInputStream(json.getBytes()), json.getBytes().length, true);
                     monitorr.info("RequestNewProvider Extension Url " + blob.getBlobUrl());
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
