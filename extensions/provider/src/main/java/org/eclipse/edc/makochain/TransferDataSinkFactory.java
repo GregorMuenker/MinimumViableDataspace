@@ -48,6 +48,9 @@ public class TransferDataSinkFactory implements DataSinkFactory {
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
 
+        if (blobname == null) {
+            blobname = "Copy";
+        }
         monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
 
         BlobClient destBlob = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
