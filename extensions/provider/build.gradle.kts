@@ -21,7 +21,7 @@ dependencies {
     implementation("org.eclipse.edc:data-plane-selector-client:0.0.1-milestone-8")
     implementation("org.eclipse.edc:data-plane-selector-core:0.0.1-milestone-8")
     implementation("org.eclipse.edc:transfer-data-plane:0.0.1-milestone-8")
-    implementation("org.eclipse.edc:management-api:0.0.1-milestone-8")
+    implementation("org.eclipse.edc:transfer-spi:0.0.1-milestone-8")
     implementation(libs.opentelemetry.annotations)
     implementation("org.json:json:20230227")
 
