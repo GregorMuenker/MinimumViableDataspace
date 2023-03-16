@@ -54,7 +54,7 @@ public class RequestNewProviderExtension implements ServiceExtension {
         var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5, blobServiceClient);
         pipelineService.registerFactory(sinkFactory);
 
-        webService.registerResource(new RequestNewProvider(context.getMonitor()));
+        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor()));
 
         context.getMonitor().info("RequestNewProvider Extension initialized!");
     }
