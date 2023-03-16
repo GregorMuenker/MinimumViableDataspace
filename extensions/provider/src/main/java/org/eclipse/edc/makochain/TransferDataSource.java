@@ -16,12 +16,12 @@ import java.util.stream.Stream;
 
 class TransferDataSource implements DataSource {
 
-    private final JSONObject json;
+    private final String maLo;
     private final String name;
     private final Monitor monitor;
 
-    TransferDataSource(Monitor monitor, JSONObject json, String name) {
-        this.json = json;
+    TransferDataSource(Monitor monitor, String maLo, String name) {
+        this.maLo = maLo;
         this.name = name;
         this.monitor = monitor;
     }
@@ -38,7 +38,7 @@ class TransferDataSource implements DataSource {
             public InputStream openStream() {
                 try {
                     monitor.info("Source open Stream");
-                    return new ByteArrayInputStream(json.toString().getBytes());
+                    return new ByteArrayInputStream(maLo.getBytes());
                 } catch (Exception e) {
                     throw new EdcException(e);
                 }

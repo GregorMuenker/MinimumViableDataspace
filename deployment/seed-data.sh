@@ -24,7 +24,7 @@ for i in "${!EdcHostArray[@]}"; do
 
   for entry in /deployment/azure/terraform/modules/participant/sample-data/* ; do 
     if [[ "$entry" == *"${EdcHostArray[$i]}"* ]]; then
-      az storage blob upload -f $entry --container-name src-container --name ${entry#*"sample-data/"} --connection-string $conn_str
+      az storage blob upload -f $entry --overwrite --container-name src-container --name ${entry#*"sample-data/"} --connection-string $conn_str
     fi
   done
 

@@ -15,18 +15,18 @@ import org.eclipse.edc.spi.monitor.Monitor;
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 @Path("/")
-public class RequestNewProvider {
+public class RequestNewProviderWebservice {
 
     private final Monitor monitor;
 
-    public RequestNewProvider(Monitor monitor) {
+    public RequestNewProviderWebservice(Monitor monitor) {
         this.monitor = monitor;
     }
 
     @GET
-    @Path("health")
+    @Path("wechsel")
     public String checkHealth() {
-        monitor.info("Received a health request");
-        return "{\"response\":\"I'm alive!\"}";
+        monitor.info("Received a change request");
+        return "{\"response\":\"change requested\"}";
     }
 }
