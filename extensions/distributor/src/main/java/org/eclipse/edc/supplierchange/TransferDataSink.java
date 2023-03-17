@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.supplierchange;
 
 import com.azure.storage.blob.BlobClient;
 import io.opentelemetry.extension.annotations.WithSpan;

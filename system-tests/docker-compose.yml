@@ -100,6 +100,8 @@ services:
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
+      BLOB_STORE_ACCOUNT: "vnbassets"
+      BLOB_STORE_ACCOUNT_KEY: "key3"
     depends_on:
       - did-server
       - azurite

@@ -3,12 +3,11 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.supplierchange;
 
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.spi.EdcException;
 import org.eclipse.edc.spi.monitor.Monitor;
-import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
