@@ -37,8 +37,6 @@ public class TransferDataSink extends ParallelSink {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
                     String json = output.toString();
-                    monitorr.info("RequestNewProvider Extension upload Blob");
-                    monitorr.info("RequestNewProvider Extension Blob " + json);
                     monitorr.info("RequestNewProvider Extension Account " + blob.getAccountName());
                     blob.upload(new ByteArrayInputStream(json.getBytes()), json.getBytes().length, true);
                     monitorr.info("RequestNewProvider Extension Url " + blob.getBlobUrl());

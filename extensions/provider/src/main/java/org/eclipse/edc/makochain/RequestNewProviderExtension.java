@@ -46,7 +46,6 @@ public class RequestNewProviderExtension implements ServiceExtension {
                 BLOB_STORE_ACCOUNT,
                 BLOB_STORE_ACCOUNT_KEY
                 );
-        context.getMonitor().info("RequestNewProvider Extension " + format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, BLOB_STORE_ACCOUNT));
 
         var sourceFactory = new TransferDataSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
