@@ -7,20 +7,12 @@ package org.eclipse.edc.makochain;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
-import org.eclipse.edc.api.transformer.DtoTransformerRegistry;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSourceFactory;
-import org.eclipse.edc.connector.spi.transferprocess.TransferProcessService;
-import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
-import org.eclipse.edc.connector.transfer.spi.types.TransferProcess;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
-import java.util.Objects;
-import java.util.UUID;
 
 public class TransferDataSourceFactory implements DataSourceFactory {
 
@@ -35,8 +27,8 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle" + dataRequest.getSourceDataAddress().getType());
-        return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
+        monitor.info("RequestNewProvider Extension Source Factory canhandle " + dataRequest.getSourceDataAddress().getType());
+        return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
@@ -48,21 +40,21 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
 
-         //ToDo validate if can be changed until requested
-         //srcBlob.downloadContent().toString() 
+        //ToDo validate if can be changed until requested
+        //srcBlob.downloadContent().toString() 
 
         if (!srcBlob.exists()) {
             return Result.failure("Source " + srcBlob.getBlobName() + " does not exist!");
         }
         
-        monitor.info("RequestNewProvider Extension Source validate true "+ srcBlob.getBlobName());
+        monitor.info("RequestNewProvider Extension Source validate true " + srcBlob.getBlobName());
         return Result.success(true);
     }
 
     @Override
     public DataSource createSource(DataFlowRequest request) {
         var malo = getMaLoInfo(request);
-/* 
+        /* 
         Objects.requireNonNull(filename, "filename");
         Objects.requireNonNull(connectorAddress, "connectorAddress");
 
@@ -81,7 +73,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
                 .build();
 
         var result = processManager.initiateConsumerRequest(dataRequest);
-*/
+        */
         return new TransferDataSource(monitor, malo, request.getSourceDataAddress().getProperty("blobname"));
     }
 

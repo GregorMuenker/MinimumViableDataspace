@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.supplierchange;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;

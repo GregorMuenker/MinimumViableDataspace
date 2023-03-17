@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.supplierchange;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;

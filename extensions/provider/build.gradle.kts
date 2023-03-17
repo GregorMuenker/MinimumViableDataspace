@@ -2,7 +2,6 @@
  *  Copyright (c) 2022 Gregor Münker
  *
  */
-
 plugins {
     `java-library`
 }

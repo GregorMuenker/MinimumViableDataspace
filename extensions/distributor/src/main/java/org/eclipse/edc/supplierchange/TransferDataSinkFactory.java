@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.supplierchange;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
@@ -17,6 +17,8 @@ import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ExecutorService;
+
+import static java.lang.String.format;
 
 public class TransferDataSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
@@ -35,7 +37,7 @@ public class TransferDataSinkFactory implements DataSinkFactory {
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
         monitor.info("RequestNewProvider Extension Sink Factory canhandle " + dataRequest.getSourceDataAddress().getType());
-        return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
+        return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
@@ -49,16 +51,19 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
-        var sasToken = destination.getProperty("sastoken");
+        var sasToken = destination.getProperty("sasToken");
+        var blobAccount = destination.getProperty("account");
 
         if (blobname == null) {
             blobname = "Copy";
         }
+        String url = format("http://azurite:10000/%s", blobAccount) + "/" + containerName + sasToken;
         monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
+        monitor.info("RequestNewProvider Extension Sink " + url);
         
         //BlobClient destBlob_old = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
         BlobContainerClient destContainer = new BlobContainerClientBuilder()
-                .endpoint("connectionUrl" + sasToken)
+                .endpoint(url)
                 .buildClient();
         BlobClient destBlob = destContainer.getBlobClient(blobname);
 

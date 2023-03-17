@@ -32,7 +32,7 @@ public class TransferDataSinkFactory implements DataSinkFactory {
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
         monitor.info("RequestNewProvider Extension Sink Factory canhandle " + dataRequest.getSourceDataAddress().getType());
-        return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
+        return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
-        var sasToken = destination.getProperty("sastoken");
+        var sasToken = destination.getProperty("sasToken");
 
         if (blobname == null) {
             blobname = "Copy";
