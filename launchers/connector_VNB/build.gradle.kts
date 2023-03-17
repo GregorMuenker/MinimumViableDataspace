@@ -23,6 +23,7 @@ val edcGroup: String by project
 dependencies {
     implementation(project(":extensions:refresh-catalog"))
     implementation(project(":extensions:policies"))
+    implementation(project(":extensions:distributor"))
 
     implementation(edc.core.controlplane)
     implementation(edc.api.observability)

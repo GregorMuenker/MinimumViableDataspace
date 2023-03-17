@@ -52,7 +52,8 @@ public class TransferDataSinkFactory implements DataSinkFactory {
             blobname = "Copy";
         }
         monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
-
+        
+        //BlobClient destBlob_old = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
         BlobContainerClient destContainer = new BlobContainerClientBuilder()
                 .endpoint("" + sasToken)
                 .buildClient();
