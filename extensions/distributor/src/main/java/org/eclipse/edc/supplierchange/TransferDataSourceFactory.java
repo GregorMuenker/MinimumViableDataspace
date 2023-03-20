@@ -28,7 +28,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
         monitor.info("RequestNewProvider Extension Source Factory canhandle" + dataRequest.getSourceDataAddress().getType());
-        return "AzureStorage".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
+        return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override

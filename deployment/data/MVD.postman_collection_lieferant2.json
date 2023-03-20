@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4c0478aa-728b-40ae-952b-3b2f655669db",
+		"_postman_id": "89addeca-17c5-416c-a37e-734bf8af92cf",
 		"name": "MVD Lieferant2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,7 +28,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678902_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678902_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678902.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678902_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678902_{{participant_id}}\",\n            \"type\": \"MaLo\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"MaLo\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678902.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -67,7 +67,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678903_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678903_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678903.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678903_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678903_{{participant_id}}\",\n            \"type\": \"MaLo\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"MaLo\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678903.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,7 +106,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678904_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678904_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678904.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678904_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678904_{{participant_id}}\",\n            \"type\": \"MaLo\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"MaLo\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678904.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -376,5 +376,47 @@
 				"type": "string"
 			}
 		]
-	}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "data_management_url",
+			"value": "http://localhost:9192/api/v1/data",
+			"type": "default"
+		},
+		{
+			"key": "storage_account",
+			"value": "lieferant2assets",
+			"type": "default"
+		},
+		{
+			"key": "participant_id",
+			"value": "lieferant2",
+			"type": "default"
+		},
+		{
+			"key": "api_key",
+			"value": "ApiKeyDefaultValue",
+			"type": "default"
+		}
+	]
 }

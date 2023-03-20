@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "03632a85-9c40-425e-b95f-2f41d5178a41",
-		"name": "MVD Lieferant1 Copy",
+		"_postman_id": "53eb39e7-e914-44a2-8a66-ad5b3bf1f499",
+		"name": "MVD Lieferant1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -28,7 +28,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678901_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678901_{{participant_id}}\",\n            \"type\": \"AzureStorage\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678901.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678901_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678901_{{participant_id}}\",\n            \"type\": \"MaLo\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"MaLo\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678901.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -81,6 +81,45 @@
 							],
 							"path": [
 								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish ContractDefinition 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204 No Content (if new asset) or 409 Conflict (if asset already exists)\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204, 409])",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"756e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"756e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"MaLo_12345678901_{{participant_id}}\"\n            }\n        ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{data_management_url}}/contractdefinitions",
+							"host": [
+								"{{data_management_url}}"
+							],
+							"path": [
+								"contractdefinitions"
 							]
 						}
 					},
