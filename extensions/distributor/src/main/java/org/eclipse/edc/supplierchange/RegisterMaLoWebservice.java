@@ -15,11 +15,11 @@ import org.eclipse.edc.spi.monitor.Monitor;
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 @Path("/")
-public class RequestNewProviderWebservice {
+public class RegisterMaLoWebservice {
 
     private final Monitor monitor;
 
-    public RequestNewProviderWebservice(Monitor monitor) {
+    public RegisterMaLoWebservice(Monitor monitor) {
         this.monitor = monitor;
     }
 

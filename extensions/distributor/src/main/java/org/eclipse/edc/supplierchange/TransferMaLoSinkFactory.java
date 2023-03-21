@@ -8,7 +8,6 @@ package org.eclipse.edc.supplierchange;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
-import com.azure.storage.blob.BlobServiceClient;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSink;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSinkFactory;
 import org.eclipse.edc.spi.monitor.Monitor;
@@ -20,28 +19,27 @@ import java.util.concurrent.ExecutorService;
 
 import static java.lang.String.format;
 
-public class TransferDataSinkFactory implements DataSinkFactory {
+public class TransferMaLoSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
     private final ExecutorService executorService;
     private final int partitionSize;
-    private BlobServiceClient destBlobServiceClient;
 
-    TransferDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize, BlobServiceClient destBlobServiceClient) {
+    TransferMaLoSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize) {
         this.monitor = monitor;
         this.executorService = executorService;
         this.partitionSize = partitionSize;
-        this.destBlobServiceClient = destBlobServiceClient;
-        monitor.info("RequestNewProvider Extension Sink Factory");
+        monitor.info("Register MaLo Sink Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Sink Factory canhandle " + dataRequest.getSourceDataAddress().getType());
+        monitor.info("Register MaLo Extension Sink Factory canhandle " + dataRequest.getSourceDataAddress().getType());
         return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
     public @NotNull Result<Boolean> validate(DataFlowRequest request) {
+        monitor.info("Register MaLo Extension Sink Factory validate");
         return Result.success(true);
     }
 
@@ -55,22 +53,17 @@ public class TransferDataSinkFactory implements DataSinkFactory {
         var blobAccount = destination.getProperty("account");
 
         if (blobname == null) {
-            blobname = "Copy";
+            blobname = "Transferred MaLo Reqest Id: " + request.getId();
         }
-        String url = format("http://azurite:10000/%s", blobAccount) + "/" + containerName + sasToken;
-        monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
-        monitor.info("RequestNewProvider Extension Sink " + url);
         
-        //BlobClient destBlob_old = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
         BlobContainerClient destContainer = new BlobContainerClientBuilder()
-                .endpoint(url)
+                .endpoint(format("http://azurite:10000/%s", blobAccount) + "/" + containerName + sasToken)
                 .buildClient();
         BlobClient destBlob = destContainer.getBlobClient(blobname);
 
-        return TransferDataSink.Builder.newInstance()
+        return TransferMaLoSink.Builder.newInstance()
                 .blob(destBlob)
                 .name(blobname)
-                .monitor(monitor)
                 .requestId(request.getId())
                 .partitionSize(partitionSize)
                 .executorService(executorService)

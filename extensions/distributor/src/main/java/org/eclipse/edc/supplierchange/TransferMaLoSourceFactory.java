@@ -13,48 +13,50 @@ import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
-public class TransferDataSourceFactory implements DataSourceFactory {
+public class TransferMaLoSourceFactory implements DataSourceFactory {
 
     private BlobServiceClient srcBlobServiceClient;
     private final Monitor monitor;
 
-    TransferDataSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
+    TransferMaLoSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
         this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
-        monitor.info("RequestNewProvider Extension Source Factory");
+        monitor.info("Register MaLo Extension Source Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle" + dataRequest.getSourceDataAddress().getType());
+        monitor.info("Register MaLo Extension Source Factory canhandle" + dataRequest.getSourceDataAddress().getType());
         return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
     public @NotNull Result<Boolean> validate(DataFlowRequest request) {
         var dataAddress = request.getSourceDataAddress();
-        // verify source path
+
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");        
-
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-
-        //ToDo validate if can be changed until requested
-        //srcBlob.downloadContent().toString() 
 
         if (!srcBlob.exists()) {
             return Result.failure("Source " + srcBlob.getBlobName() + " does not exist!");
         }
-        
-        monitor.info("RequestNewProvider Extension Source validate true " + srcBlob.getBlobName());
-        return Result.success(true);
-    }
 
-    @Override
-    public DataSource createSource(DataFlowRequest request) {
-        var malo = getMaLoInfo(request);
-        /* 
+        String malo = getMaLoInfo(request);
+
+        JSONObject jsonMalo = new JSONObject(malo);
+
+        String beliefertBis = jsonMalo.optString("beliefert_bis");
+
+        if (beliefertBis == "" || beliefertBis == null) {
+            //kein aktueller Lieferant
+        } else {
+            //convert to Date and check if fits
+            var datum = dataAddress.getProperty("datum"); 
+            //anfrage an liefeant alt
+            /* 
         Objects.requireNonNull(filename, "filename");
         Objects.requireNonNull(connectorAddress, "connectorAddress");
 
@@ -74,21 +76,27 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
         var result = processManager.initiateConsumerRequest(dataRequest);
         */
-        return new TransferDataSource(monitor, malo, request.getSourceDataAddress().getProperty("blobname"));
+            String lieferantAlt = jsonMalo.optString("lieferant");
+        }
+        
+        monitor.info("Register MaLo Extension Source validate true " + srcBlob.getBlobName());
+        return Result.success(true);
+    }
+
+    @Override
+    public DataSource createSource(DataFlowRequest request) {
+        var malo = getMaLoInfo(request);
+        // add and remove info for lieferant
+        return new TransferMaLoSource(malo, request.getSourceDataAddress().getProperty("blobname"));
     }
 
     @NotNull
     private String getMaLoInfo(DataFlowRequest request) {
         var dataAddress = request.getSourceDataAddress();
-        // verify source path
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
 
-        monitor.info("RequestNewProvider Extension Source Json " + blobname + " : "  + containerName);
-
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-        
-        monitor.info("RequestNewProvider Extension Source Json" +  srcBlob.getBlobName() + " !");
 
         return srcBlob.downloadContent().toString();
     }
