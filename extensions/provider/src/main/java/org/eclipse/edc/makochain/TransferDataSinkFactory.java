@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ExecutorService;
 
+import static java.lang.String.format;
+
 public class TransferDataSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
     private final ExecutorService executorService;
@@ -37,32 +39,26 @@ public class TransferDataSinkFactory implements DataSinkFactory {
 
     @Override
     public @NotNull Result<Boolean> validate(DataFlowRequest request) {
+        monitor.info("RequestNewProvider Extension Sink Factory validate");
         return Result.success(true);
     }
 
     @Override
     public DataSink createSink(DataFlowRequest request) {
         var destination = request.getDestinationDataAddress();
-
         var blobname = destination.getProperty("blobname");
         var containerName = destination.getProperty("container");
         var sasToken = destination.getProperty("sasToken");
+        var blobAccount = destination.getProperty("account");
 
-        if (blobname == null) {
-            blobname = "Copy";
-        }
-        monitor.info("RequestNewProvider Extension Sink " + containerName + " - " + blobname);
-        
-        //BlobClient destBlob_old = destBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
         BlobContainerClient destContainer = new BlobContainerClientBuilder()
-                .endpoint("" + sasToken)
+                .endpoint(format("http://azurite:10000/%s", blobAccount) + "/" + containerName + sasToken)
                 .buildClient();
         BlobClient destBlob = destContainer.getBlobClient(blobname);
 
         return TransferDataSink.Builder.newInstance()
                 .blob(destBlob)
                 .name(blobname)
-                .monitor(monitor)
                 .requestId(request.getId())
                 .partitionSize(partitionSize)
                 .executorService(executorService)

@@ -40,23 +40,20 @@ public class RegisterMaLoExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
         var monitor = context.getMonitor();
-
         var blobServiceClient = getBlobServiceClient(
                 format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, BLOB_STORE_ACCOUNT),
                 BLOB_STORE_ACCOUNT,
                 BLOB_STORE_ACCOUNT_KEY
                 );
-        context.getMonitor().info("RequestNewProvider Extension " + format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, BLOB_STORE_ACCOUNT));
 
-        var sourceFactory = new TransferDataSourceFactory(monitor, blobServiceClient);
+        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
-
-        var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5, blobServiceClient);
+        var sinkFactory = new TransferMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
 
-        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor()));
+        webService.registerResource(new RegisterMaLoWebservice(context.getMonitor()));
 
-        context.getMonitor().info("RequestNewProvider Extension initialized!");
+        context.getMonitor().info("Register MaLo Extension initialized!");
     }
 
     @NotNull
@@ -67,5 +64,6 @@ public class RegisterMaLoExtension implements ServiceExtension {
                 .credential(new StorageSharedKeyCredential(accountName, accountKey))
                 .buildClient();
     }
+    //dataspaceconnector:dataflowrequest
 
 }

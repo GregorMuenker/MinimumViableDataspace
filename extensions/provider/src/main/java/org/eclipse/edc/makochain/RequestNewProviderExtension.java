@@ -40,7 +40,6 @@ public class RequestNewProviderExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
         var monitor = context.getMonitor();
-
         var blobServiceClient = getBlobServiceClient(
                 format(LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE, BLOB_STORE_ACCOUNT),
                 BLOB_STORE_ACCOUNT,
@@ -49,8 +48,7 @@ public class RequestNewProviderExtension implements ServiceExtension {
 
         var sourceFactory = new TransferDataSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
-
-        var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5, blobServiceClient);
+        var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
 
         webService.registerResource(new RequestNewProviderWebservice(context.getMonitor()));
