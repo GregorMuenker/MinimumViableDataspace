@@ -34,7 +34,7 @@ public class TransferDataSinkFactory implements DataSinkFactory {
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
         monitor.info("RequestNewProvider Extension Sink Factory canhandle " + dataRequest.getSourceDataAddress().getType());
-        return "MaLo".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
+        return "MaLo_end".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override

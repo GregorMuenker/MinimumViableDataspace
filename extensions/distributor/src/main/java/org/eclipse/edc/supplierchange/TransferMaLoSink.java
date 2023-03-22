@@ -35,11 +35,11 @@ public class TransferMaLoSink extends ParallelSink {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
                     String json = output.toString();
-                    monitor.info("RequestNewProvider Extension upload Blob");
-                    monitor.info("RequestNewProvider Extension Blob " + json);
-                    monitor.info("RequestNewProvider Extension Account " + blob.getAccountName());
+                    monitor.info("Register MaLo Extension upload Blob");
+                    monitor.info("Register MaLo Extension Blob " + json);
+                    monitor.info("Register MaLo Extension Account " + blob.getAccountName());
                     blob.upload(new ByteArrayInputStream(json.getBytes()), json.getBytes().length, true);
-                    monitor.info("RequestNewProvider Extension Url " + blob.getBlobUrl());
+                    monitor.info("Register MaLo Extension Url " + blob.getBlobUrl());
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
                 }

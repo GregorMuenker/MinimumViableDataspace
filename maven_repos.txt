@@ -1,0 +1,8 @@
+file:/C:/Users/grego/.m2/repository/org/eclipse/edc/control-spi/0.0.1-milestone-8/control-spi-0.0.1-milestone-8.pom
+       - https://oss.sonatype.org/content/repositories/snapshots/org/eclipse/edc/control-spi/0.0.1-milestone-8/control-spi-0.0.1-milestone-8.pom
+       - https://repo.maven.apache.org/maven2/org/eclipse/edc/control-spi/0.0.1-milestone-8/control-spi-0.0.1-milestone-8.pom
+       - https://maven.iais.fraunhofer.de/artifactory/eis-ids-public/org/eclipse/edc/control-spi/0.0.1-milestone-8/control-spi-0.0.1-milestone-8.pom
+
+
+
+       

@@ -8,8 +8,11 @@ package org.eclipse.edc.supplierchange;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.common.StorageSharedKeyCredential;
+import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
+//import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
+import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
@@ -45,13 +48,15 @@ public class RegisterMaLoExtension implements ServiceExtension {
                 BLOB_STORE_ACCOUNT,
                 BLOB_STORE_ACCOUNT_KEY
                 );
+        var processManager = context.getService(TransferProcessManager.class);
+        var negotiationManager = context.getService(ConsumerContractNegotiationManager.class);
 
-        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient);
+        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient, processManager);
         pipelineService.registerFactory(sourceFactory);
         var sinkFactory = new TransferMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
 
-        webService.registerResource(new RegisterMaLoWebservice(context.getMonitor()));
+        webService.registerResource(new RegisterMaLoWebservice(context.getMonitor(), negotiationManager, blobServiceClient));
 
         context.getMonitor().info("Register MaLo Extension initialized!");
     }
