@@ -35,6 +35,9 @@ public class TransferDataSink extends ParallelSink {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
                     String malo = output.toString();
+                    monitor.info("RequestNewProvider Extension upload Blob");
+                    monitor.info("RequestNewProvider Extension Blob " + malo);
+                    monitor.info("RequestNewProvider Extension Account " + blob.getAccountName());
                     blob.upload(new ByteArrayInputStream(malo.getBytes()), malo.getBytes().length, true);
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);

@@ -1,6 +1,11 @@
 {
+    "maLo": "12345678901",
     "messLokation": ["7657657651"],
-    "lieferant":"lieferant1",
+    "lieferant": {
+        "name": "lieferant1",
+        "connector": "http://lieferant1:8282/api/v1/ids/data",
+        "dataContract":""
+    },
     "grundversorger":"lieferant3",
     "name": {
         "Surname":"Max",
