@@ -5,4 +5,47 @@ file:/C:/Users/grego/.m2/repository/org/eclipse/edc/control-spi/0.0.1-milestone-
 
 
 
-       
+       INFO 2023-03-22T08:38:26.328908671 RequestNewProvider Extension Source Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.329096681 RequestNewProvider Extension Sink Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.329144181 RequestNewProvider Extension Source Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.559611476 RequestNewProvider Extension Source validate true lieferant2_MaLo_12345678902.json
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.559721316 RequestNewProvider Extension Sink Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.559751976 RequestNewProvider Extension Sink Factory validate
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.560215726 RequestNewProvider Extension Source Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.560266796 RequestNewProvider Extension Sink Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.560289366 RequestNewProvider Extension Source Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.560329366 RequestNewProvider Extension Sink Factory canhandle MaLo_end
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.560480376 RequestNewProvider Extension Source Json lieferant2_MaLo_12345678902.json : src-container
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.560665036 RequestNewProvider Extension Source Jsonlieferant2_MaLo_12345678902.json !
+2023-03-22 09:38:26 DEBUG 2023-03-22T08:38:26.561159347 TransferProcess: ID f7aed145-a6b1-4707-ada5-c9e657a71761. Send DataRequest to http://vnb:8282/api/v1/ids/data
+2023-03-22 09:38:26 DEBUG 2023-03-22T08:38:26.561467307 Process f7aed145-a6b1-4707-ada5-c9e657a71761 is now STARTED
+2023-03-22 09:38:26 DEBUG 2023-03-22T08:38:26.583173193 Transferring from org.eclipse.edc.makochain.TransferDataSource@19eece46 to org.eclipse.edc.makochain.TransferDataSink@7fbbbe7b.
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.584671164 Source open Stream
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.584810194 RequestNewProvider Extension upload Blob
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.584941904 RequestNewProvider Extension Blob {      "MaLo_ID":"12345678902",      "name": {          "surname":"Markus",          "lastname":"Müller"      },      "address":{          "street":"Allee",          "city":"Frankfurt am Main",          "PLZ":60316,          "houseNumber":2      },      "vertrag":{          "terminationDate":"23-04-2023",          "contractEnd":"03-12-2024",          "terminationInitiated":"true",          "contractNo":"2345987652"      }  }
+2023-03-22 09:38:26 INFO 2023-03-22T08:38:26.585215814 RequestNewProvider Extension Account vnbassets
+2023-03-22 09:38:26 SEVERE 2023-03-22T08:38:26.625139393 Error creating blob MaLo_12345678902_lieferant2
+2023-03-22 09:38:26 com.azure.storage.blob.models.BlobStorageException: Status code 400, "<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+2023-03-22 09:38:26 <Error>
+2023-03-22 09:38:26   <Code>OutOfRangeInput</Code>
+2023-03-22 09:38:26   <Message>The specified resource name length is not within the permissible limits.
+2023-03-22 09:38:26 RequestId:1bdf09ca-caa6-4ee3-b002-4a1af9e47c70
+2023-03-22 09:38:26 Time:2023-03-22T08:38:26.606Z</Message>
+2023-03-22 09:38:26 </Error>"
+2023-03-22 09:38:26     at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+2023-03-22 09:38:26     at com.azure.core.implementation.http.rest.ResponseExceptionConstructorCache.invoke(ResponseExceptionConstructorCache.java:56)
+2023-03-22 09:38:26     at com.azure.core.implementation.http.rest.RestProxyBase.instantiateUnexpectedException(RestProxyBase.java:377)
+2023-03-22 09:38:26     at com.azure.core.implementation.http.rest.AsyncRestProxy.lambda$ensureExpectedStatus$1(AsyncRestProxy.java:117)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:113)
+2023-03-22 09:38:26     at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2398)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.request(FluxMapFuseable.java:171)
+2023-03-22 09:38:26     at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2194)
+2023-03-22 09:38:26     at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2068)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onSubscribe(FluxMapFuseable.java:96)
+2023-03-22 09:38:26     at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55)
+2023-03-22 09:38:26     at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:64)
+2023-03-22 09:38:26     at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:157)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:129)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxHide$SuppressFuseableSubscriber.onNext(FluxHide.java:137)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:129)
+2023-03-22 09:38:26     at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:129)
