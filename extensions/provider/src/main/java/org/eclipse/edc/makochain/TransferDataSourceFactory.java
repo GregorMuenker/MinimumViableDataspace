@@ -13,6 +13,9 @@ import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
+import java.time.LocalDate;
 
 public class TransferDataSourceFactory implements DataSourceFactory {
 
@@ -27,7 +30,8 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle " + dataRequest.getSourceDataAddress().getType());
+        monitor.info("RequestNewProvider Extension Source Factory canhandle "
+                + dataRequest.getSourceDataAddress().getType());
         return "MaLo_end".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
@@ -36,17 +40,33 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         var dataAddress = request.getSourceDataAddress();
         // verify source path
         var blobname = dataAddress.getProperty("blobname");
-        var containerName = dataAddress.getProperty("container");        
+        var containerName = dataAddress.getProperty("container");
+
+        var destDataAddress = request.getDestinationDataAddress();
+        var datum = destDataAddress.getProperty("date");
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-
-        //ToDo validate if can be changed until requested
-        //srcBlob.downloadContent().toString() 
 
         if (!srcBlob.exists()) {
             return Result.failure("Source " + srcBlob.getBlobName() + " does not exist!");
         }
-        
+
+        // ToDo validate if can be changed until requested
+        String maLo = srcBlob.downloadContent().toString();
+        JSONObject jsonMalo = new JSONObject(maLo);
+
+        String beliefertBis = jsonMalo.optString("beliefert_bis");
+
+        LocalDate kündigungDate = LocalDate.parse(datum);
+        LocalDate belieferungsDate = LocalDate.parse(beliefertBis);
+
+        if (kündigungDate.isAfter(belieferungsDate)) {
+            // Kündigung ist nach Vertragsende
+        } else {
+            // Kündigung bei Belieferung
+            return Result.success(false);
+        }
+
         monitor.info("RequestNewProvider Extension Source validate true " + srcBlob.getBlobName());
         return Result.success(true);
     }
@@ -54,26 +74,6 @@ public class TransferDataSourceFactory implements DataSourceFactory {
     @Override
     public DataSource createSource(DataFlowRequest request) {
         var malo = getMaLoInfo(request);
-        /* 
-        Objects.requireNonNull(filename, "filename");
-        Objects.requireNonNull(connectorAddress, "connectorAddress");
-
-        var dataRequest = DataRequest.Builder.newInstance()
-                .id(UUID.randomUUID().toString()) //this is not relevant, thus can be random
-                .connectorAddress(connectorAddress) //the address of the provider connector
-                .protocol("ids-multipart")
-                .connectorId("consumer")
-                .assetId(filename)
-                .dataDestination(DataAddress.Builder.newInstance()
-                        .type("File") //the provider uses this to select the correct DataFlowController
-                        .property("path", destinationPath) //where we want the file to be stored
-                        .build())
-                .managedResources(false) //we do not need any provisioning
-                .contractId(contractId)
-                .build();
-
-        var result = processManager.initiateConsumerRequest(dataRequest);
-        */
         return new TransferDataSource(monitor, malo, request.getSourceDataAddress().getProperty("blobname"));
     }
 
@@ -84,11 +84,11 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
 
-        monitor.info("RequestNewProvider Extension Source Json " + blobname + " : "  + containerName);
+        monitor.info("RequestNewProvider Extension Source Json " + blobname + " : " + containerName);
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-        
-        monitor.info("RequestNewProvider Extension Source Json" +  srcBlob.getBlobName() + " !");
+
+        monitor.info("RequestNewProvider Extension Source Json" + srcBlob.getBlobName() + " !");
 
         return srcBlob.downloadContent().toString();
     }
