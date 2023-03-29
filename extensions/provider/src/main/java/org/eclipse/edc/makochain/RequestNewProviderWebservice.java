@@ -12,6 +12,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -19,16 +20,19 @@ import org.eclipse.edc.connector.contract.spi.ContractId;
 import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.contract.spi.types.negotiation.ContractOfferRequest;
 import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
+import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
+import org.eclipse.edc.connector.transfer.spi.types.TransferRequest;
 import org.eclipse.edc.policy.model.Action;
-import org.eclipse.edc.policy.model.Duty;
+import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.policy.model.PolicyType;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.edc.spi.types.domain.asset.Asset;
 
+import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -45,13 +49,16 @@ public class RequestNewProviderWebservice {
     private final ConsumerContractNegotiationManager consumerNegotiationManager;
     private BlobServiceClient srcBlobServiceClient;
     private String lastContractId = "";
+    private final ContractNegotiationService service;
 
     public RequestNewProviderWebservice(Monitor monitor, TransferProcessManager processManager,
-            ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient) {
+            ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient,
+             ContractNegotiationService service) {
         this.monitor = monitor;
         this.processManager = processManager;
         this.consumerNegotiationManager = consumerNegotiationManager;
         this.srcBlobServiceClient = srcBlobServiceClient;
+        this.service = service;
     }
 
     @POST
@@ -77,11 +84,12 @@ public class RequestNewProviderWebservice {
         String maLo = "MaLo_12345678902";
 
         var contractOffer = ContractOffer.Builder.newInstance()
-                .id(ContractId.createContractId("1"))
+                .id(ContractId.createContractId("2a75736e-001d-4364-8bd4-9888490edb55"))
                 .policy(Policy.Builder.newInstance()
                         .type(PolicyType.SET)
                         .target(maLo)
-                        .duty(Duty.Builder.newInstance()
+                        .permission(Permission.Builder.newInstance()
+                                .target(maLo)
                                 .action(Action.Builder.newInstance()
                                         .type("USE")
                                         .build())
@@ -93,7 +101,9 @@ public class RequestNewProviderWebservice {
                         .property("type", "MaLo")
                         .build())
                 .contractStart(ZonedDateTime.now())
-                .contractEnd(ZonedDateTime.now().plusHours(3))
+                .contractEnd(ZonedDateTime.now().plusDays(365))
+                .consumer(URI.create("lieferant1"))
+                .provider(URI.create("vnb"))
                 .build();
 
         var contractOfferRequest = ContractOfferRequest.Builder.newInstance()
@@ -101,6 +111,7 @@ public class RequestNewProviderWebservice {
                 .protocol("ids-multipart")
                 .connectorId("vnb")
                 .connectorAddress("http://vnb:8282/api/v1/ids/data")
+                .type(ContractOfferRequest.Type.INITIAL)
                 .build();
 
         var result = consumerNegotiationManager.initiate(contractOfferRequest);
@@ -112,9 +123,63 @@ public class RequestNewProviderWebservice {
     }
 
     @POST
-    @Path("transfer")
-    public Response initiateTransfer() {
+    @Path("negotiation2")
+    public Response initiateNegotiation2() {
 
+        String maLo = "MaLo_12345678902";
+
+        var contractOffer = ContractOffer.Builder.newInstance()
+                .id(ContractId.createContractId("2a75736e-001d-4364-8bd4-9888490edb55"))
+                .policy(Policy.Builder.newInstance()
+                        .type(PolicyType.SET)
+                        .target(maLo)
+                        .permission(Permission.Builder.newInstance()
+                                .target(maLo)
+                                .action(Action.Builder.newInstance()
+                                        .type("USE")
+                                        .build())
+                                .build())
+                        .build())
+                .asset(Asset.Builder.newInstance()
+                        .property("asset:prop:name", maLo)
+                        .property("asset:prop:id", maLo)
+                        .property("type", "MaLo")
+                        .build())
+                .contractStart(ZonedDateTime.now())
+                .contractEnd(ZonedDateTime.now().plusDays(365))
+                .consumer(URI.create("lieferant1"))
+                .provider(URI.create("vnb"))
+                .build();
+
+        var contractOfferRequest = ContractOfferRequest.Builder.newInstance()
+                .contractOffer(contractOffer)
+                .protocol("ids-multipart")
+                .connectorId("vnb")
+                .connectorAddress("http://vnb:8282/api/v1/ids/data")
+                .type(ContractOfferRequest.Type.INITIAL)
+                .build();
+
+                
+        var result = service.initiateNegotiation(contractOfferRequest);
+        /*if (result.getId() && result.getFailure().status() == FATAL_ERROR) {
+            return Response.serverError().build();
+        }*/
+        lastContractId = result.getId();
+        return Response.ok(lastContractId).build();
+    }
+
+
+    @POST
+    @Path("transfer/{id}")
+    public Response initiateTransfer(@PathParam("id") String id) {
+        /*
+        ContractNegotiationDto contractId = Optional.of("")
+                .map(service::findbyId)
+                .map(it -> transformerRegistry.transform(it, ContractNegotiationDto.class))
+                .filter(Result::succeeded)
+                .map(Result::getContent)
+                .orElseThrow(() -> new ObjectNotFoundException(ContractDefinition.class, id));
+        */
         OffsetDateTime expiryTime = OffsetDateTime.now().plusDays(1);
         BlobContainerSasPermission permission = new BlobContainerSasPermission()
                 .setWritePermission(true)
@@ -139,10 +204,14 @@ public class RequestNewProviderWebservice {
                                 srcBlobServiceClient.getBlobContainerClient("src-container").generateSas(values))
                         .build())
                 .managedResources(false) // we do not need any provisioning
-                .contractId(lastContractId)
+                .contractId(id)
+                .build();
+                
+        var transferRequest = TransferRequest.Builder.newInstance()
+                .dataRequest(dataRequest)
                 .build();
 
-        var result = processManager.initiateConsumerRequest(dataRequest);
+        var result = processManager.initiateConsumerRequest(transferRequest);
 
         return result.failed() ? Response.status(400).build() : Response.ok(result.getContent()).build();
     }

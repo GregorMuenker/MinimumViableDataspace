@@ -447,7 +447,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/abfac5c3-ac42-4d94-b9f7-ec4e5cb5fc68",
+							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/528d7bf6-2a69-41fe-b296-7fb2a650eb37",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -458,7 +458,7 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"abfac5c3-ac42-4d94-b9f7-ec4e5cb5fc68"
+								"528d7bf6-2a69-41fe-b296-7fb2a650eb37"
 							]
 						}
 					},
@@ -470,7 +470,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9193/api/v1/data/contractnegotiations/92ab093f-cad4-4248-9f30-cc177c532dc5",
+							"raw": "http://localhost:9193/api/v1/data/contractnegotiations/73dbdbe6-2c9a-43e8-9207-ea872b53a149",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -481,7 +481,7 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"92ab093f-cad4-4248-9f30-cc177c532dc5"
+								"73dbdbe6-2c9a-43e8-9207-ea872b53a149"
 							]
 						}
 					},
@@ -494,7 +494,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902\",\r\n    \"contractId\": \"2a75736e-001d-4364-8bd4-9888490edb55:529b7c78-38df-4b35-9d8c-909f40e40bf2\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"type\": \"MaLo\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"lieferant1assets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-22T00%3A00%3A51Z&se=2023-03-23T00%3A00%3A51Z&sr=c&sp=racwdl&sig=Kbsf1z2M8iqt5QEnNkKeGvNJXgoiZL0YdCNiuDNx%2Ftk%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://vnb:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"vnb\"\r\n}",
+							"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902\",\r\n    \"contractId\": \"2a75736e-001d-4364-8bd4-9888490edb55:cffe999c-ee24-4ffe-b980-a20822bd65a9\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"type\": \"MaLo\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"lieferant1assets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-22T08%3A23%3A07Z&se=2023-03-23T08%3A23%3A07Z&sr=c&sp=racwdl&sig=pT2txEW6q2f0KgoRTtMif4bModk12uRbLHkbgapGq4Q%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://vnb:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"vnb\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -544,12 +544,33 @@
 					"response": []
 				},
 				{
+					"name": "LFN Transfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8181/api/transfer/2a75736e-001d-4364-8bd4-9888490edb55:7b6b02fb-166e-49ce-8714-c9a16474b1d7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8181",
+							"path": [
+								"api",
+								"transfer",
+								"2a75736e-001d-4364-8bd4-9888490edb55:7b6b02fb-166e-49ce-8714-c9a16474b1d7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "LFN Negotiation",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/c9a3ee46-be4d-42aa-a4aa-15200cefb45f",
+							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/6f1711fe-a5a3-46c7-afbb-88e5a3cbbc79",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -560,7 +581,7 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"c9a3ee46-be4d-42aa-a4aa-15200cefb45f"
+								"6f1711fe-a5a3-46c7-afbb-88e5a3cbbc79"
 							]
 						}
 					},

@@ -13,6 +13,7 @@ import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSourceFactory;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
+import org.eclipse.edc.connector.transfer.spi.types.TransferRequest;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.DataAddress;
@@ -129,8 +130,11 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
              * .dataDestination(object.getDataDestination())
              * .build();
              */
+            var transferRequest = TransferRequest.Builder.newInstance()
+                    .dataRequest(dataRequest)
+                    .build();
 
-            var result = processManager.initiateConsumerRequest(dataRequest);
+            var result = processManager.initiateConsumerRequest(transferRequest);
             monitor.info("Register MaLo Extension Source Factory sent request");
             monitor.info("Register MaLo Extension Source Factory " + result.getContent());
             return Result.success(!result.failed());

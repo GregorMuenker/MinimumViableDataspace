@@ -37,7 +37,7 @@ val getJarsForLocalTest by tasks.registering(Copy::class) {
 }
 
 val getJarsForAzureTest by tasks.registering(Copy::class) {
-    outputs.upToDateWhen { false } //always download
+    outputs.upToDateWhen { true } //always download
 
     from(downloadArtifact)
         // strip away the version string

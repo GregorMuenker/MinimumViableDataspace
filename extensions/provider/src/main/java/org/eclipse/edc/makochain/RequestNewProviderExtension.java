@@ -11,6 +11,7 @@ import com.azure.storage.common.StorageSharedKeyCredential;
 import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
+import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
@@ -38,6 +39,8 @@ public class RequestNewProviderExtension implements ServiceExtension {
     private PipelineService pipelineService;
     @Inject
     private DataTransferExecutorServiceContainer executorContainer;
+    @Inject
+    private ContractNegotiationService service;
 
     @Override
     public void initialize(ServiceExtensionContext context) {
@@ -54,7 +57,7 @@ public class RequestNewProviderExtension implements ServiceExtension {
         var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
 
-        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient));
+        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient, service));
 
         context.getMonitor().info("RequestNewProvider Extension initialized!");
     }
