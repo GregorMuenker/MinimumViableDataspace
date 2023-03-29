@@ -30,8 +30,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle "
-                + dataRequest.getSourceDataAddress().getType());
+        monitor.info("RequestNewProvider Extension Source Factory canhandle " + dataRequest.getSourceDataAddress().getType());
         return "MaLo_end".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
@@ -57,10 +56,10 @@ public class TransferDataSourceFactory implements DataSourceFactory {
 
         String beliefertBis = jsonMalo.optString("beliefert_bis");
 
-        LocalDate kündigungDate = LocalDate.parse(datum);
+        LocalDate kuendigungDate = LocalDate.parse(datum);
         LocalDate belieferungsDate = LocalDate.parse(beliefertBis);
 
-        if (kündigungDate.isAfter(belieferungsDate)) {
+        if (kuendigungDate.isAfter(belieferungsDate)) {
             // Kündigung ist nach Vertragsende
         } else {
             // Kündigung bei Belieferung
