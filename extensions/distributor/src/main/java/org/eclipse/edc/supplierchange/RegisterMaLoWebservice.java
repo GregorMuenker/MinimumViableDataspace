@@ -54,7 +54,7 @@ public class RegisterMaLoWebservice {
     }
 
     @POST
-    @Path("negotiation")
+    @Path("negotiate")
     public Response initiateNegotiation() {
 
         String maLo = "MaLo_12345678902";

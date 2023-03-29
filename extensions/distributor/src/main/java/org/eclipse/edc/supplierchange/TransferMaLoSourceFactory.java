@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class TransferMaLoSourceFactory implements DataSourceFactory {
@@ -95,6 +97,9 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
             monitor.info(
                     "Register MaLo Extension Source Factory " + lieferantAltConn + "|" + assedId + "|" + contractId);
 
+            Map<String, String> additionalInfo = new HashMap<>();
+            additionalInfo.put("end_date", datum);
+
             var dataRequest = DataRequest.Builder.newInstance()
                     .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
                     .connectorAddress(lieferantAltConn) // the address of the provider connector
@@ -112,9 +117,14 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
                             .property("date", beliefertBis)
                             .build())
                     .managedResources(false) // we do not need any provisioning
+                    .properties(additionalInfo)
                     .contractId(contractId)
                     .build();
             /*
+             * .transferType(object.getTransferType())
+             * .destinationType(object.getDataDestination().getType())
+             * .properties(object.getProperties())
+             * 
              * DataRequest.Builder.newInstance()
              * .id(id)
              * .assetId(object.getAssetId())
