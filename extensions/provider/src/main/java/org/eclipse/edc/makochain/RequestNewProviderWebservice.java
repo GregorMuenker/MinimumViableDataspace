@@ -5,6 +5,7 @@
 
 package org.eclipse.edc.makochain;
 
+import com.azure.core.annotation.QueryParam;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.sas.BlobContainerSasPermission;
 import com.azure.storage.blob.sas.BlobServiceSasSignatureValues;
@@ -14,12 +15,15 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.container.AsyncResponse;
+import jakarta.ws.rs.container.Suspended;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.edc.connector.contract.spi.ContractId;
 import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.contract.spi.types.negotiation.ContractOfferRequest;
 import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
+import org.eclipse.edc.connector.spi.catalog.CatalogService;
 import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
@@ -28,9 +32,12 @@ import org.eclipse.edc.policy.model.Action;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.policy.model.PolicyType;
+import org.eclipse.edc.spi.EdcException;
 import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.edc.spi.types.domain.asset.Asset;
+import org.eclipse.edc.web.spi.exception.BadGatewayException;
 
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -50,15 +57,17 @@ public class RequestNewProviderWebservice {
     private BlobServiceClient srcBlobServiceClient;
     private String lastContractId = "";
     private final ContractNegotiationService service;
+    private final CatalogService catalogService;
 
     public RequestNewProviderWebservice(Monitor monitor, TransferProcessManager processManager,
             ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient,
-             ContractNegotiationService service) {
+             ContractNegotiationService service, CatalogService catalogService) {
         this.monitor = monitor;
         this.processManager = processManager;
         this.consumerNegotiationManager = consumerNegotiationManager;
         this.srcBlobServiceClient = srcBlobServiceClient;
         this.service = service;
+        this.catalogService = catalogService;
     }
 
     @POST
@@ -77,14 +86,35 @@ public class RequestNewProviderWebservice {
         return "{\"response\":\"MaLos\"}";
     }
 
+    @GET
+    @Path("getMaLos")
+    public void getMalosFromVnb(@Suspended AsyncResponse response) {
+        
+        monitor.info("Request MaLos");
+        String providerUrl = "http://vnb:8282/api/v1/ids/data";
+        //Get all Malos
+        catalogService.getByProviderUrl(providerUrl, QuerySpec.max())
+                .whenComplete((content, throwable) -> {
+                    if (throwable == null) {
+                        response.resume(content);
+                    } else {
+                        if (throwable instanceof EdcException || throwable.getCause() instanceof EdcException) {
+                            response.resume(new BadGatewayException(throwable.getMessage()));
+                        } else {
+                            response.resume(throwable);
+                        }
+                    }
+                });
+    }
+
     @POST
-    @Path("negotiation")
-    public Response initiateNegotiation() {
+    @Path("negotiation/{definitionPart}")
+    public Response initiateNegotiation(@PathParam("definitionPart") String definitionPart) {
 
         String maLo = "MaLo_12345678902";
 
         var contractOffer = ContractOffer.Builder.newInstance()
-                .id(ContractId.createContractId("2a75736e-001d-4364-8bd4-9888490edb55"))
+                .id(ContractId.createContractId(definitionPart))
                 .policy(Policy.Builder.newInstance()
                         .type(PolicyType.SET)
                         .target(maLo)
@@ -129,7 +159,7 @@ public class RequestNewProviderWebservice {
         String maLo = "MaLo_12345678902";
 
         var contractOffer = ContractOffer.Builder.newInstance()
-                .id(ContractId.createContractId("2a75736e-001d-4364-8bd4-9888490edb55"))
+                .id(ContractId.createContractId("2"))
                 .policy(Policy.Builder.newInstance()
                         .type(PolicyType.SET)
                         .target(maLo)
