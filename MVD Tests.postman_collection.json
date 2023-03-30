@@ -524,12 +524,12 @@
 			"name": "endpoint req",
 			"item": [
 				{
-					"name": "LFN Negotiation",
+					"name": "LFN Malos",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8181/api/negotiation",
+							"raw": "http://localhost:8181/api/getMaLos/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -537,19 +537,20 @@
 							"port": "8181",
 							"path": [
 								"api",
-								"negotiation"
+								"getMaLos",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "LFN Transfer",
+					"name": "LFN Negotiation",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8181/api/transfer/2a75736e-001d-4364-8bd4-9888490edb55:7b6b02fb-166e-49ce-8714-c9a16474b1d7",
+							"raw": "http://localhost:8181/api/negotiation/2a75736e-001d-4364-8bd4-9888490edb55",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -557,8 +558,8 @@
 							"port": "8181",
 							"path": [
 								"api",
-								"transfer",
-								"2a75736e-001d-4364-8bd4-9888490edb55:7b6b02fb-166e-49ce-8714-c9a16474b1d7"
+								"negotiation",
+								"2a75736e-001d-4364-8bd4-9888490edb55"
 							]
 						}
 					},
@@ -570,7 +571,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/6f1711fe-a5a3-46c7-afbb-88e5a3cbbc79",
+							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/85674b18-ab58-4871-999a-73249a0921eb",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -581,7 +582,28 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"6f1711fe-a5a3-46c7-afbb-88e5a3cbbc79"
+								"85674b18-ab58-4871-999a-73249a0921eb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LFN Transfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8181/api/transfer/04bd2365-512e-4794-9fd6-69b20cab09b2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8181",
+							"path": [
+								"api",
+								"transfer",
+								"04bd2365-512e-4794-9fd6-69b20cab09b2"
 							]
 						}
 					},
@@ -684,7 +706,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{}",
+					"raw": "{\r\n    \"providerUrl\": \"http://vnb:8282/api/v1/ids/data\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -692,7 +714,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9191/api/v1/data/federatedcatalog",
+					"raw": "http://localhost:9191/api/v1/data/catalog/request",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -702,7 +724,48 @@
 						"api",
 						"v1",
 						"data",
-						"federatedcatalog"
+						"catalog",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FederatedCatalog Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9191/api/v1/data/catalog?providerUrl=http://vnb:8282/api/v1/ids/data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9191",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"catalog"
+					],
+					"query": [
+						{
+							"key": "providerUrl",
+							"value": "http://vnb:8282/api/v1/ids/data"
+						}
 					]
 				}
 			},
