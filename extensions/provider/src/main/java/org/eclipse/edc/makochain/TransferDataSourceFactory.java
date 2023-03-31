@@ -31,7 +31,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
         monitor.info("RequestNewProvider Extension Source Factory canhandle " + dataRequest.getSourceDataAddress().getType());
-        return "MaLo_end".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
+        return "MaLo_flr".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
