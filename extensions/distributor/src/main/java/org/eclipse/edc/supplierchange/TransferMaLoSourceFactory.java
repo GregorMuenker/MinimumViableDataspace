@@ -107,7 +107,7 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
                     .connectorId("consumer")
                     .assetId(assedId)
                     .dataDestination(DataAddress.Builder.newInstance()
-                            .type("MaLo_end")
+                            .type("MaLo_flr")
                             .property("blobname", assedId.replace("MaLo_", "temp_"))
                             .property("request", "change")
                             .property("sasToken", sas)

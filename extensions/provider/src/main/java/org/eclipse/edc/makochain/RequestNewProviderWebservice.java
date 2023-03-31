@@ -5,7 +5,6 @@
 
 package org.eclipse.edc.makochain;
 
-import com.azure.core.annotation.QueryParam;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.sas.BlobContainerSasPermission;
 import com.azure.storage.blob.sas.BlobServiceSasSignatureValues;

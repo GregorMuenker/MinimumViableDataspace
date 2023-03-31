@@ -12,6 +12,8 @@ import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegoti
 //import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
+import org.eclipse.edc.connector.spi.catalog.CatalogService;
+import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
@@ -39,6 +41,10 @@ public class RegisterMaLoExtension implements ServiceExtension {
     private PipelineService pipelineService;
     @Inject
     private DataTransferExecutorServiceContainer executorContainer;
+    @Inject
+    private ContractNegotiationService negotiationService;
+    @Inject
+    private CatalogService catalogService;
 
     @Override
     public void initialize(ServiceExtensionContext context) {
@@ -56,7 +62,7 @@ public class RegisterMaLoExtension implements ServiceExtension {
         var sinkFactory = new TransferMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
 
-        webService.registerResource(new RegisterMaLoWebservice(context.getMonitor(), negotiationManager, blobServiceClient));
+        webService.registerResource(new RegisterMaLoWebservice(context.getMonitor(), negotiationManager, blobServiceClient, catalogService, negotiationService));
 
         context.getMonitor().info("Register MaLo Extension initialized!");
     }
