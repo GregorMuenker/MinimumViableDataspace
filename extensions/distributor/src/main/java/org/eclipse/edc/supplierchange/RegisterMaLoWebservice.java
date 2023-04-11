@@ -6,6 +6,7 @@
 package org.eclipse.edc.supplierchange;
 
 import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobItem;
 import jakarta.ws.rs.Consumes;
@@ -68,7 +69,10 @@ public class RegisterMaLoWebservice {
     @POST
     @Path("negotiateAll")
     public void initiateNegotiation(@Suspended AsyncResponse response) {
+        negotiateAll(response);
+    }
 
+    private void negotiateAll(AsyncResponse response) {
         var maLoBlobContainer = srcBlobServiceClient.getBlobContainerClient("src-container");
         List<CompletableFuture<Catalog>> futures = new ArrayList<>();
         for (BlobItem blobItem : maLoBlobContainer.listBlobs()) {
@@ -110,10 +114,10 @@ public class RegisterMaLoWebservice {
                                         .build();
     
                                 var result = consumerNegotiationManager.initiate(contractOfferRequest);
+                                monitor.info("negotiation " + result);
                                 if (result.failed() && result.getFailure().status() == FATAL_ERROR) {
                                     response.resume("error");
                                 }
-                                monitor.info("negotiation " + result);
                                 var nagotiation = negotiationService.findbyId(result.getContent().getId());
                                 lieferantMalo.put("dataContract", nagotiation.getContractAgreement().getId());
                                 malo.put("lieferant", lieferantMalo);
@@ -132,8 +136,95 @@ public class RegisterMaLoWebservice {
                 futures.toArray(new CompletableFuture[4])
         );
         allFutures.whenComplete((result, error) -> {
-            response.resume("completed");
+            monitor.info("complete");
         });
+    }
+
+    @POST
+    @Path("negotiateAll2")
+    public void initiateNegotiation2(@Suspended AsyncResponse response) {
+        negotiateAll2(response);
+    }
+
+    @POST
+    @Path("negotiateAll3")
+    public void initiateNegotiation3(@Suspended AsyncResponse response) {
+        var maLoBlobContainer = srcBlobServiceClient.getBlobContainerClient("src-container");
+        for (BlobItem blobItem : maLoBlobContainer.listBlobs()) {
+            negotiateOne(blobItem, maLoBlobContainer);
+        }
+    }
+
+    private void negotiateAll2(AsyncResponse response) {
+        var maLoBlobContainer = srcBlobServiceClient.getBlobContainerClient("src-container");
+        List<CompletableFuture<Catalog>> futures = new ArrayList<>();
+        for (BlobItem blobItem : maLoBlobContainer.listBlobs()) {
+            futures.add(negotiateOne(blobItem, maLoBlobContainer));
+        }
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(
+                futures.toArray(new CompletableFuture[4])
+        );
+        allFutures.whenComplete((result, error) -> {
+            monitor.info("complete");
+        });
+    }
+
+    private CompletableFuture<Catalog> negotiateOne(BlobItem blobItem, BlobContainerClient maLoBlobContainer) {
+        BlobClient blobClient = maLoBlobContainer.getBlobClient(blobItem.getName());
+        JSONObject malo = new JSONObject(blobClient.downloadContent().toString());
+        JSONObject lieferantMalo = malo.getJSONObject("lieferant");
+        monitor.info("negotiate " + malo);
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(new Criterion("type", "=", "MaLo_lfr"));
+        criteria.add(new Criterion(Asset.PROPERTY_NAME, "=", malo.getString("maLo") + "_" + lieferantMalo.getString("name")));
+        QuerySpec query = QuerySpec.Builder.newInstance().filter(criteria).build();
+        return catalogService.getByProviderUrl(lieferantMalo.getString("connector"), query)
+                    .whenComplete((content, throwable) -> {
+                        if (throwable == null) {
+                            List<ContractOffer> offers = content.getContractOffers();
+                            if (offers.size() == 1) {
+                                var offer = offers.get(0); 
+                                var contractOffer = ContractOffer.Builder.newInstance()
+                                            .id(offer.getId())
+                                            .policy(Policy.Builder.newInstance()
+                                                .type(PolicyType.SET)
+                                                .target(offer.getPolicy().getTarget())
+                                                .duty(Duty.Builder.newInstance()
+                                                .action(Action.Builder.newInstance()
+                                                .type("USE")
+                                                .build())
+                                            .build())
+                                        .build())
+                                        .asset(offer.getAsset())
+                                        .contractStart(offer.getContractStart())
+                                        .contractEnd(offer.getContractEnd())
+                                        .build();
+    
+                                var contractOfferRequest = ContractOfferRequest.Builder.newInstance()
+                                        .contractOffer(contractOffer)
+                                        .protocol("ids-multipart")
+                                        .connectorId(lieferantMalo.getString("name"))
+                                        .connectorAddress(lieferantMalo.getString("connector"))
+                                        .build();
+    
+                                var result = consumerNegotiationManager.initiate(contractOfferRequest);
+                                if (result.failed() && result.getFailure().status() == FATAL_ERROR) {
+                                    //response.resume("error");
+                                }
+                                monitor.info("negotiation " + result);
+                                var nagotiation = negotiationService.findbyId(result.getContent().getId());
+                                lieferantMalo.put("dataContract", nagotiation.getContractAgreement().getId());
+                                malo.put("lieferant", lieferantMalo);
+                                monitor.info("negotiation " + malo);
+                                byte[] bytes = malo.toString().getBytes();
+                                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+                                blobClient.upload(inputStream, bytes.length);
+                            }
+                        } else {
+                            //response.resume(throwable);
+                        }
+                    });
+            
     }
 
 }

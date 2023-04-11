@@ -63,11 +63,11 @@ public class TransferDataSourceFactory implements DataSourceFactory {
             // Kündigung ist nach Vertragsende
         } else {
             // Kündigung bei Belieferung
-            return Result.success(false);
+            return Result.failure("Kündigung bei Belieferung");
         }
 
         monitor.info("RequestNewProvider Extension Source validate true " + srcBlob.getBlobName());
-        return Result.success(true);
+        return Result.failure("test"); // testing
     }
 
     @Override

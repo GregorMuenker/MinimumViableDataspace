@@ -8,14 +8,19 @@ package org.eclipse.edc.supplierchange;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.common.StorageSharedKeyCredential;
+import com.sun.jdi.event.Event;
+
+import org.eclipse.edc.api.transformer.DtoTransformerRegistry;
 import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 //import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
 import org.eclipse.edc.connector.spi.catalog.CatalogService;
 import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
+import org.eclipse.edc.connector.spi.transferprocess.TransferProcessService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.spi.event.EventRouter;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.eclipse.edc.web.spi.WebService;
@@ -45,6 +50,12 @@ public class RegisterMaLoExtension implements ServiceExtension {
     private ContractNegotiationService negotiationService;
     @Inject
     private CatalogService catalogService;
+    @Inject
+    private EventRouter eventRouter;
+    @Inject
+    private TransferProcessService transferProcessService;
+    @Inject
+    private DtoTransformerRegistry transformerRegistry;
 
     @Override
     public void initialize(ServiceExtensionContext context) {
@@ -57,7 +68,8 @@ public class RegisterMaLoExtension implements ServiceExtension {
         var processManager = context.getService(TransferProcessManager.class);
         var negotiationManager = context.getService(ConsumerContractNegotiationManager.class);
 
-        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient, processManager);
+        eventRouter.registerSync(Event.class, new TransferEventSubscriber());
+        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient, processManager, transferProcessService, transformerRegistry);
         pipelineService.registerFactory(sourceFactory);
         var sinkFactory = new TransferMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);

@@ -9,12 +9,17 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.sas.BlobContainerSasPermission;
 import com.azure.storage.blob.sas.BlobServiceSasSignatureValues;
+
+import org.eclipse.edc.api.transformer.DtoTransformerRegistry;
+import org.eclipse.edc.connector.api.management.transferprocess.model.TransferProcessDto;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSourceFactory;
+import org.eclipse.edc.connector.spi.transferprocess.TransferProcessService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
-import org.eclipse.edc.connector.transfer.spi.types.TransferRequest;
+import org.eclipse.edc.connector.transfer.spi.types.TransferProcess;
 import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
@@ -25,18 +30,25 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.eclipse.edc.web.spi.exception.ServiceResultHandler.exceptionMapper;
 
 public class TransferMaLoSourceFactory implements DataSourceFactory {
 
     private BlobServiceClient srcBlobServiceClient;
     private final Monitor monitor;
     private final TransferProcessManager processManager;
+    private final TransferProcessService transferProcessService;
+    private final DtoTransformerRegistry transformerRegistry;
 
     TransferMaLoSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient,
-            TransferProcessManager processManager) {
+            TransferProcessManager processManager, TransferProcessService transferProcessService, DtoTransformerRegistry transformerRegistry) {
         this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
         this.processManager = processManager;
+        this.transferProcessService = transferProcessService;
+        this.transformerRegistry = transformerRegistry;
         monitor.info("Register MaLo Extension Source Factory");
     }
 
@@ -140,18 +152,30 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
              * .dataDestination(object.getDataDestination())
              * .build();
              */
-            var transferRequest = TransferRequest.Builder.newInstance()
+            /* var transferRequest = TransferRequest.Builder.newInstance()
                     .dataRequest(dataRequest)
                     .build();
+            */
 
-            var result = processManager.initiateConsumerRequest(transferRequest);
+            var result = processManager.initiateConsumerRequest(dataRequest);
             monitor.info("Register MaLo Extension Source Factory sent request");
+
+            Thread.sleep(10000); // wait for transfer
+
+            QuerySpec spec;
+
+            try (var stream = transferProcessService.query(spec).orElseThrow(exceptionMapper(TransferProcess.class, null))) {
+                if(stream.count() > 1){
+                    return Result.failure("more than one request");
+                }
+                stream.
+            }
             monitor.info("Register MaLo Extension Source Factory " + result.getContent());
             return Result.success(!result.failed());
         }
 
         monitor.info("Register MaLo Extension Source validate true " + srcBlob.getBlobName());
-        return Result.success(false);
+        return Result.success(true);
     }
 
     @Override

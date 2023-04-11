@@ -26,7 +26,6 @@ import org.eclipse.edc.connector.spi.catalog.CatalogService;
 import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
-import org.eclipse.edc.connector.transfer.spi.types.TransferRequest;
 import org.eclipse.edc.policy.model.Action;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
@@ -236,11 +235,12 @@ public class RequestNewProviderWebservice {
                 .contractId(id)
                 .build();
                 
-        var transferRequest = TransferRequest.Builder.newInstance()
+        /*var transferRequest = TransferRequest.Builder.newInstance()
                 .dataRequest(dataRequest)
                 .build();
+        */
 
-        var result = processManager.initiateConsumerRequest(transferRequest);
+        var result = processManager.initiateConsumerRequest(dataRequest);
 
         return result.failed() ? Response.status(400).build() : Response.ok(result.getContent()).build();
     }
