@@ -1,0 +1,20 @@
+{
+    "MaLo_ID":"12345678904",
+    "Name": {
+        "Surname":"Marlon",
+        "Lastname":"Mayer"
+    },
+    "Address":{
+        "Street":"Allee",
+        "City":"Frankfurt am Main",
+        "PLZ":60316,
+        "HouseNumber":4
+    },
+    "vertrag":{
+        "terminationDate":"2023-06-31",
+        "contractEnd":"2023-06-31",
+        "cyclePeriod":"m",
+        "contractNo":"2345987654"
+    },
+    "beliefert_bis":"2023-06-31"
+}

@@ -3,14 +3,14 @@ name: "mvd-with-azure"
 services:
 
   # EDC Connector to simulate a dataspace participant acting as a data provider which is located in EU.
-  company1:
-    container_name: company1
+  lieferant1:
+    container_name: lieferant1
     build:
       context: ../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     env_file:
-      - company1.env
+      - lieferant1.env
     depends_on:
       - registration-service
     ports:
@@ -19,17 +19,17 @@ services:
       - "5005:5005"
       - "7171:7171"
     volumes:
-      - ../resources/self-description/company1:/resources
+      - ../resources/self-description/lieferant1:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
-  company2:
-    container_name: company2
+  lieferant2:
+    container_name: lieferant2
     build:
       context: ../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     env_file:
-      - company2.env
+      - lieferant2.env
     depends_on:
       - registration-service
     ports:
@@ -38,17 +38,17 @@ services:
       - "5006:5006"
       - "7172:7171"
     volumes:
-      - ../resources/self-description/company2:/resources
+      - ../resources/self-description/lieferant2:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a consumer which is located in US.
-  company3:
-    container_name: company3
+  vnb:
+    container_name: vnb
     build:
       context: ../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007"
     env_file:
-      - company3.env
+      - vnb.env
     depends_on:
       - registration-service
     ports:
@@ -57,7 +57,7 @@ services:
       - "5007:5007"
       - "7173:7171"
     volumes:
-      - ../resources/self-description/company3:/resources
+      - ../resources/self-description/vnb:/resources
 
 
   # Dataspace registration service authority.
@@ -78,44 +78,44 @@ services:
     volumes:
       - ../resources/self-description/registration-service:/resources
 
-  # Data Dashboard (MVD UI) for participant company1
-  company1-datadashboard:
-    container_name: company1-datadashboard
+  # Data Dashboard (MVD UI) for participant lieferant1
+  lieferant1-datadashboard:
+    container_name: lieferant1-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ../resources/appconfig/company1:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/lieferant1:/usr/share/nginx/html/assets/config
     depends_on:
-      company1:
+      lieferant1:
         condition: service_healthy
     ports:
       - "7080:80"
     profiles: [ "ui" ]
 
-    # Data Dashboard (MVD UI) for participant company2
+    # Data Dashboard (MVD UI) for participant lieferant2
 
-  company2-datadashboard:
-    container_name: company2-datadashboard
+  lieferant2-datadashboard:
+    container_name: lieferant2-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ../resources/appconfig/company2:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/lieferant2:/usr/share/nginx/html/assets/config
     depends_on:
-      company2:
+      lieferant2:
         condition: service_healthy
     ports:
       - "7081:80"
     profiles: [ "ui" ]
 
-  # Data Dashboard (MVD UI) for participant company3
-  company3-datadashboard:
-    container_name: company3-datadashboard
+  # Data Dashboard (MVD UI) for participant VNB
+  vnb-datadashboard:
+    container_name: vnb-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ../resources/appconfig/company3:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/vnb:/usr/share/nginx/html/assets/config
     depends_on:
-      company3:
+      vnb:
         condition: service_healthy
     ports:
       - "7082:80"

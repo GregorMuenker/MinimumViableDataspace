@@ -1,0 +1,27 @@
+{
+    "maLo": "12345678903",
+    "MessLokation": ["7657657653"],
+    "lieferant": {
+        "name": "lieferant2",
+        "connector": "http://lieferant2:8282/api/v1/ids/data",
+        "dataContract":""
+    },
+    "belieferungen":[
+        {
+            "von":"2022-02-31",
+            "bis":"2025-12-31",
+            "lieferant":"lieferant2"
+        }
+    ],
+    "grundversorger":"lieferant3",
+    "name": {
+        "surname":"Merlin",
+        "lastname":"Maas"
+    },
+    "address":{
+        "street":"Allee",
+        "city":"Frankfurt am Main",
+        "PLZ":60316,
+        "houseNumber":3
+    }
+}

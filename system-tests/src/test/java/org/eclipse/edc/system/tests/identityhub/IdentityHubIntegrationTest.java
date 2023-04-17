@@ -47,9 +47,9 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 @ComponentTest
 class IdentityHubIntegrationTest {
 
-    private static final String COMPANY1_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY1_IDENTITY_HUB_URL", "http://localhost:7171/api/v1/identity/identity-hub");
-    private static final String COMPANY2_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY2_IDENTITY_HUB_URL", "http://localhost:7172/api/v1/identity/identity-hub");
-    private static final String COMPANY3_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY3_IDENTITY_HUB_URL", "http://localhost:7173/api/v1/identity/identity-hub");
+    private static final String LIEFERANT1_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("LIEFERANT1_IDENTITY_HUB_URL", "http://localhost:7171/api/v1/identity/identity-hub");
+    private static final String LIEFERANT2_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("LIEFERANT2_IDENTITY_HUB_URL", "http://localhost:7172/api/v1/identity/identity-hub");
+    private static final String VNB_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("VNB_IDENTITY_HUB_URL", "http://localhost:7173/api/v1/identity/identity-hub");
     private static final String AUTHORITY_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("AUTHORITY_IDENTITY_HUB_URL", "http://localhost:7174/api/v1/identity/identity-hub");
 
     private static final EdcHttpClient HTTP_CLIENT = testHttpClient();
@@ -91,9 +91,9 @@ class IdentityHubIntegrationTest {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                    arguments(COMPANY1_IDENTITY_HUB_URL, "eu", "FR"),
-                    arguments(COMPANY2_IDENTITY_HUB_URL, "eu", "DE"),
-                    arguments(COMPANY3_IDENTITY_HUB_URL, "us", "US")
+                    arguments(LIEFERANT1_IDENTITY_HUB_URL, "eu", "FR"),
+                    arguments(LIEFERANT2_IDENTITY_HUB_URL, "eu", "DE"),
+                    arguments(VNB_IDENTITY_HUB_URL, "eu", "DE")
             );
         }
     }

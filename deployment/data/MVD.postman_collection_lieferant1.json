@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "53eb39e7-e914-44a2-8a66-ad5b3bf1f499",
+		"name": "MVD Lieferant1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Publish Master Data",
+			"item": [
+				{
+					"name": "Publish Asset 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204 No Content (if new asset) or 409 Conflict (if asset already exists)\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204, 409])",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678901_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"application/json\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678901_{{participant_id}}\",\n            \"type\": \"MaLo_lfr\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"MaLo_lfr\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678901.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{data_management_url}}/assets",
+							"host": [
+								"{{data_management_url}}"
+							],
+							"path": [
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish Policy 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204 No Content (if new asset) or 409 Conflict (if asset already exists)\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204, 409])",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"756e172f-2de1-4501-8881-057a57fd0e69\",\n  \"policy\": {\n    \"permissions\": [\n      {\n        \"edctype\": \"dataspaceconnector:permission\",\n        \"id\": null,\n        \"target\": \"MaLo_12345678901_{{participant_id}}\",\n        \"action\": {\n          \"type\": \"USE\",\n          \"includedIn\": null,\n          \"constraint\": null\n        },\n        \"assignee\": null,\n        \"assigner\": null,\n        \"constraints\": [],\n        \"duties\": []\n      }\n    ],\n    \"prohibitions\": [],\n    \"obligations\": [],\n    \"extensibleProperties\": {},\n    \"inheritsFrom\": null,\n    \"assigner\": null,\n    \"assignee\": null,\n    \"target\": null,\n    \"@type\": {\n      \"@policytype\": \"set\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{data_management_url}}/policydefinitions",
+							"host": [
+								"{{data_management_url}}"
+							],
+							"path": [
+								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish ContractDefinition 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204 No Content (if new asset) or 409 Conflict (if asset already exists)\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204, 409])",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"4a75736e-001d-4364-8bd4-9888490edb56\",\n    \"accessPolicyId\": \"756e172f-2de1-4501-8881-057a57fd0e69\",\n    \"contractPolicyId\": \"756e172f-2de1-4501-8881-057a57fd0e69\",\n        \"criteria\": [\n            {\n                \"operandLeft\": \"asset:prop:id\",\n                \"operator\": \"=\",\n                \"operandRight\": \"MaLo_12345678901_{{participant_id}}\"\n            }\n        ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{data_management_url}}/contractdefinitions",
+							"host": [
+								"{{data_management_url}}"
+							],
+							"path": [
+								"contractdefinitions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{api_key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-api-key",
+				"type": "string"
+			}
+		]
+	}
+}

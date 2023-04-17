@@ -49,13 +49,13 @@ class RegistrationServiceNodeDirectoryTest {
     void getAll() {
         var service = new RegistrationServiceNodeDirectory(registryApi, resolver, monitor);
 
-        var company1 = getParticipant();
-        var company2 = getParticipant();
+        var lieferant1 = getParticipant();
+        var lieferant2 = getParticipant();
         var node1 = node();
         var node2 = node();
-        when(registryApi.listParticipants()).thenReturn(List.of(company1, company2));
-        when(resolver.toFederatedCacheNode(company1)).thenReturn(Result.success(node1));
-        when(resolver.toFederatedCacheNode(company2)).thenReturn(Result.success(node2));
+        when(registryApi.listParticipants()).thenReturn(List.of(lieferant1, lieferant2));
+        when(resolver.toFederatedCacheNode(lieferant1)).thenReturn(Result.success(node1));
+        when(resolver.toFederatedCacheNode(lieferant2)).thenReturn(Result.success(node2));
 
         var cacheNodes = service.getAll();
         assertThat(cacheNodes)
@@ -67,12 +67,12 @@ class RegistrationServiceNodeDirectoryTest {
     void getAll_failureResolvingDid() {
         var service = new RegistrationServiceNodeDirectory(registryApi, resolver, monitor);
 
-        var company1 = getParticipant();
-        var company2 = getParticipant();
+        var lieferant1 = getParticipant();
+        var lieferant2 = getParticipant();
         var node1 = node();
-        when(registryApi.listParticipants()).thenReturn(List.of(company1, company2));
-        when(resolver.toFederatedCacheNode(company1)).thenReturn(Result.success(node1));
-        when(resolver.toFederatedCacheNode(company2)).thenReturn(Result.failure("failure"));
+        when(registryApi.listParticipants()).thenReturn(List.of(lieferant1, lieferant2));
+        when(resolver.toFederatedCacheNode(lieferant1)).thenReturn(Result.success(node1));
+        when(resolver.toFederatedCacheNode(lieferant2)).thenReturn(Result.failure("failure"));
 
         var cacheNodes = service.getAll();
         assertThat(cacheNodes)

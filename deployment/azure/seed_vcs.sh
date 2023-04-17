@@ -57,7 +57,7 @@ newman run \
   --env-var storage_account="${asset_account}" \
   --env-var participant_id="${participant}" \
   --env-var api_key="$api_key" \
-  ../data/MVD.postman_collection.json
+  ../data/MVD.postman_collection_${participant}.json
 echo
 
 # hack - assume all containers have sequential management api dataPort configurations, check docker/docker-compose.yml for details!!!

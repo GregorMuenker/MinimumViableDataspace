@@ -18,19 +18,19 @@ variable "application_sp_client_secret" {
 variable "participants" {
   default = [
     {
-      "name" : "company1"
+      "name" : "lieferant1"
       "country" : "FR"
       "region" : "eu"
     },
     {
-      "name" : "company2"
+      "name" : "lieferant2"
       "country" : "DE"
       "region" : "eu"
     },
     {
-      "name" : "company3"
-      "country" : "US"
-      "region" : "us"
+      "name" : "vnb"
+      "country" : "DE"
+      "region" : "eu"
     }
   ]
 }

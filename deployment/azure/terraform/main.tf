@@ -39,38 +39,38 @@ module "dataspace" {
 module "participant1" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "company1"
+  participant_name         = "lieferant1"
   participant_region       = "eu"
   participant_country      = "FR"
-  resource_group           = "rg-${var.res_prefix}-company1"
+  resource_group           = "rg-${var.res_prefix}-lieferant1"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/company1/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/company1/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/lieferant1/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/lieferant1/participant.pem"
 }
 
 module "participant2" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "company2"
+  participant_name         = "lieferant2"
   participant_region       = "eu"
   participant_country      = "DE"
-  resource_group           = "rg-${var.res_prefix}-company2"
+  resource_group           = "rg-${var.res_prefix}-lieferant2"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/company2/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/company2/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/lieferant2/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/lieferant2/participant.pem"
 }
 
 module "participant3" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "company3"
+  participant_name         = "vnb"
   participant_region       = "us"
   participant_country      = "US"
-  resource_group           = "rg-${var.res_prefix}-company3"
+  resource_group           = "rg-${var.res_prefix}-vnb"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/company3/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/company3/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/vnb/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/vnb/participant.pem"
 }
