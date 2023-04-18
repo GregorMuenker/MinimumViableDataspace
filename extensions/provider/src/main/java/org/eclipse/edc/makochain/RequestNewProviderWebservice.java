@@ -158,7 +158,7 @@ public class RequestNewProviderWebservice {
 
         
         Map<String, String> additionalInfo = new HashMap<>();
-        additionalInfo.put("end_date", LocalDate.now().plusDays(7).toString());
+        additionalInfo.put("date", LocalDate.now().plusDays(7).toString());
 
         var dataRequest = DataRequest.Builder.newInstance()
                 .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random

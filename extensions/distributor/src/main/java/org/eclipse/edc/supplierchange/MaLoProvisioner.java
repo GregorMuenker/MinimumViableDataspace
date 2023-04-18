@@ -25,7 +25,6 @@ import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashMap;

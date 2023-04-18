@@ -49,7 +49,7 @@ public class MaLoProvisionerBuilderGenerator implements ProviderResourceDefiniti
         //TODO find missing date prop
         String props = "";
         dataRequest.getProperties().forEach((k, v) -> props.concat(v + "-" + k + "|"));
-        monitor.info(props);
+        monitor.info(dataRequest.getProperties().get("o") + props);
         String date = dataRequest.getProperties().get("date");
 
         return MaLoResourceDefinition.Builder.newInstance()
