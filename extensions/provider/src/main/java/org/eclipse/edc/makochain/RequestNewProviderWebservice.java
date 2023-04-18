@@ -38,8 +38,11 @@ import org.eclipse.edc.spi.types.domain.asset.Asset;
 import org.eclipse.edc.web.spi.exception.BadGatewayException;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.eclipse.edc.spi.response.ResponseStatus.FATAL_ERROR;
@@ -68,27 +71,10 @@ public class RequestNewProviderWebservice {
         this.catalogService = catalogService;
     }
 
-    @POST
-    @Path("wechsel")
-    public String wechselLieferant() {
-        monitor.info("Received a change request");
-
-        return "{\"response\":\"change requested\"}";
-    }
-
-    @GET
-    @Path("malos")
-    public String getMaLos() {
-        monitor.info("Request MaLos");
-
-        return "{\"response\":\"MaLos\"}";
-    }
-
     @GET
     @Path("getMaLos")
     public void getMalosFromVnb(@Suspended AsyncResponse response) {
         
-        monitor.info("Request MaLos");
         String providerUrl = "http://vnb:8282/api/v1/ids/data";
         //Get all Malos
         catalogService.getByProviderUrl(providerUrl, QuerySpec.max())
@@ -170,6 +156,10 @@ public class RequestNewProviderWebservice {
         BlobServiceSasSignatureValues values = new BlobServiceSasSignatureValues(expiryTime, permission)
                 .setStartTime(OffsetDateTime.now());
 
+        
+        Map<String, String> additionalInfo = new HashMap<>();
+        additionalInfo.put("end_date", LocalDate.now().plusDays(7).toString());
+
         var dataRequest = DataRequest.Builder.newInstance()
                 .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
                 .connectorAddress("http://vnb:8282/api/v1/ids/data") // the address of the provider connector
@@ -185,6 +175,8 @@ public class RequestNewProviderWebservice {
                                 srcBlobServiceClient.getBlobContainerClient("src-container").generateSas(values))
                         .build())
                 .managedResources(false) // we do not need any provisioning
+                .destinationType("MaLo_dest")
+                .properties(additionalInfo)
                 .contractId(id)
                 .build();
                 

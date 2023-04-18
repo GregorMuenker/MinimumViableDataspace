@@ -116,32 +116,29 @@ public class RegisterMaLoWebservice {
                                         .build();
     
                                 var result = consumerNegotiationManager.initiate(contractOfferRequest);
-
-                                try {
-                                    monitor.info("sleep start");
-                                    Thread.sleep(5000); // wait for negotiation
-                                    monitor.info("sleep end");
-                                } catch (Exception e) {
-                                    // TODO: handle exception
-                                }
-
-                                monitor.info("negotiation " + result);
                                 if (result.failed()) {
                                     response.resume("error");
                                 }
+
+                                try {
+                                    //monitor.info("sleep start");
+                                    Thread.sleep(5000); // wait for negotiation
+                                    //monitor.info("sleep end");
+                                } catch (Exception e) {
+                                    // TODO: handle exception
+                                }
+                                
                                 var nagotiation = negotiationService.findbyId(result.getContent().getId());
                                 lieferantMalo.put("dataContract", nagotiation.getContractAgreement().getId());
                                 malo.put("lieferant", lieferantMalo);
-                                monitor.info("negotiation " + malo);
                                 byte[] bytes = malo.toString().getBytes();
                                 ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
                                 blobClient.upload(inputStream, bytes.length, true);
-                            } else {
-                                monitor.info(offers.get(0).toString());
                             }
                         } else {
                             response.resume(throwable);
                         }
+                        response.resume("failed to negotiate");
                     })
             );
         }

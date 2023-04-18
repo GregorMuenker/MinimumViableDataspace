@@ -34,8 +34,7 @@ public class RequestNewProviderExtension implements ServiceExtension {
     }
 
     @Inject
-    WebService webService;
-
+    private WebService webService;
     @Inject
     private PipelineService pipelineService;
     @Inject

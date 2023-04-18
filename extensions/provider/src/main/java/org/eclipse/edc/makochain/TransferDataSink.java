@@ -35,10 +35,9 @@ public class TransferDataSink extends ParallelSink {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
                     String malo = output.toString();
-                    monitor.info("RequestNewProvider Extension upload Blob");
-                    monitor.info("RequestNewProvider Extension Blob " + malo);
-                    monitor.info("RequestNewProvider Extension Account " + blob.getAccountName());
+                    monitor.info("RequestNewProvider Extension Account " + parts.size());
                     blob.upload(new ByteArrayInputStream(malo.getBytes()), malo.getBytes().length, true);
+                    monitor.info("RequestNewProvider Extension upload Blob");
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
                 }
@@ -74,7 +73,8 @@ public class TransferDataSink extends ParallelSink {
 
         @Override
         protected void validate() {
-            Objects.requireNonNull(sink.blob, "json");
+            Objects.requireNonNull(sink.blob, "Destination BlobClient missing");
+            Objects.requireNonNull(sink.blob, "MaLo missing");
         }
 
         private Builder() {

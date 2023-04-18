@@ -5,49 +5,46 @@
 
 package org.eclipse.edc.supplierchange;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.eclipse.edc.connector.transfer.spi.types.ProvisionedResource;
-
 import org.json.JSONObject;
 
 import static java.util.Objects.requireNonNull;
 
 public class MaLoProvisionedResource extends ProvisionedResource {
     
-    protected String resourceName;
-    protected JSONObject malo;
+    private JSONObject malo;
 
-    public String getResourceName() {
-        return resourceName;
+    public JSONObject getMaLoJsonObject() {
+        return malo;
     }
 
-    public static class Builder<T extends MaLoProvisionedResource, B extends Builder<T, B>> extends ProvisionedResource.Builder<T, B> {
+    public static class Builder extends ProvisionedResource.Builder<MaLoProvisionedResource, Builder> {
 
-        @SuppressWarnings("unchecked")
-        public B resourceName(String name) {
-            provisionedResource.resourceName = name;
-            return (B) this;
+        protected Builder() {
+            super(new MaLoProvisionedResource());
+        }
+        
+        @JsonCreator
+        public static Builder newInstance() {
+            return new Builder();
         }
 
-        @SuppressWarnings("unchecked")
-        public B maLo(JSONObject malo) {
+        public Builder maLo(JSONObject malo) {
             provisionedResource.malo = malo;
-            return (B) this;
-        }
-
-        protected Builder(T resource) {
-            super(resource);
-        }
-
-        @Override
-        public T build() {
-            return super.build();
+            return this;
         }
 
         @Override
         protected void verify() {
-            requireNonNull(provisionedResource.resourceName, "resourceName");
-            requireNonNull(provisionedResource.malo, "maLo");
+            requireNonNull(provisionedResource.malo, "MaLo Object missing");
         }
+        
+        @Override
+        public MaLoProvisionedResource build() {
+            return super.build();
+        }
+
     }
 
 }

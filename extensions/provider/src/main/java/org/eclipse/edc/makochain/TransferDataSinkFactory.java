@@ -6,8 +6,7 @@
 package org.eclipse.edc.makochain;
 
 import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.BlobContainerClient;
-import com.azure.storage.blob.BlobContainerClientBuilder;
+import com.azure.storage.blob.BlobClientBuilder;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSink;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSinkFactory;
 import org.eclipse.edc.spi.monitor.Monitor;
@@ -28,19 +27,24 @@ public class TransferDataSinkFactory implements DataSinkFactory {
         this.monitor = monitor;
         this.executorService = executorService;
         this.partitionSize = partitionSize;
-        monitor.info("RequestNewProvider Extension Sink Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Sink Factory canhandle " + dataRequest.getSourceDataAddress().getType());
         return "MaLo_lfr".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
     public @NotNull Result<Boolean> validate(DataFlowRequest request) {
-        monitor.info("RequestNewProvider Extension Sink Factory validate");
-        return Result.success(true);
+        var destination = request.getDestinationDataAddress();
+        var blobname = destination.getProperty("blobname");
+        var containerName = destination.getProperty("container");
+        var sasToken = destination.getProperty("sasToken");
+        var blobAccount = destination.getProperty("account");
+        if (blobname != null && containerName != null && sasToken != null && blobAccount != null) {
+            return Result.success(true);
+        }
+        return Result.failure("DataDestination has missing Attributes");
     }
 
     @Override
@@ -51,10 +55,12 @@ public class TransferDataSinkFactory implements DataSinkFactory {
         var sasToken = destination.getProperty("sasToken");
         var blobAccount = destination.getProperty("account");
 
-        BlobContainerClient destContainer = new BlobContainerClientBuilder()
-                .endpoint(format("http://azurite:10000/%s", blobAccount) + "/" + containerName + sasToken)
+        BlobClient destBlob = new BlobClientBuilder()
+                .endpoint(format("http://azurite:10000/%s", blobAccount))
+                .sasToken(sasToken)
+                .containerName(containerName)
+                .blobName(blobname)
                 .buildClient();
-        BlobClient destBlob = destContainer.getBlobClient(blobname);
 
         return TransferDataSink.Builder.newInstance()
                 .blob(destBlob)

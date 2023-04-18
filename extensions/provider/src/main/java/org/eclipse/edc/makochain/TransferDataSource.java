@@ -17,12 +17,10 @@ class TransferDataSource implements DataSource {
 
     private final String maLo;
     private final String name;
-    private final Monitor monitor;
 
-    TransferDataSource(Monitor monitor, String maLo, String name) {
+    TransferDataSource(String maLo, String name) {
         this.maLo = maLo;
         this.name = name;
-        this.monitor = monitor;
     }
 
     @Override
@@ -36,7 +34,6 @@ class TransferDataSource implements DataSource {
             @Override
             public InputStream openStream() {
                 try {
-                    monitor.info("Source open Stream");
                     return new ByteArrayInputStream(maLo.getBytes());
                 } catch (Exception e) {
                     throw new EdcException(e);

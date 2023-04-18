@@ -25,70 +25,60 @@ public class TransferDataSourceFactory implements DataSourceFactory {
     TransferDataSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
         this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
-        monitor.info("RequestNewProvider Extension Source Factory");
     }
 
     @Override
     public boolean canHandle(DataFlowRequest dataRequest) {
-        monitor.info("RequestNewProvider Extension Source Factory canhandle " + dataRequest.getSourceDataAddress().getType());
         return "MaLo_lfr".equalsIgnoreCase(dataRequest.getSourceDataAddress().getType());
     }
 
     @Override
     public @NotNull Result<Boolean> validate(DataFlowRequest request) {
         var dataAddress = request.getSourceDataAddress();
-        // verify source path
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
-
         var destDataAddress = request.getDestinationDataAddress();
         var datum = destDataAddress.getProperty("date");
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-
         if (!srcBlob.exists()) {
             return Result.failure("Source " + srcBlob.getBlobName() + " does not exist!");
         }
 
-        // ToDo validate if can be changed until requested
+        // TODO validate if can be changed until requested
         String maLo = srcBlob.downloadContent().toString();
         JSONObject jsonMalo = new JSONObject(maLo);
 
-        String beliefertBis = jsonMalo.getString("beliefert_biso");
+        String beliefertBis = jsonMalo.getString("beliefert_bis");
 
         LocalDate kuendigungDate = LocalDate.parse(datum);
         LocalDate belieferungsDate = LocalDate.parse(beliefertBis);
 
         if (kuendigungDate.isAfter(belieferungsDate)) {
-            // Kündigung ist nach Vertragsende
+            //TODO Kündigung ist nach Vertragsende
+            return Result.success(true);
         } else {
-            // Kündigung bei Belieferung
-            return Result.failure("Kündigung bei Belieferung");
-        }
+            //TODO Kündigung bei Belieferung
+            // return Result.failure("wird noch beliefert")
 
-        monitor.info("RequestNewProvider Extension Source validate true " + srcBlob.getBlobName());
-        return Result.failure("test"); // testing
+            return Result.success(true);
+        }
     }
 
     @Override
     public DataSource createSource(DataFlowRequest request) {
         var malo = getMaLoInfo(request);
-        return new TransferDataSource(monitor, malo, request.getSourceDataAddress().getProperty("blobname"));
+        return new TransferDataSource(malo, request.getSourceDataAddress().getProperty("blobname"));
     }
 
     @NotNull
     private String getMaLoInfo(DataFlowRequest request) {
         var dataAddress = request.getSourceDataAddress();
-        // verify source path
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
 
-        monitor.info("RequestNewProvider Extension Source Json " + blobname + " : " + containerName);
-
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-
-        monitor.info("RequestNewProvider Extension Source Json" + srcBlob.getBlobName() + " !");
-
+        
         return srcBlob.downloadContent().toString();
     }
 

@@ -8,7 +8,6 @@ package org.eclipse.edc.supplierchange;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.common.StorageSharedKeyCredential;
-//import org.eclipse.edc.api.transformer.DtoTransformerRegistry;
 import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegotiationManager;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
@@ -49,8 +48,6 @@ public class RegisterMaLoExtension implements ServiceExtension {
     private EventRouter eventRouter;
     @Inject
     private TransferProcessService transferProcessService;
-    //@Inject
-    //private DtoTransformerRegistry transformerRegistry;
 
     
     @Inject
@@ -78,14 +75,13 @@ public class RegisterMaLoExtension implements ServiceExtension {
         var processManager = context.getService(TransferProcessManager.class);
         var negotiationManager = context.getService(ConsumerContractNegotiationManager.class);
         
-        provisionManager.register(new MaLoProvisioner());
-        manifestGenerator.registerGenerator(new MaLoProvisionerBuilderGenerator());
+        provisionManager.register(new MaLoProvisioner(monitor, processManager, transferProcessService));
+        manifestGenerator.registerGenerator(new MaLoProvisionerBuilderGenerator(blobServiceClient, monitor));
         //statusCheckerRegistry.register("MaLo", new MaLoProvisionerStatusChecker());
         typeManager.registerTypes(MaLoProvisioner.class, MaLoProvisionerBuilderGenerator.class/*, MaLoProvisionerStatusChecker.class */);
 
         //Publish Custom DataSink and DataSource
-        //eventRouter.registerSync(Event.class, new TransferEventSubscriber());
-        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient, processManager, transferProcessService/*, transformerRegistry*/);
+        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
         var sinkFactory = new TransferMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
