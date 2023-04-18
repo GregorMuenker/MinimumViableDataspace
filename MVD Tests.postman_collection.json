@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"connectorId\": \"lieferant\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:9a1bec77-829a-4c94-97da-32767c083486\",\r\n        \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902_lieferant2\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:contenttype\": \"application/json\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"AzureStorage\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"connectorId\": \"lieferant\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:9a1bec77-829a-4c94-97da-32767c083486\",\r\n        \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902_lieferant2\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"AzureStorage\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,7 +69,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n    \"contractId\": \"4a75736e-001d-4364-8bd4-9888490edb56:aedb57f4-3c9e-4032-a1fb-41834b7e0caa\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"application/json\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"lieferant1assets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-07T13%3A56%3A59Z&se=2023-03-08T13%3A56%3A59Z&sr=c&sp=racwdl&sig=1n6Nqmp%2BrC1mILohVqF1MtzPa3KOiNsfDFa52DmLjCo%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"lieferant2\"\r\n}",
+							"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n    \"contractId\": \"4a75736e-001d-4364-8bd4-9888490edb56:aedb57f4-3c9e-4032-a1fb-41834b7e0caa\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"text/plain\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://lieferant1:8282/api/v1/ids/data\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"lieferant1assets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-07T13%3A56%3A59Z&se=2023-03-08T13%3A56%3A59Z&sr=c&sp=racwdl&sig=1n6Nqmp%2BrC1mILohVqF1MtzPa3KOiNsfDFa52DmLjCo%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"lieferant2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"connectorId\": \"vnb\",\r\n    \"connectorAddress\": \"http://vnb:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"2a75736e-001d-4364-8bd4-9888490edb56:8e76fa6f-6160-446d-b9a8-9b8b898d6cdb\",\r\n        \"assetId\": \"MaLo_12345678902\",\r\n        \"policy\": {\r\n            \"uid\": \"856e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902\",\r\n                \"asset:prop:contenttype\": \"application/json\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"MaLo\",\r\n                \"asset:prop:originator\": \"http://vnb:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"connectorId\": \"vnb\",\r\n    \"connectorAddress\": \"http://vnb:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"2a75736e-001d-4364-8bd4-9888490edb56:8e76fa6f-6160-446d-b9a8-9b8b898d6cdb\",\r\n        \"assetId\": \"MaLo_12345678902\",\r\n        \"policy\": {\r\n            \"uid\": \"856e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"MaLo\",\r\n                \"asset:prop:originator\": \"http://vnb:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -159,7 +159,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n    \"contractId\": \"2a75736e-001d-4364-8bd4-9888490edb56:147453ba-9851-435d-985d-67707a4d3a2e\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"application/json\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://vnb:8282/api/v1/ids/data\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"vnbassets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-17T08%3A49%3A34Z&se=2023-03-18T08%3A49%3A34Z&sr=c&sp=racwdl&sig=fn8TBk91FO72yKwtzjjjn96%2BWHsd2P48FKC63CnwIKo%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"lieferant2\"\r\n}",
+							"raw": "{\r\n    \"edctype\": \"dataspaceconnector:datarequest\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n    \"contractId\": \"2a75736e-001d-4364-8bd4-9888490edb56:147453ba-9851-435d-985d-67707a4d3a2e\",\r\n    \"dataDestination\": {\r\n        \"properties\": {\r\n            \"asset:prop:byteSize\": null,\r\n            \"asset:prop:name\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:contenttype\": \"text/plain\",\r\n            \"asset:prop:version\": \"1.0\",\r\n            \"asset:prop:id\": \"lieferant1_customer2_lieferant2\",\r\n            \"asset:prop:fileName\": null,\r\n            \"type\": \"AzureStorage\",\r\n            \"asset:prop:originator\": \"http://vnb:8282/api/v1/ids/data\",\r\n            \"container\":\"src-container\",\r\n            \"blobname\": \"lieferant1_customer2_lieferant2\",\r\n            \"account\": \"vnbassets\",\r\n            \"sasToken\":\"?sv=2018-03-28&st=2023-03-17T08%3A49%3A34Z&se=2023-03-18T08%3A49%3A34Z&sr=c&sp=racwdl&sig=fn8TBk91FO72yKwtzjjjn96%2BWHsd2P48FKC63CnwIKo%3D\"\r\n        }\r\n    },\r\n    \"transferType\": {\r\n        \"contentType\": \"application/octet-stream\",\r\n        \"isFinite\": true\r\n    },\r\n    \"managedResources\": false,\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"connectorId\": \"lieferant2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -386,7 +386,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"connectorId\": \"vnb\",\r\n    \"connectorAddress\": \"http://vnb:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"2a75736e-001d-4364-8bd4-9888490edb55:9a1bec77-829a-4c94-97da-32767c083486\",\r\n        \"assetId\": \"MaLo_12345678902\",\r\n        \"policy\": {\r\n            \"uid\": \"856e172f-2de1-4501-8881-057a57fd0e68\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902\",\r\n                \"asset:prop:contenttype\": \"application/json\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"MaLo\",\r\n                \"asset:prop:originator\": \"http://vnb:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"connectorId\": \"vnb\",\r\n    \"connectorAddress\": \"http://vnb:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"2a75736e-001d-4364-8bd4-9888490edb55:9a1bec77-829a-4c94-97da-32767c083486\",\r\n        \"assetId\": \"MaLo_12345678902\",\r\n        \"policy\": {\r\n            \"uid\": \"856e172f-2de1-4501-8881-057a57fd0e68\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"MaLo\",\r\n                \"asset:prop:originator\": \"http://vnb:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -417,7 +417,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"connectorId\": \"lieferant2\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:9a1bec77-829a-4c94-97da-32767c083486\",\r\n        \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902_lieferant2\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:contenttype\": \"application/json\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"MaLo_lfr\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"connectorId\": \"lieferant2\",\r\n    \"connectorAddress\": \"http://lieferant2:8282/api/v1/ids/data\",\r\n    \"protocol\": \"ids-multipart\",\r\n    \"offer\": {\r\n        \"offerId\": \"4a75736e-001d-4364-8bd4-9888490edb56:9a1bec77-829a-4c94-97da-32767c083486\",\r\n        \"assetId\": \"MaLo_12345678902_lieferant2\",\r\n        \"policy\": {\r\n            \"uid\": \"956e172f-2de1-4501-8881-057a57fd0e69\",\r\n            \"permissions\": [\r\n                {\r\n                    \"edctype\": \"dataspaceconnector:permission\",\r\n                    \"uid\": null,\r\n                    \"target\": \"MaLo_12345678902_lieferant2\",\r\n                    \"action\": {\r\n                        \"type\": \"USE\",\r\n                        \"includedIn\": null,\r\n                        \"constraint\": null\r\n                    },\r\n                    \"assignee\": null,\r\n                    \"assigner\": null,\r\n                    \"constraints\": [],\r\n                    \"duties\": []\r\n                }\r\n            ],\r\n            \"prohibitions\": [],\r\n            \"obligations\": [],\r\n            \"extensibleProperties\": {},\r\n            \"inheritsFrom\": null,\r\n            \"assigner\": null,\r\n            \"assignee\": null,\r\n            \"target\": \"MaLo_12345678902_lieferant2\",\r\n            \"@type\": {\r\n                \"@policytype\": \"set\"\r\n            }\r\n        },\r\n        \"asset\": {\r\n            \"properties\": {\r\n                \"asset:prop:byteSize\": null,\r\n                \"asset:prop:name\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:contenttype\": \"text/plain\",\r\n                \"asset:prop:version\": \"1.0\",\r\n                \"asset:prop:id\": \"MaLo_12345678902_lieferant2\",\r\n                \"asset:prop:fileName\": null,\r\n                \"type\": \"MaLo_end\",\r\n                \"asset:prop:originator\": \"http://lieferant2:8282/api/v1/ids/data\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -470,7 +470,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9193/api/v1/data/contractnegotiations/73dbdbe6-2c9a-43e8-9207-ea872b53a149",
+							"raw": "http://localhost:9193/api/v1/data/contractnegotiations/dba44b3e-600c-4b41-8659-3cb2da237816",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -481,7 +481,7 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"73dbdbe6-2c9a-43e8-9207-ea872b53a149"
+								"dba44b3e-600c-4b41-8659-3cb2da237816"
 							]
 						}
 					},
@@ -571,7 +571,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/85674b18-ab58-4871-999a-73249a0921eb",
+							"raw": "http://localhost:9191/api/v1/data/contractnegotiations/1929f568-3b32-479c-a0db-367936e5b627",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -582,7 +582,7 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"85674b18-ab58-4871-999a-73249a0921eb"
+								"1929f568-3b32-479c-a0db-367936e5b627"
 							]
 						}
 					},
@@ -594,7 +594,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8181/api/transfer/04bd2365-512e-4794-9fd6-69b20cab09b2",
+							"raw": "http://localhost:8181/api/transfer/2a75736e-001d-4364-8bd4-9888490edb55:e3091c08-dd00-44d3-8c44-9b14fea06b8c",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -603,7 +603,49 @@
 							"path": [
 								"api",
 								"transfer",
-								"04bd2365-512e-4794-9fd6-69b20cab09b2"
+								"2a75736e-001d-4364-8bd4-9888490edb55:e3091c08-dd00-44d3-8c44-9b14fea06b8c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VNB Prepare",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204 No Content (if new asset) or 409 Conflict (if asset already exists)\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204, 409])",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"asset\": {\n        \"properties\": {\n            \"asset:prop:name\": \"MaLo_12345678901_{{participant_id}}\",\n            \"asset:prop:contenttype\": \"text/plain\",\n            \"asset:prop:version\": \"1.0\",\n            \"asset:prop:id\": \"MaLo_12345678901_{{participant_id}}\",\n            \"type\": \"MaLo\"\n        }\n    },\n    \"dataAddress\": {\n        \"properties\": {\n            \"type\": \"AzureStorage\",\n            \"account\": \"{{storage_account}}\",\n            \"container\": \"src-container\",\n            \"blobname\": \"{{participant_id}}_MaLo_12345678901.json\",\n            \"keyName\": \"{{storage_account}}-key1\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8183/api/negotiateAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8183",
+							"path": [
+								"api",
+								"negotiateAll"
 							]
 						}
 					},
@@ -635,7 +677,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9193/api/v1/data/contractnegotiations/ccdec374-9cf7-4bad-8ec6-2bd4d1980faa",
+							"raw": "http://localhost:9193/api/v1/data/contractnegotiations/9871e567-9acf-482a-a62b-1176082e5c47",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -646,7 +688,7 @@
 								"v1",
 								"data",
 								"contractnegotiations",
-								"ccdec374-9cf7-4bad-8ec6-2bd4d1980faa"
+								"9871e567-9acf-482a-a62b-1176082e5c47"
 							]
 						}
 					},
