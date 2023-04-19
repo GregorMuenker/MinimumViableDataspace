@@ -12,7 +12,9 @@ import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegoti
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
 import org.eclipse.edc.connector.spi.catalog.CatalogService;
+import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
+import org.eclipse.edc.connector.transfer.spi.status.StatusCheckerRegistry;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
@@ -40,7 +42,10 @@ public class RequestNewProviderExtension implements ServiceExtension {
     private DataTransferExecutorServiceContainer executorContainer;
     @Inject
     private CatalogService catalogService;
-    
+    @Inject
+    private ContractNegotiationService negotiationService;
+    @Inject
+    private StatusCheckerRegistry statusCheckerRegistry;
 
     @Override
     public void initialize(ServiceExtensionContext context) {
@@ -56,8 +61,9 @@ public class RequestNewProviderExtension implements ServiceExtension {
         pipelineService.registerFactory(sourceFactory);
         var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
+        statusCheckerRegistry.register("Malo_req", new NewProviderStatusChecker(blobServiceClient));
 
-        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient, catalogService));
+        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient, catalogService, negotiationService));
 
         context.getMonitor().info("RequestNewProvider Extension initialized!");
     }

@@ -1,16 +1,15 @@
 {
     "maLo": "12345678904",
     "MessLokation": ["7657657654"],
-    "lieferant": {
-        "name": "lieferant2",
-        "connector": "http://lieferant2:8282/api/v1/ids/data",
-        "dataContract":""
-    },
     "belieferungen":[
         {
             "von":"2022-02-31",
             "bis":"2023-06-31",
-            "lieferant":"lieferant2"
+            "lieferant":{
+                "name": "lieferant2",
+                "connector": "http://lieferant2:8282/api/v1/ids/data",
+                "dataContract":""
+            }
         }
     ],
     "grundversorger":"lieferant3",

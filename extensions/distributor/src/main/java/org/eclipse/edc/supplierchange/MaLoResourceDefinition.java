@@ -5,20 +5,20 @@
 
 package org.eclipse.edc.supplierchange;
 
+import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import org.eclipse.edc.connector.transfer.spi.types.ResourceDefinition;
-import org.json.JSONObject;
 
 import java.util.Objects;
 
 public class MaLoResourceDefinition extends ResourceDefinition {
 
-    private JSONObject maLo;
+    private BlobClient maLo;
     private String requestedStartDate;
     private String requestedEndDate;
     private BlobContainerClient tempContainer;
 
-    public JSONObject getmaLo() {
+    public BlobClient getMaloBlob() {
         return maLo;
     }
 
@@ -36,7 +36,7 @@ public class MaLoResourceDefinition extends ResourceDefinition {
 
     @Override
     public Builder toBuilder() {
-        return initializeBuilder(new Builder().maLo(maLo));
+        return initializeBuilder(new Builder().maloBlob(maLo));
     }
 
     public static class Builder extends ResourceDefinition.Builder<MaLoResourceDefinition, Builder> {
@@ -49,7 +49,7 @@ public class MaLoResourceDefinition extends ResourceDefinition {
             return new Builder();
         }
 
-        public Builder maLo(JSONObject maLo) {
+        public Builder maloBlob(BlobClient maLo) {
             resourceDefinition.maLo = maLo;
             return this;
         }

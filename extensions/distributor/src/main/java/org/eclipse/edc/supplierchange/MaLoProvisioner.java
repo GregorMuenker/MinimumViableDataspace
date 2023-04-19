@@ -5,6 +5,7 @@
 
 package org.eclipse.edc.supplierchange;
 
+import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.models.BlobItem;
 import com.azure.storage.blob.sas.BlobContainerSasPermission;
@@ -60,9 +61,9 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
     public CompletableFuture<StatusResult<ProvisionResponse>> provision(MaLoResourceDefinition resourceDefinition, Policy policy) {
         
         return CompletableFuture.supplyAsync(() -> {
-            JSONObject maLo = resourceDefinition.getmaLo();
-            JSONObject lieferantAlt = maLo.getJSONObject("lieferant");
-            JSONArray belieferungen = maLo.getJSONArray("belieferungen");
+            BlobClient maloBlob = resourceDefinition.getMaloBlob();
+            JSONObject maloJson = new JSONObject(maloBlob.downloadContent().toString());
+            JSONArray belieferungen = maloJson.getJSONArray("belieferungen");
 
             LocalDate requestedStartDate = LocalDate.parse(resourceDefinition.getRequestedStartDate());
             LocalDate requestedEndDate = LocalDate.parse(resourceDefinition.getRequestedEndDate());
@@ -73,8 +74,7 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
             for (int i = 0; i < belieferungen.length(); i++) {
                 JSONObject jsonObject = belieferungen.getJSONObject(i);
                 LocalDate endDate = LocalDate.parse(jsonObject.getString("bis"));
-                LocalDate startDate = LocalDate.parse(jsonObject.getString("von"));
-                if (!requestedStartDate.isAfter(endDate) && !startDate.isAfter(requestedEndDate)) {
+                if (requestedStartDate.isBefore(endDate)) {
                     conflicts.put(jsonObject);
                 }
             }
@@ -83,62 +83,61 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                 // kein Konflikt mit den Belieferungen 
                 monitor.info("No Conflicts");
                 var resource = MaLoProvisionedResource.Builder.newInstance()
-                        .maLo(maLo)
-                        .id("" + maLo.hashCode())
+                        .maLo(maloJson)
+                        .id("" + maloJson.hashCode())
                         .resourceDefinitionId(resourceDefinition.getId())
                         .transferProcessId(resourceDefinition.getTransferProcessId())
                         .build();
                 resourceDefinition.getTempContainer().delete();
                 return StatusResult.success(ProvisionResponse.Builder.newInstance().resource(resource).build());
             } else {
+                for (int i = 0; i < conflicts.length(); i++) {
+                    JSONObject conflictLieferant = conflicts.getJSONObject(i).getJSONObject("lieferant");
+                    monitor.info("Request end of contrat of old supplier " + conflictLieferant.getString("name"));
+                    
+                    //prepare Request to old Supplier
+                    String assetId = "MaLo_" + maloJson.getString("maLo") + "_" + conflictLieferant.getString("name");
 
-                //TODO request all conflicts 
-                conflicts.get(0);
+                    OffsetDateTime expiryTime = OffsetDateTime.now().plusDays(1);
+                    BlobContainerSasPermission permission = new BlobContainerSasPermission()
+                            .setWritePermission(true)
+                            .setAddPermission(true)
+                            .setCreatePermission(true);
+                    BlobServiceSasSignatureValues values = new BlobServiceSasSignatureValues(expiryTime, permission)
+                            .setStartTime(OffsetDateTime.now());
     
-                monitor.info("Request end of contrat of old supplier");
-    
-                //prepare Request to old Supplier
-                String assetId = "MaLo_" + maLo.optString("maLo") + "_" + lieferantAlt.optString("name");
-    
-                OffsetDateTime expiryTime = OffsetDateTime.now().plusDays(1);
-                BlobContainerSasPermission permission = new BlobContainerSasPermission()
-                        .setWritePermission(true)
-                        .setAddPermission(true)
-                        .setCreatePermission(true);
-                BlobServiceSasSignatureValues values = new BlobServiceSasSignatureValues(expiryTime, permission)
-                        .setStartTime(OffsetDateTime.now());
-    
-                String sas = resourceDefinition.getTempContainer().generateSas(values);
+                    String sas = resourceDefinition.getTempContainer().generateSas(values);
 
-                Map<String, String> additionalInfo = new HashMap<>();
-                additionalInfo.put("date", resourceDefinition.getRequestedStartDate());
-                additionalInfo.put("request", "change");
+                    Map<String, String> additionalInfo = new HashMap<>();
+                    additionalInfo.put("date", resourceDefinition.getRequestedStartDate());
+                    additionalInfo.put("request", "change");
     
-                var dataRequest = DataRequest.Builder.newInstance()
-                        .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
-                        .connectorAddress(lieferantAlt.getString("connector"))
-                        .protocol("ids-multipart")
-                        .connectorId("consumer")
-                        .assetId(assetId)
-                        .dataDestination(DataAddress.Builder.newInstance()
-                                .type("MaLo_lfr")
-                                .property("blobname", assetId + "_temp")
-                                .property("sasToken", sas)
-                                .property("container", resourceDefinition.getTempContainer().getBlobContainerName())
-                                .property("account", resourceDefinition.getTempContainer().getAccountName())
-                                .build()) 
-                        .managedResources(false)
-                        .properties(additionalInfo)
-                        .contractId(lieferantAlt.getString("dataContract"))
-                        .build();
-                /* var transferRequest = TransferRequest.Builder.newInstance()
+                    var dataRequest = DataRequest.Builder.newInstance()
+                            .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
+                            .connectorAddress(conflictLieferant.getString("connector"))
+                            .protocol("ids-multipart")
+                            .connectorId("consumer")
+                            .assetId(assetId)
+                            .dataDestination(DataAddress.Builder.newInstance()
+                                    .type("MaLo_lfr")
+                                    .property("blobname", assetId + "_temp" + i)
+                                    .property("sasToken", sas)
+                                    .property("container", resourceDefinition.getTempContainer().getBlobContainerName())
+                                    .property("account", resourceDefinition.getTempContainer().getAccountName())
+                                    .build()) 
+                            .managedResources(false)
+                            .properties(additionalInfo)
+                            .contractId(conflictLieferant.getString("dataContract"))
+                            .build();
+                    /* var transferRequest = TransferRequest.Builder.newInstance()
                         .dataRequest(dataRequest)
                         .build();
-                */
+                    */
     
-                var result = processManager.initiateConsumerRequest(dataRequest);
-                monitor.info("sent request");
-                
+                    var result = processManager.initiateConsumerRequest(dataRequest);
+                    monitor.info("sent request " + result.getContent());
+                }
+                    
                 //TODO: change to Events
                 try {
                     monitor.info("MaLo Extension sleep");
@@ -148,44 +147,42 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                     // ToDo: handle exception
                 }
 
-                /* 
-                QuerySpec spec = QuerySpec.Builder.newInstance().filter("type=CONSUMER").build();
-    
-                try (var stream = transferProcessService.query(spec).orElseThrow(exceptionMapper(TransferProcess.class, null))) {
-                    
-                    monitor.info("MaLo Extension seek transfer " + result.getContent());
-                    if (stream.count() > 1) {
-                        StatusResult.failure(ResponseStatus.FATAL_ERROR, "more than one Request");
-                    }
-                    var transferProcess = stream.skip(1).findFirst().;
-                    transferProcess.getDataRequest();
-                    monitor.info("MaLo Extension : " + transferProcess.getDataRequest().getAssetId());
-    
-                }
-                */
-
+                int changedContracts = 0;
                 for (BlobItem blobItem : resourceDefinition.getTempContainer().listBlobs()) {
-                    if (blobItem.getName().equalsIgnoreCase(assetId + "_temp")) {
-                        BlobClient lieferantAltMaLo = resourceDefinition.getTempContainer().getBlobClient(blobItem.getName());
+                    for (int i = 0; i < conflicts.length(); i++) {
+                        if (blobItem.getName().equalsIgnoreCase("MaLo_" + maloJson.getString("maLo") + "_" + conflicts.getJSONObject(i).getJSONObject("lieferant").getString("name") + "_temp" + i)) {
+                            changedContracts++;
 
-                        // combine the info
-
-                        resourceDefinition.getTempContainer().delete();
-
-                        var resource = MaLoProvisionedResource.Builder.newInstance()
-                                .maLo(maLo)
-                                .id("" + maLo.hashCode())
-                                .resourceDefinitionId(resourceDefinition.getId())
-                                .transferProcessId(resourceDefinition.getTransferProcessId())
-                                .build();
-
-                        var response = ProvisionResponse.Builder.newInstance().resource(resource).build();
-                        return StatusResult.success(response);
+                            //log changes in Malo json
+                            BlobClient lieferantAltResponse = resourceDefinition.getTempContainer().getBlobClient(blobItem.getName());
+                            JSONObject lfResponse = new JSONObject(lieferantAltResponse.downloadContent().toString());
+                            var conflict = conflicts.getJSONObject(i).put("bis", lfResponse.getString("end_date"));
+                            for (int e = 0; e < belieferungen.length(); e++) {
+                                if (belieferungen.getJSONObject(e).getString("von") == conflict.getString("von")) {
+                                    belieferungen.put(e, conflict);
+                                }
+                            }
+                            break;
+                        }
                     }
-                    
                 }
+                //update Malo with changes
+                maloBlob.upload(BinaryData.fromString(maloJson.put("belieferungen", belieferungen).toString(4)), true);
+
                 resourceDefinition.getTempContainer().delete();
-                transferProcessService.cancel(resourceDefinition.getTransferProcessId());
+
+                if (changedContracts == conflicts.length()) {
+
+                    var resource = MaLoProvisionedResource.Builder.newInstance()
+                            .maLo(maloJson)
+                            .id("" + maloJson.hashCode())
+                            .resourceDefinitionId(resourceDefinition.getId())
+                            .transferProcessId(resourceDefinition.getTransferProcessId())
+                            .build();
+
+                    var response = ProvisionResponse.Builder.newInstance().resource(resource).build();
+                    return StatusResult.success(response);
+                }
                 return StatusResult.failure(ResponseStatus.FATAL_ERROR, "Lieferant alt Failed to respond");
             }
         }); 

@@ -53,9 +53,13 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
         //save the new supplier
         var lieferungen = malo.getJSONArray("belieferungen");
         var lieferungNeu = new JSONObject();
+        var lieferantNeu = new JSONObject();
         lieferungNeu.put("von", request.getProperties().get("start_date"));
         lieferungNeu.put("bis", request.getProperties().get("end_date"));
-        lieferungNeu.put("lieferant", "lieferantNeu");    //TODO: get Lieferant ID
+        lieferantNeu.put("name", request.getProperties().get("supplier"));
+        lieferantNeu.put("connector", request.getCallbackAddress()); //TODO: get Lieferant ID
+        lieferantNeu.put("dataContract", "");
+        lieferungNeu.put("lieferant", lieferantNeu);    
         lieferungen.put(lieferungNeu);
         malo.put("belieferungen", lieferungen);
 

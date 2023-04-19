@@ -23,6 +23,7 @@ import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegoti
 import org.eclipse.edc.connector.contract.spi.types.negotiation.ContractOfferRequest;
 import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
 import org.eclipse.edc.connector.spi.catalog.CatalogService;
+import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
 import org.eclipse.edc.policy.model.Action;
@@ -56,15 +57,17 @@ public class RequestNewProviderWebservice {
     private final ConsumerContractNegotiationManager consumerNegotiationManager;
     private BlobServiceClient srcBlobServiceClient;
     private final CatalogService catalogService;
+    private final ContractNegotiationService negotiationService;
 
     public RequestNewProviderWebservice(Monitor monitor, TransferProcessManager processManager,
             ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient,
-             CatalogService catalogService) {
+             CatalogService catalogService, ContractNegotiationService negotiationService) {
         this.monitor = monitor;
         this.processManager = processManager;
         this.consumerNegotiationManager = consumerNegotiationManager;
         this.srcBlobServiceClient = srcBlobServiceClient;
         this.catalogService = catalogService;
+        this.negotiationService = negotiationService;
     }
 
     @GET
@@ -135,14 +138,12 @@ public class RequestNewProviderWebservice {
     @POST
     @Path("transfer/{id}")
     public Response initiateTransfer(@PathParam("id") String id) {
-        /*
-        ContractNegotiationDto contractId = Optional.of("")
-                .map(service::findbyId)
-                .map(it -> transformerRegistry.transform(it, ContractNegotiationDto.class))
-                .filter(Result::succeeded)
-                .map(Result::getContent)
-                .orElseThrow(() -> new ObjectNotFoundException(ContractDefinition.class, id));
-        */
+
+        var contract = negotiationService.findbyId(id);
+        if (contract == null) {
+            return Response.status(404).build();
+        }
+
         OffsetDateTime expiryTime = OffsetDateTime.now().plusDays(1);
         BlobContainerSasPermission permission = new BlobContainerSasPermission()
                 .setWritePermission(true)
@@ -156,6 +157,7 @@ public class RequestNewProviderWebservice {
         Map<String, String> additionalInfo = new HashMap<>();
         additionalInfo.put("start_date", LocalDate.now().plusDays(7).toString());
         additionalInfo.put("end_date", LocalDate.now().plusDays(7).plusMonths(3).toString());
+        additionalInfo.put("supplier", srcBlobServiceClient.getAccountName().replace("assets", ""));
 
         var dataRequest = DataRequest.Builder.newInstance()
                 .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
@@ -173,7 +175,8 @@ public class RequestNewProviderWebservice {
                         .build())
                 .managedResources(false) // we do not need any provisioning on our end
                 .properties(additionalInfo)
-                .contractId(id)
+                .contractId(contract.getContractAgreement().getId())
+                .destinationType("Malo_req")
                 .build();
                 
         /*var transferRequest = TransferRequest.Builder.newInstance()

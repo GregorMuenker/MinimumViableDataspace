@@ -6,7 +6,6 @@
 package org.eclipse.edc.supplierchange;
 
 import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import org.eclipse.edc.connector.transfer.spi.provision.ProviderResourceDefinitionGenerator;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
@@ -15,7 +14,6 @@ import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -36,21 +34,18 @@ public class MaLoProvisionerBuilderGenerator implements ProviderResourceDefiniti
         var blobname = assetAddress.getProperty("blobname");
         var containerName = assetAddress.getProperty("container");
 
-        BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-        if (!srcBlob.exists()) {
+        BlobClient maloBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
+        if (!maloBlob.exists()) {
             //should exist as validated in SourceFactory
             return null;
         }
-        String maLo = srcBlob.downloadContent().toString();
-
-        BlobContainerClient destTempClient = srcBlobServiceClient.createBlobContainerIfNotExists("temp-container");
 
         return MaLoResourceDefinition.Builder.newInstance()
                 .id(randomUUID().toString())
-                .maLo(new JSONObject(maLo))
+                .maloBlob(maloBlob)
                 .requestedStartDate(dataRequest.getProperties().get("start_date"))
                 .requestedEndDate(dataRequest.getProperties().get("end_date"))
-                .tempContainer(destTempClient)
+                .tempContainer(srcBlobServiceClient.createBlobContainerIfNotExists("temp-container"))
                 .build();
     }
 
