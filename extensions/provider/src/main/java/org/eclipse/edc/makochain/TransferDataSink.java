@@ -41,11 +41,14 @@ public class TransferDataSink extends ParallelSink {
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
                 }
+                monitor.info("RequestNewProvider Extension upload Blob done");
             } catch (Exception e) {
                 return getTransferResult(e, "Error reading %s", name);
             }
+            monitor.info("RequestNewProvider Extension upload Blob Transfer done");
         }
         // Event success
+        monitor.info("RequestNewProvider Extension upload Blob success");
         return StatusResult.success();
     }
 

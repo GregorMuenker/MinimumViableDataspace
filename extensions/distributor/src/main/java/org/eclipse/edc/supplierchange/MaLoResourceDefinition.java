@@ -14,15 +14,20 @@ import java.util.Objects;
 public class MaLoResourceDefinition extends ResourceDefinition {
 
     private JSONObject maLo;
-    private String requestDate;
+    private String requestedStartDate;
+    private String requestedEndDate;
     private BlobContainerClient tempContainer;
 
     public JSONObject getmaLo() {
         return maLo;
     }
 
-    public String getRequestDate() {
-        return requestDate;
+    public String getRequestedStartDate() {
+        return requestedStartDate;
+    }
+
+    public String getRequestedEndDate() {
+        return requestedEndDate;
     }
 
     public BlobContainerClient getTempContainer() {
@@ -49,8 +54,13 @@ public class MaLoResourceDefinition extends ResourceDefinition {
             return this;
         }
 
-        public Builder requestDate(String requestDate) {
-            resourceDefinition.requestDate = requestDate;
+        public Builder requestedStartDate(String requestedDate) {
+            resourceDefinition.requestedStartDate = requestedDate;
+            return this;
+        }
+
+        public Builder requestedEndDate(String requestedDate) {
+            resourceDefinition.requestedEndDate = requestedDate;
             return this;
         }
         
@@ -63,7 +73,8 @@ public class MaLoResourceDefinition extends ResourceDefinition {
         protected void verify() {
             super.verify();
             Objects.requireNonNull(resourceDefinition.maLo, "MaLo Object missing");
-            Objects.requireNonNull(resourceDefinition.requestDate, "Requested Change Date missing");
+            Objects.requireNonNull(resourceDefinition.requestedStartDate, "Requested Start Date missing");
+            Objects.requireNonNull(resourceDefinition.requestedEndDate, "Requested End Date missing");
             Objects.requireNonNull(resourceDefinition.tempContainer, "Temp ContainerClient missing");
         }
 

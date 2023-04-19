@@ -41,21 +41,15 @@ public class MaLoProvisionerBuilderGenerator implements ProviderResourceDefiniti
             //should exist as validated in SourceFactory
             return null;
         }
+        String maLo = srcBlob.downloadContent().toString();
 
         BlobContainerClient destTempClient = srcBlobServiceClient.createBlobContainerIfNotExists("temp-container");
 
-        String maLo = srcBlob.downloadContent().toString();
-        JSONObject jsonMalo = new JSONObject(maLo);
-        //TODO find missing date prop
-        String props = "";
-        dataRequest.getProperties().forEach((k, v) -> props.concat(v + "-" + k + "|"));
-        monitor.info(dataRequest.getProperties().get("o") + props);
-        String date = dataRequest.getProperties().get("date");
-
         return MaLoResourceDefinition.Builder.newInstance()
                 .id(randomUUID().toString())
-                .maLo(jsonMalo)
-                .requestDate(date == null ? "2023-04-18" : date)
+                .maLo(new JSONObject(maLo))
+                .requestedStartDate(dataRequest.getProperties().get("start_date"))
+                .requestedEndDate(dataRequest.getProperties().get("end_date"))
                 .tempContainer(destTempClient)
                 .build();
     }

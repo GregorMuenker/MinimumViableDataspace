@@ -71,6 +71,7 @@ public class RegisterMaLoWebservice {
         negotiateAll(response);
     }
 
+    //TODO negotiate for every entry & check false failure
     private void negotiateAll(AsyncResponse response) {
         var maLoBlobContainer = srcBlobServiceClient.getBlobContainerClient("src-container");
         List<CompletableFuture<Catalog>> futures = new ArrayList<>();
@@ -125,7 +126,7 @@ public class RegisterMaLoWebservice {
                                     Thread.sleep(5000); // wait for negotiation
                                     //monitor.info("sleep end");
                                 } catch (Exception e) {
-                                    // TODO: handle exception
+                                    // ToDo: handle exception
                                 }
                                 
                                 var nagotiation = negotiationService.findbyId(result.getContent().getId());

@@ -37,8 +37,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         var dataAddress = request.getSourceDataAddress();
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
-        var destDataAddress = request.getDestinationDataAddress();
-        var datum = destDataAddress.getProperty("date");
+        var datum = request.getProperties().get("date");
 
         BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
         if (!srcBlob.exists()) {
@@ -54,6 +53,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         LocalDate kuendigungDate = LocalDate.parse(datum);
         LocalDate belieferungsDate = LocalDate.parse(beliefertBis);
 
+        monitor.info("kündigung: " + datum + " | belieferung: " + beliefertBis);
         if (kuendigungDate.isAfter(belieferungsDate)) {
             //TODO Kündigung ist nach Vertragsende
             return Result.success(true);

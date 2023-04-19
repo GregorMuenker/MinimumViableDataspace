@@ -61,39 +61,41 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
         
         return CompletableFuture.supplyAsync(() -> {
             JSONObject maLo = resourceDefinition.getmaLo();
-    
             JSONObject lieferantAlt = maLo.getJSONObject("lieferant");
             JSONArray belieferungen = maLo.getJSONArray("belieferungen");
 
-            LocalDate requestedDate = LocalDate.parse(resourceDefinition.getRequestDate());
-            LocalDate now = LocalDate.now();
-            LocalDate lastDelivery = now;
+            LocalDate requestedStartDate = LocalDate.parse(resourceDefinition.getRequestedStartDate());
+            LocalDate requestedEndDate = LocalDate.parse(resourceDefinition.getRequestedEndDate());
 
-            //TODO get Last supplied Date
+            JSONArray conflicts = new JSONArray();
+
+            //check if there are suppliers in this Timeframe
             for (int i = 0; i < belieferungen.length(); i++) {
                 JSONObject jsonObject = belieferungen.getJSONObject(i);
                 LocalDate endDate = LocalDate.parse(jsonObject.getString("bis"));
-                if (endDate.isAfter(lastDelivery)) {
-                    lastDelivery = endDate;
+                LocalDate startDate = LocalDate.parse(jsonObject.getString("von"));
+                if (!requestedStartDate.isAfter(endDate) && !startDate.isAfter(requestedEndDate)) {
+                    conflicts.put(jsonObject);
                 }
             }
     
-            monitor.info("MaLo is supplied until " + lastDelivery.toString());
-    
-            if (lastDelivery.isEqual(now)) {
-                // kein aktueller Lieferant
-                monitor.info("Register MaLo Extension Source Factory no supplier");
+            if (conflicts.length() == 0) {
+                // kein Konflikt mit den Belieferungen 
+                monitor.info("No Conflicts");
                 var resource = MaLoProvisionedResource.Builder.newInstance()
                         .maLo(maLo)
                         .id("" + maLo.hashCode())
                         .resourceDefinitionId(resourceDefinition.getId())
                         .transferProcessId(resourceDefinition.getTransferProcessId())
                         .build();
+                resourceDefinition.getTempContainer().delete();
                 return StatusResult.success(ProvisionResponse.Builder.newInstance().resource(resource).build());
-            } else if (lieferantAlt != null) {
-                //TODO convert to Date and check if fits
+            } else {
+
+                //TODO request all conflicts 
+                conflicts.get(0);
     
-                monitor.info("Register MaLo Extension Source Factory supplier");
+                monitor.info("Request end of contrat of old supplier");
     
                 //prepare Request to old Supplier
                 String assetId = "MaLo_" + maLo.optString("maLo") + "_" + lieferantAlt.optString("name");
@@ -109,7 +111,8 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                 String sas = resourceDefinition.getTempContainer().generateSas(values);
 
                 Map<String, String> additionalInfo = new HashMap<>();
-                additionalInfo.put("end_date", resourceDefinition.getRequestDate());
+                additionalInfo.put("date", resourceDefinition.getRequestedStartDate());
+                additionalInfo.put("request", "change");
     
                 var dataRequest = DataRequest.Builder.newInstance()
                         .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
@@ -120,11 +123,9 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                         .dataDestination(DataAddress.Builder.newInstance()
                                 .type("MaLo_lfr")
                                 .property("blobname", assetId + "_temp")
-                                .property("request", "change")
                                 .property("sasToken", sas)
                                 .property("container", resourceDefinition.getTempContainer().getBlobContainerName())
                                 .property("account", resourceDefinition.getTempContainer().getAccountName())
-                                .property("date", lastDelivery.toString())
                                 .build()) 
                         .managedResources(false)
                         .properties(additionalInfo)
@@ -136,14 +137,15 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                 */
     
                 var result = processManager.initiateConsumerRequest(dataRequest);
-                monitor.info("Register MaLo Extension Source Factory sent request");
+                monitor.info("sent request");
                 
+                //TODO: change to Events
                 try {
                     monitor.info("MaLo Extension sleep");
                     Thread.sleep(5000); // wait for transfer
                     monitor.info("MaLo Extension wakeup");
                 } catch (Exception e) {
-                    // TODO: handle exception
+                    // ToDo: handle exception
                 }
 
                 /* 
@@ -182,10 +184,10 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                     }
                     
                 }
+                resourceDefinition.getTempContainer().delete();
+                transferProcessService.cancel(resourceDefinition.getTransferProcessId());
+                return StatusResult.failure(ResponseStatus.FATAL_ERROR, "Lieferant alt Failed to respond");
             }
-            resourceDefinition.getTempContainer().delete();
-            transferProcessService.cancel(resourceDefinition.getTransferProcessId());
-            return StatusResult.failure(ResponseStatus.FATAL_ERROR, "no evaluation");
         }); 
     }
 

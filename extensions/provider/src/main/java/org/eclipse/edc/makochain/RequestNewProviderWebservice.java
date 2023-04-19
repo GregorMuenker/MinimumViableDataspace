@@ -23,7 +23,6 @@ import org.eclipse.edc.connector.contract.spi.negotiation.ConsumerContractNegoti
 import org.eclipse.edc.connector.contract.spi.types.negotiation.ContractOfferRequest;
 import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
 import org.eclipse.edc.connector.spi.catalog.CatalogService;
-import org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService;
 import org.eclipse.edc.connector.transfer.spi.TransferProcessManager;
 import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
 import org.eclipse.edc.policy.model.Action;
@@ -56,18 +55,15 @@ public class RequestNewProviderWebservice {
     private final TransferProcessManager processManager;
     private final ConsumerContractNegotiationManager consumerNegotiationManager;
     private BlobServiceClient srcBlobServiceClient;
-    private String lastContractId = "";
-    private final ContractNegotiationService service;
     private final CatalogService catalogService;
 
     public RequestNewProviderWebservice(Monitor monitor, TransferProcessManager processManager,
             ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient,
-             ContractNegotiationService service, CatalogService catalogService) {
+             CatalogService catalogService) {
         this.monitor = monitor;
         this.processManager = processManager;
         this.consumerNegotiationManager = consumerNegotiationManager;
         this.srcBlobServiceClient = srcBlobServiceClient;
-        this.service = service;
         this.catalogService = catalogService;
     }
 
@@ -132,7 +128,7 @@ public class RequestNewProviderWebservice {
         if (result.failed() && result.getFailure().status() == FATAL_ERROR) {
             return Response.serverError().build();
         }
-        lastContractId = result.getContent().getId();
+        var lastContractId = result.getContent().getId();
         return Response.ok(lastContractId).build();
     }
 
@@ -158,7 +154,8 @@ public class RequestNewProviderWebservice {
 
         
         Map<String, String> additionalInfo = new HashMap<>();
-        additionalInfo.put("date", LocalDate.now().plusDays(7).toString());
+        additionalInfo.put("start_date", LocalDate.now().plusDays(7).toString());
+        additionalInfo.put("end_date", LocalDate.now().plusDays(7).plusMonths(3).toString());
 
         var dataRequest = DataRequest.Builder.newInstance()
                 .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
@@ -174,8 +171,7 @@ public class RequestNewProviderWebservice {
                         .property("sasToken",
                                 srcBlobServiceClient.getBlobContainerClient("src-container").generateSas(values))
                         .build())
-                .managedResources(false) // we do not need any provisioning
-                .destinationType("MaLo_dest")
+                .managedResources(false) // we do not need any provisioning on our end
                 .properties(additionalInfo)
                 .contractId(id)
                 .build();

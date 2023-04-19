@@ -5,14 +5,17 @@
 
 package org.eclipse.edc.supplierchange;
 
+import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.models.BlobHttpHeaders;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSourceFactory;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public class TransferMaLoSourceFactory implements DataSourceFactory {
 
@@ -44,20 +47,38 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
 
     @Override
     public DataSource createSource(DataFlowRequest request) {
-        var malo = getMaLoInfo(request);
-        //TODO add and remove info for lieferant
-        return new TransferMaLoSource(malo, request.getSourceDataAddress().getProperty("blobname"));
+        var maloBlob = getMaLoBlob(request);
+        var malo = new JSONObject(maloBlob.downloadContent().toString());
+
+        //save the new supplier
+        var lieferungen = malo.getJSONArray("belieferungen");
+        var lieferungNeu = new JSONObject();
+        lieferungNeu.put("von", request.getProperties().get("start_date"));
+        lieferungNeu.put("bis", request.getProperties().get("end_date"));
+        lieferungNeu.put("lieferant", "lieferantNeu");    //TODO: get Lieferant ID
+        lieferungen.put(lieferungNeu);
+        malo.put("belieferungen", lieferungen);
+
+        maloBlob.upload(BinaryData.fromString(malo.toString()), true);
+        BlobHttpHeaders headers = new BlobHttpHeaders().setContentType("application/json");
+        maloBlob.setHttpHeaders(headers);
+
+        //only transfer relevant infos
+        var maloSupplier = new JSONObject();
+        maloSupplier.put("maLo", malo.getString("maLo"));
+        maloSupplier.put("name", malo.getJSONObject("name"));
+        maloSupplier.put("address", malo.getJSONObject("address"));
+
+        return new TransferMaLoSource(maloSupplier.toString(), request.getSourceDataAddress().getProperty("blobname"));
     }
 
     @NotNull
-    private String getMaLoInfo(DataFlowRequest request) {
+    private BlobClient getMaLoBlob(DataFlowRequest request) {
         var dataAddress = request.getSourceDataAddress();
         var blobname = dataAddress.getProperty("blobname");
         var containerName = dataAddress.getProperty("container");
 
-        BlobClient srcBlob = srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
-
-        return srcBlob.downloadContent().toString();
+        return srcBlobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobname);
     }
 
 }
