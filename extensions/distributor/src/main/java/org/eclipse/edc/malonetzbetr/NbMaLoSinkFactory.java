@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malonetzbetr;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobClientBuilder;
@@ -18,12 +18,12 @@ import java.util.concurrent.ExecutorService;
 
 import static java.lang.String.format;
 
-public class TransferMaLoSinkFactory implements DataSinkFactory {
+public class NbMaLoSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
     private final ExecutorService executorService;
     private final int partitionSize;
 
-    TransferMaLoSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize) {
+    NbMaLoSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize) {
         this.monitor = monitor;
         this.executorService = executorService;
         this.partitionSize = partitionSize;
@@ -63,7 +63,7 @@ public class TransferMaLoSinkFactory implements DataSinkFactory {
                 .blobName(blobname)
                 .buildClient();
 
-        return TransferMaLoSink.Builder.newInstance()
+        return NbMaLoSink.Builder.newInstance()
                 .blob(destBlob)
                 .name(blobname)
                 .requestId(request.getId())

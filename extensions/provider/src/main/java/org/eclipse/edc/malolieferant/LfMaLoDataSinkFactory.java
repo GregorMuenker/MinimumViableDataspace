@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malolieferant;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobClientBuilder;
@@ -18,12 +18,12 @@ import java.util.concurrent.ExecutorService;
 
 import static java.lang.String.format;
 
-public class TransferDataSinkFactory implements DataSinkFactory {
+public class LfMaLoDataSinkFactory implements DataSinkFactory {
     private final Monitor monitor;
     private final ExecutorService executorService;
     private final int partitionSize;
 
-    TransferDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize) {
+    LfMaLoDataSinkFactory(Monitor monitor, ExecutorService executorService, int partitionSize) {
         this.monitor = monitor;
         this.executorService = executorService;
         this.partitionSize = partitionSize;
@@ -62,7 +62,7 @@ public class TransferDataSinkFactory implements DataSinkFactory {
                 .blobName(blobname)
                 .buildClient();
 
-        return TransferDataSink.Builder.newInstance()
+        return LfMaLoDataSink.Builder.newInstance()
                 .blob(destBlob)
                 .name(blobname)
                 .requestId(request.getId())

@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malonetzbetr;
 
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
@@ -17,12 +17,12 @@ import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-public class TransferMaLoSourceFactory implements DataSourceFactory {
+public class NbMaLoSourceFactory implements DataSourceFactory {
 
     private BlobServiceClient srcBlobServiceClient;
     private final Monitor monitor;
 
-    TransferMaLoSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
+    NbMaLoSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
         this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
     }
@@ -73,7 +73,7 @@ public class TransferMaLoSourceFactory implements DataSourceFactory {
         maloSupplier.put("name", malo.getJSONObject("name"));
         maloSupplier.put("address", malo.getJSONObject("address"));
 
-        return new TransferMaLoSource(maloSupplier.toString(), request.getSourceDataAddress().getProperty("blobname"));
+        return new NbMaLoSource(maloSupplier.toString(), request.getSourceDataAddress().getProperty("blobname"));
     }
 
     @NotNull

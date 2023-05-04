@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malolieferant;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static java.lang.String.format;
 
-public class RequestNewProviderExtension implements ServiceExtension {
+public class LieferantMaLoExtension implements ServiceExtension {
 
     public static final String LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE = "http://azurite:10000/%s";
     public static final String BLOB_STORE_ACCOUNT = System.getenv("BLOB_STORE_ACCOUNT");
@@ -57,15 +57,15 @@ public class RequestNewProviderExtension implements ServiceExtension {
         var processManager = context.getService(TransferProcessManager.class);
         var negotiationManager = context.getService(ConsumerContractNegotiationManager.class);
 
-        var sourceFactory = new TransferDataSourceFactory(monitor, blobServiceClient);
+        var sourceFactory = new LfMaLoDataSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
-        var sinkFactory = new TransferDataSinkFactory(monitor, executorContainer.getExecutorService(), 5);
+        var sinkFactory = new LfMaLoDataSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
-        statusCheckerRegistry.register("Malo_req", new NewProviderStatusChecker(blobServiceClient));
+        statusCheckerRegistry.register("Malo_req", new MaLoStatusChecker(blobServiceClient));
 
-        webService.registerResource(new RequestNewProviderWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient, catalogService, negotiationService));
+        webService.registerResource(new LieferantMaLoWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient, catalogService, negotiationService));
 
-        context.getMonitor().info("RequestNewProvider Extension initialized!");
+        context.getMonitor().info("LieferantMaLo Extension initialized!");
     }
 
     @NotNull

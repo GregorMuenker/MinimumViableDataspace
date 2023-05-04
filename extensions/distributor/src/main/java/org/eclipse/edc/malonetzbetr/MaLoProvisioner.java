@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malonetzbetr;
 
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;

@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malonetzbetr;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.eclipse.edc.connector.transfer.spi.types.ProvisionedResource;

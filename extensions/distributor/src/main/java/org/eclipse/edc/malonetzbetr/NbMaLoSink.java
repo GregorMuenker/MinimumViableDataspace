@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malonetzbetr;
 
 import com.azure.storage.blob.BlobClient;
 import io.opentelemetry.extension.annotations.WithSpan;
@@ -19,7 +19,7 @@ import java.util.Objects;
 import static java.lang.String.format;
 import static org.eclipse.edc.spi.response.ResponseStatus.ERROR_RETRY;
 
-public class TransferDataSink extends ParallelSink {
+public class NbMaLoSink extends ParallelSink {
     private BlobClient blob;
     private String name;
 
@@ -34,21 +34,19 @@ public class TransferDataSink extends ParallelSink {
                     } catch (Exception e) {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
-                    String malo = output.toString();
-                    monitor.info("RequestNewProvider Extension Account " + parts.size());
-                    blob.upload(new ByteArrayInputStream(malo.getBytes()), malo.getBytes().length, true);
-                    monitor.info("RequestNewProvider Extension upload Blob");
+                    String json = output.toString();
+                    monitor.info("Register MaLo Extension upload Blob");
+                    monitor.info("Register MaLo Extension Blob " + json);
+                    monitor.info("Register MaLo Extension Account " + blob.getAccountName());
+                    blob.upload(new ByteArrayInputStream(json.getBytes()), json.getBytes().length, true);
+                    monitor.info("Register MaLo Extension Url " + blob.getBlobUrl());
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
                 }
-                monitor.info("RequestNewProvider Extension upload Blob done");
             } catch (Exception e) {
                 return getTransferResult(e, "Error reading %s", name);
             }
-            monitor.info("RequestNewProvider Extension upload Blob Transfer done");
         }
-        // Event success
-        monitor.info("RequestNewProvider Extension upload Blob success");
         return StatusResult.success();
     }
 
@@ -58,7 +56,7 @@ public class TransferDataSink extends ParallelSink {
         return StatusResult.failure(ERROR_RETRY, message);
     }
 
-    public static class Builder extends ParallelSink.Builder<Builder, TransferDataSink> {
+    public static class Builder extends ParallelSink.Builder<Builder, NbMaLoSink> {
 
         public static Builder newInstance() {
             return new Builder();
@@ -76,12 +74,11 @@ public class TransferDataSink extends ParallelSink {
 
         @Override
         protected void validate() {
-            Objects.requireNonNull(sink.blob, "Destination BlobClient missing");
-            Objects.requireNonNull(sink.blob, "MaLo missing");
+            Objects.requireNonNull(sink.blob, "json");
         }
 
         private Builder() {
-            super(new TransferDataSink());
+            super(new NbMaLoSink());
         }
     }
 }

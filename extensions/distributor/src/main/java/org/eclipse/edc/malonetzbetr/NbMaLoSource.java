@@ -1,9 +1,9 @@
 /*
  *  Copyright (c) 2022 Gregor Münker
  *
-*/
+ */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malonetzbetr;
 
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.spi.EdcException;
@@ -12,12 +12,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.stream.Stream;
 
-class TransferDataSource implements DataSource {
+class NbMaLoSource implements DataSource {
 
     private final String maLo;
     private final String name;
 
-    TransferDataSource(String maLo, String name) {
+    NbMaLoSource(String maLo, String name) {
         this.maLo = maLo;
         this.name = name;
     }

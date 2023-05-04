@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malolieferant;
 
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
@@ -18,12 +18,12 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 
-public class TransferDataSourceFactory implements DataSourceFactory {
+public class LfMaLoDataSourceFactory implements DataSourceFactory {
 
     private BlobServiceClient srcBlobServiceClient;
     private final Monitor monitor;
 
-    TransferDataSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
+    LfMaLoDataSourceFactory(Monitor monitor, BlobServiceClient srcBlobServiceClient) {
         this.monitor = monitor;
         this.srcBlobServiceClient = srcBlobServiceClient;
     }
@@ -88,7 +88,7 @@ public class TransferDataSourceFactory implements DataSourceFactory {
         JSONObject transferredInfo = new JSONObject();
         transferredInfo.put("end_date", vertrag.getString("contractEnd"));
 
-        return new TransferDataSource(transferredInfo.toString(), request.getSourceDataAddress().getProperty("blobname"));
+        return new LfMaLoDataSource(transferredInfo.toString(), request.getSourceDataAddress().getProperty("blobname"));
     }
 
     @NotNull

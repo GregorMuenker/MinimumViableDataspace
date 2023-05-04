@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malonetzbetr;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
@@ -43,7 +43,7 @@ import java.util.concurrent.CompletableFuture;
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
 @Path("/")
-public class RegisterMaLoWebservice {
+public class NetzbetreiberMaLoWebservice {
 
     private final Monitor monitor;
     private final ConsumerContractNegotiationManager consumerNegotiationManager;
@@ -51,19 +51,12 @@ public class RegisterMaLoWebservice {
     private final CatalogService catalogService;
     private final ContractNegotiationService negotiationService;
     
-    public RegisterMaLoWebservice(Monitor monitor, ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient, CatalogService catalogService, ContractNegotiationService negotiationService) {
+    public NetzbetreiberMaLoWebservice(Monitor monitor, ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient, CatalogService catalogService, ContractNegotiationService negotiationService) {
         this.monitor = monitor;
         this.consumerNegotiationManager = consumerNegotiationManager;
         this.srcBlobServiceClient = srcBlobServiceClient;
         this.catalogService = catalogService;
         this.negotiationService = negotiationService;
-    }
-
-    @GET
-    @Path("wechsel")
-    public String checkHealth() {
-        monitor.info("Received a change request");
-        return "{\"response\":\"change requested\"}";
     }
 
     @POST

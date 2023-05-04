@@ -1,4 +1,4 @@
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malolieferant;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobItem;
@@ -9,11 +9,11 @@ import org.eclipse.edc.connector.transfer.spi.types.TransferProcess;
 import java.time.Clock;
 import java.util.List;
 
-public class NewProviderStatusChecker implements StatusChecker {
+public class MaLoStatusChecker implements StatusChecker {
 
     private final BlobServiceClient blobServiceClient;
 
-    public NewProviderStatusChecker(BlobServiceClient blobServiceClient) {
+    public MaLoStatusChecker(BlobServiceClient blobServiceClient) {
         this.blobServiceClient = blobServiceClient;
     }
 

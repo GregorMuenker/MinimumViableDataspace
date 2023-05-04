@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malonetzbetr;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static java.lang.String.format;
 
-public class RegisterMaLoExtension implements ServiceExtension {
+public class NetzbetreiberMaLoExtension implements ServiceExtension {
 
     public static final String LOCAL_BLOB_STORE_ENDPOINT_TEMPLATE = "http://azurite:10000/%s";
     public static final String BLOB_STORE_ACCOUNT = System.getenv("BLOB_STORE_ACCOUNT");
@@ -81,13 +81,13 @@ public class RegisterMaLoExtension implements ServiceExtension {
         typeManager.registerTypes(MaLoProvisioner.class, MaLoProvisionerBuilderGenerator.class/*, MaLoProvisionerStatusChecker.class */);
 
         //Publish Custom DataSink and DataSource
-        var sourceFactory = new TransferMaLoSourceFactory(monitor, blobServiceClient);
+        var sourceFactory = new NbMaLoSourceFactory(monitor, blobServiceClient);
         pipelineService.registerFactory(sourceFactory);
-        var sinkFactory = new TransferMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
+        var sinkFactory = new NbMaLoSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
 
         //Webservice for easy Interaction with the Transfer
-        webService.registerResource(new RegisterMaLoWebservice(context.getMonitor(), negotiationManager, blobServiceClient, catalogService, negotiationService));
+        webService.registerResource(new NetzbetreiberMaLoWebservice(context.getMonitor(), negotiationManager, blobServiceClient, catalogService, negotiationService));
 
         context.getMonitor().info("Register MaLo Extension initialized!");
     }

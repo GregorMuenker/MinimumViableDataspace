@@ -1,9 +1,9 @@
 /*
  *  Copyright (c) 2022 Gregor Münker
  *
- */
+*/
 
-package org.eclipse.edc.supplierchange;
+package org.eclipse.edc.malolieferant;
 
 import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.edc.spi.EdcException;
@@ -12,12 +12,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.stream.Stream;
 
-class TransferMaLoSource implements DataSource {
+class LfMaLoDataSource implements DataSource {
 
     private final String maLo;
     private final String name;
 
-    TransferMaLoSource(String maLo, String name) {
+    LfMaLoDataSource(String maLo, String name) {
         this.maLo = maLo;
         this.name = name;
     }

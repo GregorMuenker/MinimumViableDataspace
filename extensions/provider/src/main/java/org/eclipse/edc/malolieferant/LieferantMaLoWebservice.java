@@ -3,7 +3,7 @@
  *
  */
 
-package org.eclipse.edc.makochain;
+package org.eclipse.edc.malolieferant;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.sas.BlobContainerSasPermission;
@@ -50,7 +50,7 @@ import static org.eclipse.edc.spi.response.ResponseStatus.FATAL_ERROR;
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
 @Path("/")
-public class RequestNewProviderWebservice {
+public class LieferantMaLoWebservice {
 
     private final Monitor monitor;
     private final TransferProcessManager processManager;
@@ -59,7 +59,7 @@ public class RequestNewProviderWebservice {
     private final CatalogService catalogService;
     private final ContractNegotiationService negotiationService;
 
-    public RequestNewProviderWebservice(Monitor monitor, TransferProcessManager processManager,
+    public LieferantMaLoWebservice(Monitor monitor, TransferProcessManager processManager,
             ConsumerContractNegotiationManager consumerNegotiationManager, BlobServiceClient srcBlobServiceClient,
              CatalogService catalogService, ContractNegotiationService negotiationService) {
         this.monitor = monitor;
