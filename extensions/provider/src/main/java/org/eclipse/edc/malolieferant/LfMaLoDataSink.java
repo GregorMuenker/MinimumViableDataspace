@@ -35,20 +35,15 @@ public class LfMaLoDataSink extends ParallelSink {
                         return getTransferResult(e, "Error transferring %s", name);
                     }
                     String malo = output.toString();
-                    monitor.info("LieferantMaLo Extension Account " + parts.size());
                     blob.upload(new ByteArrayInputStream(malo.getBytes()), malo.getBytes().length, true);
-                    monitor.info("LieferantMaLo Extension upload Blob");
                 } catch (Exception e) {
                     return getTransferResult(e, "Error creating blob %s", name);
                 }
-                monitor.info("LieferantMaLo Extension upload Blob done");
             } catch (Exception e) {
                 return getTransferResult(e, "Error reading %s", name);
             }
-            monitor.info("LieferantMaLo Extension upload Blob Transfer done");
         }
         // Event success
-        monitor.info("LieferantMaLo Extension upload Blob success");
         return StatusResult.success();
     }
 

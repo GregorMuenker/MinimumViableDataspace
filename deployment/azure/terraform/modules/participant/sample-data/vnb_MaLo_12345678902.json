@@ -1,7 +1,7 @@
 {
     "maLo": "12345678902",
     "MessLokation": ["7657657652"],
-    "belieferungen":[
+    "deliveries":[
         {
             "von":"2022-02-01",
             "bis":"2024-12-01",

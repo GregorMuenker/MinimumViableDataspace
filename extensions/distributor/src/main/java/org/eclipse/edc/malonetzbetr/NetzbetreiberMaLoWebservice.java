@@ -9,7 +9,6 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobItem;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -71,11 +70,11 @@ public class NetzbetreiberMaLoWebservice {
         for (BlobItem blobItem : maLoBlobContainer.listBlobs()) {
             BlobClient blobClient = maLoBlobContainer.getBlobClient(blobItem.getName());
             JSONObject malo = new JSONObject(blobClient.downloadContent().toString());
-            JSONArray belieferungen = malo.getJSONArray("belieferungen");
-            for (int i = 0; i < belieferungen.length(); i++) {
+            JSONArray deliveries = malo.getJSONArray("deliveries");
+            for (int i = 0; i < deliveries.length(); i++) {
                 List<CompletableFuture<Catalog>> maLoFutures = new ArrayList<>();
                 final int pos = i;
-                JSONObject lieferung = belieferungen.getJSONObject(i);
+                JSONObject lieferung = deliveries.getJSONObject(i);
                 JSONObject lieferant = lieferung.getJSONObject("lieferant");
                 List<Criterion> criteria = new ArrayList<>();
                 criteria.add(new Criterion("type", "=", "MaLo_lfr"));
@@ -120,17 +119,15 @@ public class NetzbetreiberMaLoWebservice {
                                     }
 
                                     try {
-                                        //monitor.info("sleep start");
                                         Thread.sleep(3000); // wait for negotiation
-                                        //monitor.info("sleep end");
                                     } catch (Exception e) {
-                                        // ToDo: handle exception
+
                                     }
                                 
                                     var nagotiation = negotiationService.findbyId(result.getContent().getId());
                                     lieferant.put("dataContract", nagotiation.getContractAgreement().getId());
                                     lieferung.put("lieferant", lieferant);
-                                    belieferungen.put(pos, lieferung);
+                                    deliveries.put(pos, lieferung);
                                 }
                             } else {
                                 response.resume(throwable);
@@ -142,7 +139,7 @@ public class NetzbetreiberMaLoWebservice {
                 );
                 allMaloFutures.join();
                 allMaloFutures.whenComplete((result, error) -> {
-                    malo.put("belieferungen", belieferungen);
+                    malo.put("deliveries", deliveries);
                     byte[] bytes = malo.toString().getBytes();
                     ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
                     blobClient.upload(inputStream, bytes.length, true);

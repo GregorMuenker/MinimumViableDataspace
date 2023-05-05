@@ -48,8 +48,6 @@ public class NetzbetreiberMaLoExtension implements ServiceExtension {
     private EventRouter eventRouter;
     @Inject
     private TransferProcessService transferProcessService;
-
-    
     @Inject
     private ResourceManifestGenerator manifestGenerator;
     @Inject
@@ -89,7 +87,7 @@ public class NetzbetreiberMaLoExtension implements ServiceExtension {
         //Webservice for easy Interaction with the Transfer
         webService.registerResource(new NetzbetreiberMaLoWebservice(context.getMonitor(), negotiationManager, blobServiceClient, catalogService, negotiationService));
 
-        context.getMonitor().info("Register MaLo Extension initialized!");
+        context.getMonitor().info("NetzbetreiberMaLo Extension initialized!");
     }
 
     @NotNull

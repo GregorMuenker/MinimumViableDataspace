@@ -77,7 +77,5 @@ public class MaLoResourceDefinition extends ResourceDefinition {
             Objects.requireNonNull(resourceDefinition.requestedEndDate, "Requested End Date missing");
             Objects.requireNonNull(resourceDefinition.tempContainer, "Temp ContainerClient missing");
         }
-
     }
-
 }

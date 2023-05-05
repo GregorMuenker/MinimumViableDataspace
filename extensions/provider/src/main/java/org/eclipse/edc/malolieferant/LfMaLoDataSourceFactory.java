@@ -49,9 +49,9 @@ public class LfMaLoDataSourceFactory implements DataSourceFactory {
 
         //check if contract can be cancelled until kündigungsDate
         boolean contractCancelOk = false;
-        JSONObject vertrag = maLo.getJSONObject("vertrag");
-        LocalDate contractEndDate = LocalDate.parse(vertrag.getString("contractEnd"));
-        String contractPeriod = vertrag.getString("cyclePeriod");
+        JSONObject contract = maLo.getJSONObject("contract");
+        LocalDate contractEndDate = LocalDate.parse(contract.getString("contractEnd"));
+        String contractPeriod = contract.getString("cyclePeriod");
         switch (contractPeriod) {
             case "m": 
                 contractCancelOk = LocalDate.of(contractEndDate.getYear(), contractEndDate.getMonth(), contractEndDate.lengthOfMonth()).isBefore(kuendigungDate); 
@@ -70,8 +70,8 @@ public class LfMaLoDataSourceFactory implements DataSourceFactory {
 
             //TODO Kundenmitteilung
 
-            vertrag.put("contractEnd", kuendigungDate);
-            maLo.put("vertrag", vertrag);
+            contract.put("contractEnd", kuendigungDate);
+            maLo.put("contract", contract);
             srcBlob.upload(BinaryData.fromString(maLo.toString()), true);
 
             return Result.success(true);
@@ -84,9 +84,9 @@ public class LfMaLoDataSourceFactory implements DataSourceFactory {
     @Override
     public DataSource createSource(DataFlowRequest request) {
         var malo = getMaLoInfo(request);
-        JSONObject vertrag = new JSONObject(malo).getJSONObject("vertrag");
+        JSONObject contract = new JSONObject(malo).getJSONObject("contract");
         JSONObject transferredInfo = new JSONObject();
-        transferredInfo.put("end_date", vertrag.getString("contractEnd"));
+        transferredInfo.put("end_date", contract.getString("contractEnd"));
 
         return new LfMaLoDataSource(transferredInfo.toString(), request.getSourceDataAddress().getProperty("blobname"));
     }

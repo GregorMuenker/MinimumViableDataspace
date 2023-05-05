@@ -10,7 +10,7 @@
         "PLZ":60316,
         "houseNumber":1
     },
-    "vertrag":{
+    "contract":{
         "terminationDate":"2023-05-01",
         "contractEnd":"2023-05-01",
         "cyclePeriod":"m",

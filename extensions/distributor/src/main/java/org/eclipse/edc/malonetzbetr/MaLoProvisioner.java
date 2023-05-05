@@ -63,7 +63,7 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
         return CompletableFuture.supplyAsync(() -> {
             BlobClient maloBlob = resourceDefinition.getMaloBlob();
             JSONObject maloJson = new JSONObject(maloBlob.downloadContent().toString());
-            JSONArray belieferungen = maloJson.getJSONArray("belieferungen");
+            JSONArray deliveries = maloJson.getJSONArray("deliveries");
 
             LocalDate requestedStartDate = LocalDate.parse(resourceDefinition.getRequestedStartDate());
             LocalDate requestedEndDate = LocalDate.parse(resourceDefinition.getRequestedEndDate());
@@ -71,8 +71,8 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
             JSONArray conflicts = new JSONArray();
 
             //check if there are suppliers in this Timeframe
-            for (int i = 0; i < belieferungen.length(); i++) {
-                JSONObject jsonObject = belieferungen.getJSONObject(i);
+            for (int i = 0; i < deliveries.length(); i++) {
+                JSONObject jsonObject = deliveries.getJSONObject(i);
                 LocalDate endDate = LocalDate.parse(jsonObject.getString("bis"));
                 if (requestedStartDate.isBefore(endDate)) {
                     conflicts.put(jsonObject);
@@ -80,8 +80,7 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
             }
     
             if (conflicts.length() == 0) {
-                // kein Konflikt mit den Belieferungen 
-                monitor.info("No Conflicts");
+                // no conflicts in the delivery
                 var resource = MaLoProvisionedResource.Builder.newInstance()
                         .maLo(maloJson)
                         .id("" + maloJson.hashCode())
@@ -113,7 +112,7 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                     additionalInfo.put("request", "change");
     
                     var dataRequest = DataRequest.Builder.newInstance()
-                            .id(UUID.randomUUID().toString()) // this is not relevant, thus can be random
+                            .id(UUID.randomUUID().toString())
                             .connectorAddress(conflictLieferant.getString("connector"))
                             .protocol("ids-multipart")
                             .connectorId("consumer")
@@ -129,22 +128,14 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                             .properties(additionalInfo)
                             .contractId(conflictLieferant.getString("dataContract"))
                             .build();
-                    /* var transferRequest = TransferRequest.Builder.newInstance()
-                        .dataRequest(dataRequest)
-                        .build();
-                    */
     
                     var result = processManager.initiateConsumerRequest(dataRequest);
-                    monitor.info("sent request " + result.getContent());
                 }
                     
-                //TODO: change to Events
                 try {
-                    monitor.info("MaLo Extension sleep");
                     Thread.sleep(5000); // wait for transfer
-                    monitor.info("MaLo Extension wakeup");
                 } catch (Exception e) {
-                    // ToDo: handle exception
+
                 }
 
                 int changedContracts = 0;
@@ -157,17 +148,18 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                             BlobClient lieferantAltResponse = resourceDefinition.getTempContainer().getBlobClient(blobItem.getName());
                             JSONObject lfResponse = new JSONObject(lieferantAltResponse.downloadContent().toString());
                             var conflict = conflicts.getJSONObject(i).put("bis", lfResponse.getString("end_date"));
-                            for (int e = 0; e < belieferungen.length(); e++) {
-                                if (belieferungen.getJSONObject(e).getString("von") == conflict.getString("von")) {
-                                    belieferungen.put(e, conflict);
+                            for (int e = 0; e < deliveries.length(); e++) {
+                                if (deliveries.getJSONObject(e).getString("von") == conflict.getString("von")) {
+                                    deliveries.put(e, conflict);
                                 }
                             }
                             break;
                         }
                     }
                 }
+
                 //update Malo with changes
-                maloBlob.upload(BinaryData.fromString(maloJson.put("belieferungen", belieferungen).toString(4)), true);
+                maloBlob.upload(BinaryData.fromString(maloJson.put("deliveries", deliveries).toString(4)), true);
 
                 resourceDefinition.getTempContainer().delete();
 
@@ -195,5 +187,4 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                 .build();
         return completedFuture(StatusResult.success(deprovisionedResource));
     }
-    
 }

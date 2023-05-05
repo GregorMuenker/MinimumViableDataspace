@@ -51,17 +51,17 @@ public class NbMaLoSourceFactory implements DataSourceFactory {
         var malo = new JSONObject(maloBlob.downloadContent().toString());
 
         //save the new supplier
-        var lieferungen = malo.getJSONArray("belieferungen");
+        var lieferungen = malo.getJSONArray("deliveries");
         var lieferungNeu = new JSONObject();
         var lieferantNeu = new JSONObject();
         lieferungNeu.put("von", request.getProperties().get("start_date"));
         lieferungNeu.put("bis", request.getProperties().get("end_date"));
         lieferantNeu.put("name", request.getProperties().get("supplier"));
-        lieferantNeu.put("connector", request.getCallbackAddress()); //TODO: get Lieferant ID
+        lieferantNeu.put("connector", request.getCallbackAddress());
         lieferantNeu.put("dataContract", "");
         lieferungNeu.put("lieferant", lieferantNeu);    
         lieferungen.put(lieferungNeu);
-        malo.put("belieferungen", lieferungen);
+        malo.put("deliveries", lieferungen);
 
         maloBlob.upload(BinaryData.fromString(malo.toString()), true);
         BlobHttpHeaders headers = new BlobHttpHeaders().setContentType("application/json");

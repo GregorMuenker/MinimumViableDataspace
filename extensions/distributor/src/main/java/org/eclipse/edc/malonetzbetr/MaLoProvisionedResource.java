@@ -44,7 +44,5 @@ public class MaLoProvisionedResource extends ProvisionedResource {
         public MaLoProvisionedResource build() {
             return super.build();
         }
-
     }
-
 }
