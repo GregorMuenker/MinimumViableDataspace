@@ -61,7 +61,7 @@ public class LieferantMaLoExtension implements ServiceExtension {
         pipelineService.registerFactory(sourceFactory);
         var sinkFactory = new LfMaLoDataSinkFactory(monitor, executorContainer.getExecutorService(), 5);
         pipelineService.registerFactory(sinkFactory);
-        statusCheckerRegistry.register("Malo_req", new MaLoStatusChecker(blobServiceClient));
+        statusCheckerRegistry.register("Malo_req", new MaLoStatusChecker(monitor, blobServiceClient));
 
         webService.registerResource(new LieferantMaLoWebservice(context.getMonitor(), processManager, negotiationManager, blobServiceClient, catalogService, negotiationService));
 
