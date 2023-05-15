@@ -135,7 +135,7 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
                 try {
                     Thread.sleep(5000); // wait for transfer
                 } catch (Exception e) {
-
+                    // Todo catch
                 }
 
                 int changedContracts = 0;
@@ -160,6 +160,12 @@ public class MaLoProvisioner implements Provisioner<MaLoResourceDefinition, MaLo
 
                 //update Malo with changes
                 maloBlob.upload(BinaryData.fromString(maloJson.put("deliveries", deliveries).toString(4)), true);
+
+                try {
+                    Thread.sleep(50000); // wait for foto
+                } catch (Exception e) {
+                    // wait for foto
+                }
 
                 resourceDefinition.getTempContainer().delete();
 

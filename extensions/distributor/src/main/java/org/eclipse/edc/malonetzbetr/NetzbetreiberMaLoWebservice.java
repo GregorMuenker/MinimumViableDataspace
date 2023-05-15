@@ -121,7 +121,7 @@ public class NetzbetreiberMaLoWebservice {
                                     try {
                                         Thread.sleep(3000); // wait for negotiation
                                     } catch (Exception e) {
-
+                                        // todo catch
                                     }
                                 
                                     var nagotiation = negotiationService.findbyId(result.getContent().getId());

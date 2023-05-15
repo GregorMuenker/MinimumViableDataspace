@@ -155,8 +155,8 @@ public class LieferantMaLoWebservice {
 
         
         Map<String, String> additionalInfo = new HashMap<>();
-        additionalInfo.put("start_date", LocalDate.now().plusDays(7).toString());
-        additionalInfo.put("end_date", LocalDate.now().plusDays(7).plusMonths(3).toString());
+        additionalInfo.put("start_date", LocalDate.now().plusDays(30).toString());
+        additionalInfo.put("end_date", LocalDate.now().plusDays(30).plusMonths(3).toString());
         additionalInfo.put("supplier", srcBlobServiceClient.getAccountName().replace("assets", ""));
 
         var dataRequest = DataRequest.Builder.newInstance()
@@ -168,7 +168,7 @@ public class LieferantMaLoWebservice {
                 .dataDestination(DataAddress.Builder.newInstance()
                         .type("MaLo") // the provider uses this to select the correct DataFlowController
                         .property("container", "src-container")
-                        .property("blobname", "lieferant1_customer2_lieferant2")
+                        .property("blobname", "lieferant1_MaLo_12345678902")
                         .property("account", "lieferant1assets")
                         .property("sasToken",
                                 srcBlobServiceClient.getBlobContainerClient("src-container").generateSas(values))

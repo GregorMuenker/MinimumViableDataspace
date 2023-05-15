@@ -54,10 +54,10 @@ public class LfMaLoDataSourceFactory implements DataSourceFactory {
         String contractPeriod = contract.getString("cyclePeriod");
         switch (contractPeriod) {
             case "m": 
-                contractCancelOk = LocalDate.of(contractEndDate.getYear(), contractEndDate.getMonth(), contractEndDate.lengthOfMonth()).isBefore(kuendigungDate); 
+                contractCancelOk = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().lengthOfMonth()).isBefore(kuendigungDate); 
                 break;
             case "y": 
-                contractCancelOk = LocalDate.of(contractEndDate.getYear(), 12, 31).isBefore(kuendigungDate); 
+                contractCancelOk = LocalDate.of(LocalDate.now().getYear(), 12, 31).isBefore(kuendigungDate); 
                 break;
             default: 
                 contractCancelOk = false; 
